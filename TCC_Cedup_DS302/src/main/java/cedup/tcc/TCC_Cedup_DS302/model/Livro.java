@@ -1,10 +1,8 @@
 package cedup.tcc.TCC_Cedup_DS302.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 @Entity
 @Table(name = "livro")
@@ -16,8 +14,10 @@ public class Livro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLivro;
+    @NotBlank
     private String titulo;
     private String genero;
     private String descricao;
+    @NotBlank
     private Integer numPaginas;
 }
