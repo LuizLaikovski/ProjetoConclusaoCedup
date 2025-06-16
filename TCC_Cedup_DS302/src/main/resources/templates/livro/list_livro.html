@@ -18,6 +18,7 @@
                     <th>Título</th>
                     <th>Gênero</th>
                     <th>Número De Páginas</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,15 @@
                     <td th:text="${livro.titulo}"></td>
                     <td th:text="${livro.genero}"></td>
                     <td th:text="${livro.num_paginas}"></td>
+                    <td>
+                        <form th:action="@{/livro/deletebyid/{id}(id=${livro.id_livro})}" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn-delete" 
+                                    onclick="return confirm('Tem certeza que deseja excluir este livro?')">
+                                Excluir
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             </tbody>
         </table>
