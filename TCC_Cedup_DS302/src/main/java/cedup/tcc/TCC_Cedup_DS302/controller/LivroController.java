@@ -20,7 +20,12 @@ public class LivroController {
         this.service = service;
     }
 
-    @PostMapping("/create")
+    @GetMapping("/pag_create")
+    public String pag_create(){
+        return "/livro/create_livro";
+    }
+
+    @PostMapping("/new_livro")
     public String create(@ModelAttribute Livro livro, Model model){
         Livro new_livro = service.create(livro);
 
