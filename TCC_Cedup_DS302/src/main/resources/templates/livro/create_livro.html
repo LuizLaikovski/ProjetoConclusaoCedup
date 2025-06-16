@@ -1,29 +1,81 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>Criar livro</title>
+    <meta name="description" content="Cadastro de novos livros na Biblioteca Digital">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/create_livro.css}">
+    <title>Cadastrar Livro | Biblioteca Digital</title>
 </head>
-    <body>
-        <form action="/livro/new_livro" method="post">
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="/" class="back-button">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </a>
+            <h1 class="title">
+                <i class="fas fa-book"></i> Cadastrar Novo Livro
+            </h1>
+        </header>
 
-            <label>Título:</label>
-            <input type="text" name="titulo"/>
+        <main class="main-content">
+            <form class="book-form" action="/livro/new_livro" method="post">
+                <div class="form-group">
+                    <label for="titulo" class="form-label">Título do Livro</label>
+                    <input type="text" id="titulo" name="titulo" class="form-input" required 
+                           placeholder="Digite o título do livro">
+                    <i class="fas fa-book form-icon"></i>
+                </div>
 
-            <label>Número de Páginas:</label>
-            <input type="text" name="num_paginas"/>
+                <div class="form-group">
+                    <label for="num_paginas" class="form-label">Número de Páginas</label>
+                    <input type="number" id="num_paginas" name="num_paginas" class="form-input" required 
+                           placeholder="Quantidade de páginas" min="1">
+                    <i class="fas fa-file-alt form-icon"></i>
+                </div>
 
-            <label>Gênero:</label>
-            <input type="text" name="genero"/>
+                <div class="form-group">
+                    <label for="genero" class="form-label">Gênero Literário</label>
+                    <select id="genero" name="genero" class="form-input" required>
+                        <option value="" disabled selected>Selecione um gênero</option>
+                        <option value="Ficção">Ficção</option>
+                        <option value="Não-Ficção">Não-Ficção</option>
+                        <option value="Fantasia">Fantasia</option>
+                        <option value="Ficção Científica">Ficção Científica</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Suspense">Suspense</option>
+                        <option value="Terror">Terror</option>
+                        <option value="Biografia">Biografia</option>
+                        <option value="Autoajuda">Autoajuda</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                    <i class="fas fa-tags form-icon"></i>
+                </div>
 
-            <label>Descrição:</label>
-            <input type="text" name="descricao"/>
+                <div class="form-group">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea id="descricao" name="descricao" class="form-input form-textarea" required 
+                              placeholder="Digite uma breve descrição sobre o livro"></textarea>
+                    <i class="fas fa-align-left form-icon"></i>
+                </div>
 
-            <button type="submit">Enviar</button>
-            
-        </form>
-    </body>
+                <div class="form-actions">
+                    <button type="reset" class="btn btn-secondary">
+                        <i class="fas fa-eraser"></i> Limpar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Cadastrar Livro
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2023 Biblioteca Digital. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+</body>
 </html>
