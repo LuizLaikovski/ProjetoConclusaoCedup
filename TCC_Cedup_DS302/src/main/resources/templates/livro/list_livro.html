@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/style_lista.css}">
+    <title>Lista de Livros</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Biblioteca Digital</h1>
+        
+        <table class="tabela-livros">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Gênero</th>
+                    <th>Número De Páginas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="livro : ${livros}">
+                    <td th:text="${livro.id_livro}"></td>
+                    <td th:text="${livro.titulo}"></td>
+                    <td th:text="${livro.genero}"></td>
+                    <td th:text="${livro.num_paginas}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div th:if="${livros.empty}" class="sem-resultados">
+            Nenhum livro encontrado.
+        </div>
+    </div>
+</body>
+</html>

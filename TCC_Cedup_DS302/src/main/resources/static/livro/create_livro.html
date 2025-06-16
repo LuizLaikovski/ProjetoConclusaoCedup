@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Criar livro</title>
+</head>
+    <body>
+        <form action="/livro/create" method="post">
+
+            <label>Título:</label>
+            <input type="text" name="titulo"/>
+
+            <label>Número de Páginas:</label>
+            <input type="text" name="num_paginas"/>
+
+            <label>Gênero:</label>
+            <input type="text" name="genero"/>
+
+            <label>Descrição:</label>
+            <input type="text" name="descricao"/>
+
+            <button type="submit">Enviar</button>
+            
+        </form>
+    </body>
+</html>

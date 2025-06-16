@@ -35,7 +35,7 @@ public class UsuarioService {
         usuarioAtualizado.setNome(usuario.getNome());
         usuarioAtualizado.setEmail(usuario.getEmail());
         usuarioAtualizado.setCpf(usuario.getCpf());
-        usuarioAtualizado.setTipoUser(usuario.getTipoUser());
+        usuarioAtualizado.setTipo_user(usuario.getTipo_user());
         usuarioAtualizado.setSenha(usuario.getSenha());
 
         return repository.save(usuarioAtualizado);

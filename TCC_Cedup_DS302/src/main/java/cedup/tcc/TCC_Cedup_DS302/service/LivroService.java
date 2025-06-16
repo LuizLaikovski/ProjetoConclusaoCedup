@@ -34,7 +34,7 @@ public class LivroService {
         livroAtualizado.setTitulo(livro.getTitulo());
         livroAtualizado.setGenero(livro.getGenero());
         livroAtualizado.setDescricao(livro.getDescricao());
-        livroAtualizado.setNumPaginas(livro.getNumPaginas());
+        livroAtualizado.setNum_paginas(livro.getNum_paginas());
 
         return repository.save(livroAtualizado);
     }

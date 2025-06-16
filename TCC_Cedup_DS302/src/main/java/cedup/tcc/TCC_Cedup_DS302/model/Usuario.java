@@ -16,7 +16,7 @@ import lombok.Setter;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    private Long id_usuario;
     @NotBlank
     private String nome;
     @NotBlank
@@ -24,7 +24,7 @@ public class Usuario {
     @NotBlank
     private String cpf;
     @NotBlank
-    private String tipoUser;
+    private String tipo_user;
     @NotBlank
     private String senha;
 }

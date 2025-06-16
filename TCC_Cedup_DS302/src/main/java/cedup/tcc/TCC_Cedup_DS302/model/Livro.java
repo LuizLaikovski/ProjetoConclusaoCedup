@@ -13,11 +13,11 @@ import lombok.*;
 public class Livro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idLivro;
+    private Long id_livro;
     @NotBlank
     private String titulo;
     private String genero;
     private String descricao;
     @NotBlank
-    private Integer numPaginas;
+    private Integer num_paginas;
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livro Criado</title>
+</head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Número de Páginas</th>
+                    <th>Gênero</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="livro : ${livro}">
+                    <td th:text="${livro.id_livro}"></td>
+                    <td th:text="${livro.titulo}"></td>
+                    <td th:text="${livro.num_paginas}"></td>
+                    <td th:text="${livro.genero}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
