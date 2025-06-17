@@ -1,10 +1,18 @@
-import './App.css'
-import Home from './routes/Home'
+import { Outlet } from 'react-router-dom'
 
 function App() {
   return (
     <>
-      <Home />
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column'
+      }}>  
+
+        <Outlet />
+
+      </div>
     </>
   )
 }

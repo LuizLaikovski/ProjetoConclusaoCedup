@@ -14,7 +14,7 @@ CREATE TABLE bibliotecacedup.livro (
   PRIMARY KEY (idLivro));
   
   #  TABELA DE USUARIOS
- CREATE TABLE bibliotecacedup.usuario (
+CREATE TABLE bibliotecacedup.usuario (
     idUsuario INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
