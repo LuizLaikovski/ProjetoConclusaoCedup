@@ -1,0 +1,22 @@
+@import "@radix-ui/themes/styles.css";
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=Pragati+Narrow:wght@400;700&display=swap');
+
+:root {
+    --primary: #002147;
+    --primary-dark: #00152e;
+    --secondary: #ffe699;
+    --secondary-easy: #ffefc1;
+    --tertiary: #4d5c60;
+}
+
+body {
+    font-family: "Pragati Narrow", sans-serif;
+}
+
+input::placeholder {
+    font-family: "Pragati Narrow", sans-serif;
+}
+
+button::placeholder {
+    font-family: "Pragati Narrow", sans-serif;
+}
