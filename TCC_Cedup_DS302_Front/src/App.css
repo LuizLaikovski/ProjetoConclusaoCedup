@@ -4,12 +4,19 @@
 :root {
     --primary: #002147;
     --primary-dark: #00152e;
+    --primary-clear: #002D61;
     --secondary: #ffe699;
-    --secondary-easy: #ffefc1;
+    --secondary-dark: #ffdc75;
+    --secondary-clear: #ffefc1;
     --tertiary: #4d5c60;
+    --yellow: #FFEA00;
+    --white: white;
 }
 
 body {
+    overflow-x: hidden;
+    margin: 0 0 0 0;
+    padding:  0 0 0 0;
     font-family: "Pragati Narrow", sans-serif;
 }
 
