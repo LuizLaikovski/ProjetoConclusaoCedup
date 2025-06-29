@@ -76,6 +76,7 @@
 
 .button-for-favorites-header:hover {
   transform: scale(120%);
+  color: red;
 }
 
 .container-category-header {

@@ -32,7 +32,7 @@ const Register = () => {
     return (
         <>
             <section id="register">
-                <div className="box">
+                <div className="box-register">
                     <FontAwesomeIcon icon={faCircleUser} size="4x" />
                 </div>
                 <div className="container-register">
