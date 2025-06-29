@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './css/Login.css';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     return(
@@ -41,7 +42,9 @@ const Login = () => {
                         </div>
                         
                         <button type="submit" className="login-button">Confirmar</button>
+                        <Link to="/cadastro" className='link-return' >Ainda não possou uma conta</Link>
                     </form>
+                    
                 </div>
             </section>
         </>

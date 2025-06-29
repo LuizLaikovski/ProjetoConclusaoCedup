@@ -1,4 +1,4 @@
-#login {
+#register {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,12 +7,12 @@
     background-color: var(--secondary);
 }
 
-.container-login {
+.container-register {
     position: absolute;
     z-index: 1;
     background-color: var(--tertiary);
     width: 30dvw;
-    height: 59dvh;
+    height: 85dvh;
     border-radius: 5%;
 }
 
@@ -20,15 +20,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 55dvh;
+    margin-bottom: 80dvh;
     z-index: 100;
-    height: 17dvh;
-    width: 17dvh;
+    height: 14dvh;
+    width: 14dvh;
     background-color: var(--primary);
     border-radius: 50%;
 }
 
-.login-form {
+.register-form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,13 +74,13 @@
     width: 22dvw;
 }
 
-.login-form h1 {
-    font-size: 50px;
-    margin-top: 7dvh;
+.register-form h1 {
+    font-size: 45px;
+    margin-top: 9dvh;
     margin-bottom: 2dvh;
 }
 
-.login-button {
+.register-button {
     width: 20dvw;
     padding: 0.75rem;
     background-color: var(--primary);
@@ -93,7 +93,7 @@
     transition: ease-in-out 0.2s;
 }
 
-.login-button:hover {
+.register-button:hover {
     background-color: var(--primary-dark);
     transform: translateY(-5px);
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.5);
@@ -106,11 +106,11 @@
 
 /* Responsividade */
 @media (max-width: 480px) {
-    .container-login {
+    .container-register {
         padding: 1rem;
     }
     
-    .login-form {
+    .register-form {
         padding: 1.5rem;
     }
 }
