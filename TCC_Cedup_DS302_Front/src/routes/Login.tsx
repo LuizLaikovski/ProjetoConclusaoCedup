@@ -42,7 +42,7 @@ const Login = () => {
                         </div>
                         
                         <button type="submit" className="login-button">Confirmar</button>
-                        <Link to="/cadastro" className='link-return' >Ainda não possou uma conta</Link>
+                        <Link to="/cadastro" className='link-return' >Ainda não possuo   uma conta</Link>
                     </form>
                     
                 </div>

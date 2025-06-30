@@ -1,0 +1,54 @@
+.aside {
+    height: 78dvh;
+    width: 300px;
+    background-color: var(--primary-clear);
+}
+
+.aside h1 {
+    margin: 0 0 10px 20px;
+    font-size: 25px;
+}
+
+.container-category-book {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-category-book ul {
+    padding: 15px 15px 15px 15px;
+    list-style-type: none;
+}
+
+.container-category-book ul li {
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.container-category-book ul li:hover {
+    transform: scale(+110%);
+
+}
+
+.star-container {
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 0 0 0 20px;
+}
+
+.star-input {
+    display: none;
+}
+
+.star-icon {
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out, transform 0.2s ease;
+}
+
+.star-icon:hover {
+    transform: scale(1.1);
+}
