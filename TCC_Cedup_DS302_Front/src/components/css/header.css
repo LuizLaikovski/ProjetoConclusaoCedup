@@ -1,6 +1,10 @@
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
   width: 100dvw;
-  height: 22dvh;
+  height: 21dvh;
   background-color: var(--primary);
   display: flex;
   justify-content: right;
@@ -9,6 +13,7 @@
 }
 
 .align-header {
+  height: 5dvh;
   display: flex;
   justify-content: center;
   align-items: center;

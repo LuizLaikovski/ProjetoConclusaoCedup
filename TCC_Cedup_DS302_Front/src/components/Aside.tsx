@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './css/aside.css';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import StarRating from './StarRating';
 import { useState } from 'react';
 
 const Aside = () => {
@@ -44,7 +43,7 @@ const Aside = () => {
                             return (
                                 <label key={index}>
                                     <input 
-                                        type="radio" 
+                                        type="radio" // Arrumar aq
                                         name="rating" 
                                         value={ratingValue}
                                         onClick={() => setRating(ratingValue)}
@@ -65,6 +64,38 @@ const Aside = () => {
                         })}
                     </div>
                 </div>
+                
+                <h3 style={{marginLeft: '1dvw'}}>Buscar por quantidades de páginas:</h3>
+                    <div className="aside-search-for-pages">
+                        <div className='allign-search-for-checkbox'>
+                            <div className="input-checkbox-individual-allign">
+                                <input type="checkbox" name="" className='input-checkbox' />
+                                <h4>Menos que 100</h4>
+                            </div>
+                            <div className="input-checkbox-individual-allign">
+                                <input type="checkbox" name="" className='input-checkbox' />
+                                <h4>100 - 300</h4>
+                            </div>
+                            <div className="input-checkbox-individual-allign">
+                                <input type="checkbox" name="" className='input-checkbox' />
+                                <h4>300 - 500</h4>
+                            </div>
+                        </div>
+                        <div className="allign-search-for-checkbox">
+                            <div className="input-checkbox-individual-allign">
+                                <input type="checkbox" name="" className='input-checkbox' />
+                                <h4>500 - 700</h4>
+                            </div>
+                            <div className="input-checkbox-individual-allign">
+                                <input type="checkbox" name="" className='input-checkbox' />
+                                <h4>700 - 900</h4>
+                            </div>
+                            <div className="input-checkbox-individual-allign">
+                                <input type="checkbox" name="" className='input-checkbox' />
+                                <h4>Mais que 900</h4>
+                            </div>
+                        </div>
+                    </div>
             </aside>
         </>
     );

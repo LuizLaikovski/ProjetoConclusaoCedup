@@ -32,3 +32,16 @@ input::placeholder {
 button::placeholder {
     font-family: "Pragati Narrow", sans-serif;
 }
+
+input[type='checkbox'] {
+    border: red 5px solid;
+    box-shadow: none;
+}
+
+.input-checkbox {
+    box-shadow: none;
+}
+
+.input-checkbox:hover, :focus {
+    box-shadow: none;
+}

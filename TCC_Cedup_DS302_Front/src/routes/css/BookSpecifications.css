@@ -1,0 +1,16 @@
+.book-specifications-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-specifications-container {
+    margin-top: 25dvh;
+    width: 90dvw;
+    height: 70vh;
+    background-color: var(--white);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

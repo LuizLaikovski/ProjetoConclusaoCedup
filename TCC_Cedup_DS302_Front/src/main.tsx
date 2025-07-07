@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           {
-            path: "livro",
+            path: "livro/:id",
             element: <BookSpecifications />
           },
           {
@@ -41,6 +41,14 @@ const router = createBrowserRouter([
             element: <ErrorPage />
           }
         ]
+      },
+      {
+        path: "livro",
+        element: <BookSpecifications />,
+      },
+      {
+        path: "livro:/id",
+        element: <BookSpecifications />,
       },
       {
         path: "*",
