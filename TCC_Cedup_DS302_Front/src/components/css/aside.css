@@ -1,11 +1,12 @@
 .aside {
     position: fixed;
-    top: 21dvh;
+    top: 15dvh;
     left: 0;
     z-index: 100;
-    height: 79dvh;
+    height: 85dvh;
     width: 20dvw;
     background-color: var(--primary-clear);
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .aside h1 {

@@ -1,134 +1,144 @@
-{
+    {
     "books": [
         {
             "id": 1,
             "titulo": "Apologia de Sócrates",
             "autor": "Platão",
             "genero": "Filosofia",
-            "descricao": "Diálogo filosófico que relata a defesa de Sócrates no tribunal de Atenas.",
+            "descricao": "Neste diálogo filosófico escrito por Platão, acompanhamos a defesa de Sócrates durante seu julgamento em Atenas (399 a.C.), onde foi acusado de corromper a juventude e não acreditar nos deuses da cidade. A obra é um marco fundamental da filosofia ocidental, apresentando o método socrático de questionamento, a defesa da verdade sobre a vida, e o famoso conceito 'Só sei que nada sei'. Sócrates demonstra serenidade diante da morte, afirmando que um filósofo deve praticar o morrer durante toda a vida.",
             "pags": 96,
             "path": "apologia-de-socrates",
             "arquivo": {
                 "src": "/Cover/ApologiaDeSocrates.jpeg",
                 "alt": "Apologia de Sócrates"
-            }
+            },
+            "avaliacao": 5
         },
         {
             "id": 2,
             "titulo": "Manifesto do Partido Comunista",
             "autor": "Karl Marx e Friedrich Engels",
             "genero": "Política/Filosofia",
-            "descricao": "Texto fundamental que apresenta os princípios do socialismo científico.",
+            "descricao": "Publicado originalmente em 1848, este manifesto revolucionário sintetiza os princípios do socialismo científico e critica o sistema capitalista de produção. Marx e Engels analisam a luta de classes ao longo da história, proclamam a inevitabilidade do proletariado derrubar a burguesia, e esboçam os fundamentos de uma sociedade comunista. A famosa frase 'Trabalhadores do mundo, uni-vos!' encerra o documento, que se tornou um dos textos políticos mais influentes da história, inspirando revoluções e movimentos sociais em todo o mundo.",
             "pags": 64,
             "path": "manifesto-do-partido-comunista",
             "arquivo": {
                 "src": "/Cover/ManifestoDoPartidoComunista.jpeg",
                 "alt": "Manifesto do Partido Comunista"
-            }
+            },
+            "avaliacao": 4
         },
         {
             "id": 3,
             "titulo": "O Pequeno Príncipe",
             "autor": "Antoine de Saint-Exupéry",
             "genero": "Literatura Infantojuvenil",
-            "descricao": "Clássico atemporal sobre amizade, amor e a essência da vida.",
+            "descricao": "Esta obra aparentemente simples mas profundamente filosófica conta a história de um piloto que, após cair no deserto do Saara, encontra um pequeno príncipe vindo de outro planeta. Através de diálogos poéticos e metáforas encantadoras, o livro explora temas como o sentido da vida, a amizade, o amor e a perda da inocência. Frases como 'O essencial é invisível aos olhos' e 'Tu te tornas eternamente responsável por aquilo que cativas' resumem sua mensagem atemporal. Publicado em 1943, continua sendo um dos livros mais traduzidos no mundo.",
             "pags": 96,
             "path": "o-pequeno-principe",
             "arquivo": {
                 "src": "/Cover/OPequenoPrincipe.jpeg",
                 "alt": "O Pequeno Príncipe"
-            }
+            },
+            "avaliacao": 5
         },
         {
             "id": 4,
             "titulo": "Os Sertões",
             "autor": "Euclides da Cunha",
             "genero": "Literatura Brasileira",
-            "descricao": "Obra-prima que retrata a Guerra de Canudos e o sertão nordestino.",
+            "descricao": "Esta obra-prima da literatura brasileira, publicada em 1902, é dividida em três partes: 'A Terra', 'O Homem' e 'A Luta'. Euclides da Cunha oferece uma análise profunda da Guerra de Canudos (1896-1897) no sertão da Bahia, combinando ciência, história e literatura. O livro retrata com vigor a paisagem árida do sertão nordestino, a resistência do homem sertanejo liderado por Antônio Conselheiro, e o conflito entre a civilização urbana e o mundo rural. Considerado um dos livros fundamentais para entender o Brasil.",
             "pags": 624,
             "path": "os-sertoes",
             "arquivo": {
                 "src": "/Cover/OsSertoes.jpeg",
                 "alt": "Os Sertões"
-            }
+            },
+            "avaliacao": 5
         },
         {
             "id": 5,
             "titulo": "O Diário de Anne Frank",
             "autor": "Anne Frank",
             "genero": "Biografia/História",
-            "descricao": "Relato comovente de uma jovem judia durante a Segunda Guerra Mundial.",
+            "descricao": "Este diário íntimo foi escrito por Anne Frank, uma adolescente judia, entre 12 de junho de 1942 e 1 de agosto de 1944, enquanto ela e sua família se escondiam dos nazistas em Amsterdã durante a Segunda Guerra Mundial. O relato comovente mostra o amadurecimento de uma jovem em circunstâncias extremas, suas reflexões sobre a natureza humana, a esperança e o medo. Após a prisão da família e a morte de Anne no campo de concentração de Bergen-Belsen, o diário foi publicado por seu pai, tornando-se um dos documentos mais importantes sobre o Holocausto.",
             "pags": 352,
             "path": "o-diario-de-anne-frank",
             "arquivo": {
                 "src": "/Cover/ODiarioDeAnneFrank.jpeg",
                 "alt": "O Diário de Anne Frank"
-            }
+            },
+            "avaliacao": 5
         },
         {
             "id": 6,
             "titulo": "A Revolução dos Bichos",
             "autor": "George Orwell",
             "genero": "Ficção Política",
-            "descricao": "Sátira política que critica os regimes totalitários através de uma fazenda de animais.",
+            "descricao": "Esta sátira política de George Orwell (1945) narra a revolta dos animais de uma fazenda contra os humanos, criando uma sociedade igualitária que gradualmente se corrompe. Através de alegorias, Orwell critica o stalinismo e os regimes totalitários, mostrando como ideais revolucionários podem ser traídos. A frase 'Todos os animais são iguais, mas alguns animais são mais iguais que outros' sintetiza sua mensagem sobre a corrupção do poder.",
             "pags": 152,
             "path": "a-revolucao-dos-bichos",
             "arquivo": {
                 "src": "/Cover/ARevolucaoDosBixos.jpeg",
                 "alt": "A Revolução dos Bichos"
-            }
+            },
+            "avaliacao": 5
         },
         {
             "id": 7,
             "titulo": "Ainda Estou Aqui",
             "autor": "Marcia Tiburi",
             "genero": "Filosofia/Psicologia",
-            "descricao": "Reflexão sobre a vida, a morte e o sentido da existência.",
+            "descricao": "Nesta obra filosófica, Marcia Tiburi aborda o luto, a finitude e a busca por sentido na existência. Através de uma escrita sensível, combina autobiografia, filosofia e psicanálise para explorar como lidamos com perdas e como a consciência da morte pode nos levar a viver mais intensamente.",
             "pags": 224,
             "path": "ainda-estou-aqui",
             "arquivo": {
                 "src": "/Cover/AindaEstouAqui.jpeg",
                 "alt": "Ainda Estou Aqui"
-            }
+            },
+            "avaliacao": 4
         },
         {
             "id": 8,
             "titulo": "O Corpo Humano",
             "autor": "Bill Bryson",
             "genero": "Ciência",
-            "descricao": "Exploração fascinante do funcionamento do corpo humano.",
+            "descricao": "Bill Bryson conduz o leitor em uma jornada fascinante pelo organismo humano, explicando com clareza e humor o funcionamento de órgãos, sistemas e processos biológicos. O livro revela curiosidades científicas e mostra como o corpo é uma máquina extraordinária, cheia de falhas brilhantes e soluções evolutivas engenhosas.",
             "pags": 464,
             "path": "o-corpo-humano",
             "arquivo": {
                 "src": "/Cover/OCorpoHumano.jpeg",
                 "alt": "O Corpo Humano"
-            }
+            },
+            "avaliacao": 4
         },
         {
             "id": 9,
             "titulo": "O Príncipe",
             "autor": "Nicolau Maquiavel",
             "genero": "Filosofia Política",
-            "descricao": "Tratado político que discute o exercício do poder e a arte de governar.",
+            "descricao": "Este tratado político de Maquiavel (1532) oferece conselhos pragmáticos sobre como obter e manter o poder. Rompendo com a tradição ética, defende que 'os fins justificam os meios'. Analisa estratégias de governança, a relação entre virtù e fortuna, e como um líder deve equilibrar amor e medo.",
             "pags": 160,
             "path": "o-principe",
             "arquivo": {
                 "src": "/Cover/OPrincipe.jpg",
                 "alt": "O Principe"
-            }
+            },
+            "avaliacao": 4
         },
         {
             "id": 10,
             "titulo": "Dom Casmurro",
             "autor": "Machado de Assis",
             "genero": "Literatura Brasileira",
-            "descricao": "Clássico da literatura brasileira que explora ciúme e ambiguidades humanas.",
+            "descricao": "Neste clássico do Realismo brasileiro, Machado de Assis constrói a dúvida sobre a fidelidade de Capitu através do narrador inseguro Bentinho. A obra explora ciúme, ambiguidade da verdade e subjetividade da memória, com ironia fina e estilo inovador que antecipa técnicas modernistas.",
             "pags": 256,
             "path": "dom-casmurro",
             "arquivo": {
                 "src": "/Cover/DomCasmurro.jpeg",
                 "alt": "Dom Casmurro"
+            },
+            "avaliacao": 5
             }
-        }
-    ]
-}
+        ]
+    }

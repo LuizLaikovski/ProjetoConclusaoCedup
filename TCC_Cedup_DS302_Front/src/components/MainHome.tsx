@@ -15,6 +15,7 @@ interface Book {
         src: string;
         alt: string;
     };
+    avaliacao: number;
 }
 
 const MainHome = () => {

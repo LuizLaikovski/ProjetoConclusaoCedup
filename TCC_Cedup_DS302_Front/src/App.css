@@ -10,7 +10,7 @@
     --secondary-clear: #ffefc1;
     --tertiary: #4d5c60;
     --yellow: #FFEA00;
-    --white: white;
+    --white: rgba(255, 255, 255, 0.87);
 }
 
 * {
@@ -36,6 +36,26 @@ button::placeholder {
 input[type='checkbox'] {
     border: red 5px solid;
     box-shadow: none;
+}
+
+.primary-button {
+    background-color: var(--primary-clear);
+    color: var(--white);
+    font-family: "Pragati Narrow", sans-serif;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    margin: 20px 0 0 0;
+}
+
+.primary-button:hover, .primary-button:focus {
+    background-color: var(--white);
+    border: 4px var(--primary-clear) solid;
+    color: var(--primary-clear);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .input-checkbox {
