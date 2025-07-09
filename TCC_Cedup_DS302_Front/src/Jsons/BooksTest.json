@@ -1,0 +1,124 @@
+{
+    "books": [
+        {
+            "id": 1,
+            "titulo": "Apologia de Sócrates",
+            "autor": "Platão",
+            "genero": "Filosofia",
+            "descricao": "Diálogo filosófico que relata a defesa de Sócrates no tribunal de Atenas.",
+            "pags": 96,
+            "arquivo": {
+                "src": "/Cover/ApologiaDeSocrates.jpeg",
+                "alt": "Apologia de Sócrates"
+            }
+        },
+        {
+            "id": 2,
+            "titulo": "Manifesto do Partido Comunista",
+            "autor": "Karl Marx e Friedrich Engels",
+            "genero": "Política/Filosofia",
+            "descricao": "Texto fundamental que apresenta os princípios do socialismo científico.",
+            "pags": 64,
+            "arquivo": {
+                "src": "/Cover/ManifestoDoPartidoComunista.jpeg",
+                "alt": "Manifesto do Partido Comunista"
+            }
+        },
+        {
+            "id": 3,
+            "titulo": "O Pequeno Príncipe",
+            "autor": "Antoine de Saint-Exupéry",
+            "genero": "Literatura Infantojuvenil",
+            "descricao": "Clássico atemporal sobre amizade, amor e a essência da vida.",
+            "pags": 96,
+            "arquivo": {
+                "src": "/Cover/OPequenoPrincipe.jpeg",
+                "alt": "O Pequeno Príncipe"
+            }
+        },
+        {
+            "id": 4,
+            "titulo": "Os Sertões",
+            "autor": "Euclides da Cunha",
+            "genero": "Literatura Brasileira",
+            "descricao": "Obra-prima que retrata a Guerra de Canudos e o sertão nordestino.",
+            "pags": 624,
+            "arquivo": {
+                "src": "/Cover/OsSertoes.jpeg",
+                "alt": "Os Sertões"
+            }
+        },
+        {
+            "id": 5,
+            "titulo": "O Diário de Anne Frank",
+            "autor": "Anne Frank",
+            "genero": "Biografia/História",
+            "descricao": "Relato comovente de uma jovem judia durante a Segunda Guerra Mundial.",
+            "pags": 352,
+            "arquivo": {
+                "src": "/Cover/ODiarioDeAnneFrank.jpeg",
+                "alt": "O Diário de Anne Frank"
+            }
+        },
+        {
+            "id": 6,
+            "titulo": "A Revolução dos Bichos",
+            "autor": "George Orwell",
+            "genero": "Ficção Política",
+            "descricao": "Sátira política que critica os regimes totalitários através de uma fazenda de animais.",
+            "pags": 152,
+            "arquivo": {
+                "src": "/Cover/ARevolucaoDosBixos.jpeg",
+                "alt": "A Revolução dos Bichos"
+            }
+        },
+        {
+            "id": 7,
+            "titulo": "Ainda Estou Aqui",
+            "autor": "Marcia Tiburi",
+            "genero": "Filosofia/Psicologia",
+            "descricao": "Reflexão sobre a vida, a morte e o sentido da existência.",
+            "pags": 224,
+            "arquivo": {
+                "src": "/Cover/AindaEstouAqui.jpeg",
+                "alt": "Ainda Estou Aqui"
+            }
+        },
+        {
+            "id": 8,
+            "titulo": "O Corpo Humano",
+            "autor": "Bill Bryson",
+            "genero": "Ciência",
+            "descricao": "Exploração fascinante do funcionamento do corpo humano.",
+            "pags": 464,
+            "arquivo": {
+                "src": "/Cover/OCorpoHumano.jpeg",
+                "alt": "O Corpo Humano"
+            }
+        },
+        {
+            "id": 9,
+            "titulo": "O Príncipe",
+            "autor": "Nicolau Maquiavel",
+            "genero": "Filosofia Política",
+            "descricao": "Tratado político que discute o exercício do poder e a arte de governar.",
+            "pags": 160,
+            "arquivo": {
+                "src": "/Cover/OPrincipe.jpg",
+                "alt": "O Principe"
+            }
+        },
+        {
+            "id": 10,
+            "titulo": "Dom Casmurro",
+            "autor": "Machado de Assis",
+            "genero": "Literatura Brasileira",
+            "descricao": "Clássico da literatura brasileira que explora ciúme e ambiguidades humanas.",
+            "pags": 256,
+            "arquivo": {
+                "src": "/Cover/DomCasmurro.jpeg",
+                "alt": "Dom Casmurro"
+            }
+        }
+    ]
+}
