@@ -51,7 +51,7 @@ input[type='checkbox'] {
     margin: 20px 0 0 0;
 }
 
-.primary-button:hover, .primary-button:focus {
+.primary-button:hover {
     background-color: var(--white);
     border: 4px var(--primary-clear) solid;
     color: var(--primary-clear);

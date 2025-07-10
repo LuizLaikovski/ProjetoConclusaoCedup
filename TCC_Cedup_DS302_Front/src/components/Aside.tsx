@@ -69,29 +69,23 @@ const Aside = () => {
                     <div className="aside-search-for-pages">
                         <div className='allign-search-for-checkbox'>
                             <div className="input-checkbox-individual-allign">
-                                <input type="checkbox" name="" className='input-checkbox' />
                                 <h4>Menos que 100</h4>
                             </div>
                             <div className="input-checkbox-individual-allign">
-                                <input type="checkbox" name="" className='input-checkbox' />
                                 <h4>100 - 300</h4>
                             </div>
                             <div className="input-checkbox-individual-allign">
-                                <input type="checkbox" name="" className='input-checkbox' />
                                 <h4>300 - 500</h4>
                             </div>
                         </div>
                         <div className="allign-search-for-checkbox">
                             <div className="input-checkbox-individual-allign">
-                                <input type="checkbox" name="" className='input-checkbox' />
                                 <h4>500 - 700</h4>
                             </div>
                             <div className="input-checkbox-individual-allign">
-                                <input type="checkbox" name="" className='input-checkbox' />
                                 <h4>700 - 900</h4>
                             </div>
                             <div className="input-checkbox-individual-allign">
-                                <input type="checkbox" name="" className='input-checkbox' />
                                 <h4>Mais que 900</h4>
                             </div>
                         </div>

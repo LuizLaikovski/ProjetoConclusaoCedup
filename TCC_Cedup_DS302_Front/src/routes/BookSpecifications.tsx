@@ -19,7 +19,7 @@ interface Book {
         src: string;
         alt: string;
     };
-    avaliacao: number;
+    avaliacao: number; // Adicione esta propriedade à interface
 }
 
 const BookSpecifications = () => {
@@ -28,24 +28,23 @@ const BookSpecifications = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    const [rating, setRating] = useState(0);
-    const [hover, setHover] = useState(0);
+    // Remova os estados de rating e hover pois usaremos a avaliação do livro
+    // const [rating, setRating] = useState(0);
+    // const [hover, setHover] = useState(0);
 
     useEffect(() => {
         const loadBook = async () => {
             try {
                 const response = await fetch('/BooksTest.json');
-                console.log('Response status:', response.status); // Log do status da resposta
                 if (!response.ok) {
                     throw new Error('Falha ao carregar dados');
                 }
 
                 const data: { books: Book[] } = await response.json();
-                const fullPath = `${bookName}`; // Reconstruir o path completo
-                const foundBook = data.books.find(b => b.path.toLowerCase() === fullPath.toLowerCase()); // O ERRO TA AQUI
+                const foundBook = data.books.find(b => b.path.toLowerCase() === bookName?.toLowerCase());
                 
                 if (!foundBook) {
-                    setError('Livro não encontrado(FoundBook)');
+                    setError('Livro não encontrado');
                 } else {
                     setBook(foundBook);
                 }
@@ -90,7 +89,6 @@ const BookSpecifications = () => {
         );
     }
 
-    
     if (!book) {
         return (
             <>
@@ -107,9 +105,25 @@ const BookSpecifications = () => {
         );
     }
 
+    // Função para renderizar as estrelas baseadas na avaliação
+    const renderStars = (rating: number) => {
+        return [...Array(5)].map((_, index) => {
+            const ratingValue = index + 1;
+            return (
+                <FontAwesomeIcon 
+                    key={index}
+                    icon={faStar}
+                    className="star-icon"
+                    style={{
+                        color: ratingValue <= rating ? "#ffc107" : "#e4e5e9"
+                    }}
+                />
+            );
+        });
+    };
+
     return (
         <>
-            
             <main className="book-specifications-main">
                 <Header />
                 <div className="book-specifications-container">
@@ -131,36 +145,12 @@ const BookSpecifications = () => {
                         <h2 className="book-author"><strong>Gênero: </strong>{book.genero}</h2>
 
                         <div className="avaliation-starts-book">
-                            {[...Array(5)].map((star, index) => {
-                                const ratingValue = index + 1;
-                                
-                                function setHover(ratingValue: number): void {
-                                    throw new Error("Function not implemented.");
-                                }
-
-                                return (
-                                    <label key={index} className="star-label">
-                                        <input 
-                                            type="radio" 
-                                            name="rating" 
-                                            value={ratingValue}
-                                            onClick={() => setRating(ratingValue)}
-                                            className="star-input"
-                                        />
-                                        <FontAwesomeIcon 
-                                            icon={faStar}
-                                            className="star-icon"
-                                            style={{
-                                                color: ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"
-                                            }}
-                                            onMouseEnter={() => setHover(ratingValue)}
-                                            onMouseLeave={() => setHover(0)}
-                                        />
-                                    </label>
-                                );
-                            })}
-                            <h1 style={{ fontSize: '5dvh', margin: '0 0 0 10px' }}>{book.avaliacao}</h1>
+                            {renderStars(book.avaliacao)}
+                            <h1 style={{ fontSize: '5dvh', margin: '0 0 0 10px' }}>
+                                {book.avaliacao.toFixed(1)} {/* Mostra a avaliação com 1 casa decimal */}
+                            </h1>
                         </div>
+                        
                         <RiskH grossura={2} largura={33} margens={20} />
                         <div>
                             <h2>ADICIONAR AS IMAGENS DO LIVRO NESTE LOCAL</h2>

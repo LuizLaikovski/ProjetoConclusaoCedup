@@ -28,7 +28,7 @@ const Header = () => {
       </div>
       <div className='container-category-header'>
         <ul>     {/* Futuramente implemenatr botões no lugar dos li's para querys */}
-          <li>Todos</li>     
+          <Link to='/home'><li>Todos</li></Link>     
           <li>Mais Procurados</li>
           <li>Em Alta</li>
           <li>Clássicos</li>
