@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           {
-            path: ":bookName", // Alterado para usar o nome do livro
+            path: ":bookName",
             element: <BookSpecifications />
           },
           {
@@ -53,6 +53,34 @@ const router = createBrowserRouter([
   {
     path: "cadastro",
     element: <Register />
+  },
+  {
+    path: "/catalogo",
+    element: <App />, // Usando o mesmo layout principal
+    children: [
+      {
+        index: true,
+        element: <Catalog />,
+      },
+      {
+        path: "livro",
+        element: <BookSpecifications />,
+        children: [
+          {
+            path: ":bookName",
+            element: <BookSpecifications />
+          },
+          {
+            path: "*",
+            element: <ErrorPage />
+          }
+        ]
+      },
+      {
+        path: "*",
+        element: <ErrorPage />
+      }
+    ]
   },
   {
     path: "*",

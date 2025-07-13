@@ -8,7 +8,9 @@ const Header = () => {
   return (
     <header className='header'>
       <div className='align-header'>
+        {/* ADICIONAR A LOGO AQUI */}
         <img src="" alt="" />
+        <Link to="/home" className='link-to-home-header'>Home</Link>
 
         <form className="search-container">
           <input
@@ -28,7 +30,7 @@ const Header = () => {
       </div>
       <div className='container-category-header'>
         <ul>     {/* Futuramente implemenatr botões no lugar dos li's para querys */}
-          <Link to='/home'><li>Todos</li></Link>     
+          <Link to='/catalogo'><li>Todos</li></Link>     
           <li>Mais Procurados</li>
           <li>Em Alta</li>
           <li>Clássicos</li>

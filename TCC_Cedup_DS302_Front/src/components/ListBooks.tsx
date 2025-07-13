@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Aside from '../components/Aside';
-import './css/MainHome.css';
+import { useEffect, useState } from 'react';
+import './css/listbooks.css';
 import RouteButton from './RouteButton';
+import Aside from './Aside';
 
 interface Book {
     id: number;
@@ -18,7 +18,8 @@ interface Book {
     avaliacao: number;
 }
 
-const MainHome = () => {
+const ListBooks = (query: any) => {
+
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -60,7 +61,6 @@ const MainHome = () => {
         fetchBooks();
     }, []);
 
-    // 5. Componente de imagem com fallback
     const BookImage = ({ src, alt }: { src: string; alt: string }) => {
         const [imgSrc, setImgSrc] = useState(src);
         
@@ -85,11 +85,12 @@ const MainHome = () => {
 
     if (error) {
         console.warn('Erro carregando dados:', error);
-        // Continua mostrando os livros com fallback
+        return <div className="error-message">Erro: {error}</div>;
     }
 
     return (
-        <main className="MainHome">
+        <>
+            <main className="MainHome">
             <Aside />
             <div className="main-content-home">
                 <div className="books-grid">
@@ -106,10 +107,26 @@ const MainHome = () => {
                             }}
                         />
                     ))}
+
+                    {/* 4. Ordenação opcional */}
+                    {/* {books.sort((a, b) => a.pags - b.pags).map((book) => (
+                        <RouteButton
+                            key={book.id}
+                            path={`livro/${book.path}`}
+                            img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
+                            style={{
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                padding: 0,
+                                cursor: 'pointer'
+                            }}
+                        />
+                    ))} */}
                 </div>
             </div>
         </main>
+        </>
     );
 };
 
-export default MainHome;
+export default ListBooks;

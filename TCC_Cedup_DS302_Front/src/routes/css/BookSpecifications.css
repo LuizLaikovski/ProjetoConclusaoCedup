@@ -73,6 +73,7 @@
 .book-info {
     flex: 1;
     /* border: green solid 0.7px; */
+    color: black;
     width: 45dvw;
 }
 
