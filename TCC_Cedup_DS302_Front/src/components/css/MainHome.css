@@ -8,6 +8,7 @@
 
 .main-content-home {
     position: relative;
+    display: grid;
     top: 22dvh;
     left: 10.1dvw;
     width: 80%;

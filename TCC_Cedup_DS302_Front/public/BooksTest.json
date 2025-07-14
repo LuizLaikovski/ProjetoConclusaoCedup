@@ -139,6 +139,287 @@
                 "alt": "Dom Casmurro"
             },
             "avaliacao": 5
-            }
+            },
+            {
+            "id": 11,
+            "titulo": "O Mundo Assombrado por Demônios",
+            "autor": "Carl Sagan",
+            "genero": "Ciência",
+            "descricao": "Carl Sagan defende o pensamento científico e cético como ferramentas para navegar em um mundo cheio de pseudociência e superstições.",
+            "pags": 480,
+            "path": "o-mundo-assombrado-por-demonios",
+            "arquivo": {
+                "src": "/Cover/OMundoAssombradoPorDemonios.jpeg",
+                "alt": "O Mundo Assombrado por Demônios"
+            },
+            "avaliacao": 5
+        },
+        {
+            "id": 12,
+            "titulo": "A Arte da Guerra",
+            "autor": "Sun Tzu",
+            "genero": "Estratégia",
+            "descricao": "Tratado militar chinês do século IV a.C. com princípios atemporais sobre estratégia, liderança e planejamento.",
+            "pags": 96,
+            "path": "a-arte-da-guerra",
+            "arquivo": {
+                "src": "/Cover/AArteDaGuerra.png",
+                "alt": "A Arte da Guerra"
+            },
+            "avaliacao": 4
+        },
+        {
+            "id": 13,
+            "titulo": "O Hobbit",
+            "autor": "J.R.R. Tolkien",
+            "genero": "Fantasia",
+            "descricao": "A aventura de Bilbo Bolseiro, um hobbit que se junta a um grupo de anões para recuperar um tesouro guardado por um dragão.",
+            "pags": 310,
+            "path": "o-hobbit",
+            "arquivo": {
+                "src": "/Cover/OHobbit.jpeg",
+                "alt": "O Hobbit"
+            },
+            "avaliacao": 5
+        },
+        {
+            "id": 14,
+            "titulo": "O Estrangeiro",
+            "autor": "Albert Camus",
+            "genero": "Filosofia/Ficção",
+            "descricao": "Romance existencialista sobre Meursault, um homem indiferente que comete um crime aparentemente sem motivo.",
+            "pags": 123,
+            "path": "o-estrangeiro",
+            "arquivo": {
+                "src": "/Cover/OEstrangeiro.jpeg",
+                "alt": "O Estrangeiro"
+            },
+            "avaliacao": 4
+        },
+        {
+            "id": 15,
+            "titulo": "O Guia do Mochileiro das Galáxias",
+            "autor": "Douglas Adams",
+            "genero": "Ficção Científica/Humor",
+            "descricao": "A hilária aventura de Arthur Dent após a destruição da Terra para construção de uma via interestelar.",
+            "pags": 208,
+            "path": "o-guia-do-mochileiro-das-galaxias",
+            "arquivo": {
+                "src": "/Cover/OGuiaDoMochileiroDasGalaxias.jpeg",
+                "alt": "O Guia do Mochileiro das Galáxias"
+            },
+            "avaliacao": 5
+        },
+        {
+            "id": 16,
+            "titulo": "A Metamorfose",
+            "autor": "Franz Kafka",
+            "genero": "Ficção Absurda",
+            "descricao": "Gregor Samsa acorda transformado em um inseto monstruoso, explorando alienação e condição humana.",
+            "pags": 96,
+            "path": "a-metamorfose",
+            "arquivo": {
+                "src": "/Cover/AMetamorfose.jpeg",
+                "alt": "A Metamorfose"
+            },
+            "avaliacao": 4
+        },
+        {
+            "id": 17,
+            "titulo": "O Nome da Rosa",
+            "autor": "Umberto Eco",
+            "genero": "Romance Histórico",
+            "descricao": "Mistério medieval em uma abadia onde monges morrem em circunstâncias suspeitas.",
+            "pags": 512,
+            "path": "o-nome-da-rosa",
+            "arquivo": {
+                "src": "/Cover/ONomeDaRosa.jpeg",
+                "alt": "O Nome da Rosa"
+            },
+            "avaliacao": 5
+        },
+        {
+            "id": 18,
+            "titulo": "O Pequeno Livro da Filosofia",
+            "autor": "Nigel Warburton",
+            "genero": "Filosofia",
+            "descricao": "Introdução acessível às grandes ideias e pensadores da filosofia ocidental.",
+            "pags": 224,
+            "path": "o-pequeno-livro-da-filosofia",
+            "arquivo": {
+                "src": "/Cover/OPequenoLivroDaFilosofia.jpeg",
+                "alt": "O Pequeno Livro da Filosofia"
+            },
+            "avaliacao": 3
+        },
+        {
+            "id": 19,
+            "titulo": "O Silmarillion",
+            "autor": "J.R.R. Tolkien",
+            "genero": "Fantasia",
+            "descricao": "Mitologia da Terra-Média, contando a criação do mundo e as primeiras eras antes de O Senhor dos Anéis.",
+            "pags": 480,
+            "path": "o-silmarillion",
+            "arquivo": {
+                "src": "/Cover/OSilmarillion.jpeg",
+                "alt": "O Silmarillion"
+            },
+            "avaliacao": 4
+        },
+        {
+            "id": 20,
+            "titulo": "O Capital no Século XXI",
+            "autor": "Thomas Piketty",
+            "genero": "Economia",
+            "descricao": "Análise sobre desigualdade de renda e concentração de riqueza ao longo da história.",
+            "pags": 816,
+            "path": "o-capital-no-seculo-xxi",
+            "arquivo": {
+                "src": "/Cover/OCapitalNoSeculoXXI.jpeg",
+                "alt": "O Capital no Século XXI"
+            },
+            "avaliacao": 3
+        },
+        
+        {
+            "id": 21,
+            "titulo": "O Poder do Hábito",      
+            "autor": "Charles Duhigg",
+            "genero": "Autoajuda",
+            "descricao": "Como os hábitos funcionam e como podem ser transformados para melhorar nossa vida.",
+            "pags": 408,
+            "path": "o-poder-do-habito",
+            "arquivo": {
+                "src": "/Cover/OPoderDoHabito.jpeg",
+                "alt": "O Poder do Hábito"
+            },
+            "avaliacao": 3
+        },
+        {
+            "id": 22,
+            "titulo": "O Andar do Bêbado",
+            "autor": "Leonard Mlodinow",
+            "genero": "Matemática",
+            "descricao": "Como o acaso e a aleatoriedade influenciam nossas vidas mais do que imaginamos.",
+            "pags": 256,
+            "path": "o-andar-do-bebado",
+            "arquivo": {
+                "src": "/Cover/OAndarDoBebado.jpeg",
+                "alt": "O Andar do Bêbado"
+            },
+            "avaliacao": 4
+        },
+        {
+            "id": 23,
+            "titulo": "O Gene Egoísta",
+            "autor": "Richard Dawkins",
+            "genero": "Biologia",
+            "descricao": "Apresenta a teoria da evolução centrada nos genes, introduzindo o conceito de meme.",
+            "pags": 464,
+            "path": "o-gene-egoista",
+            "arquivo": {
+                "src": "/Cover/OGeneEgoista.jpeg",
+                "alt": "O Gene Egoísta"
+            },
+            "avaliacao": 5
+        },
+        {
+            "id": 24,
+            "titulo": "O Lado Bom da Vida",
+            "autor": "Matthew Quick",
+            "genero": "Ficção",
+            "descricao": "História de um homem com transtorno mental que tenta se reconciliar com o mundo após internação.",
+            "pags": 288,
+            "path": "o-lado-bom-da-vida",
+            "arquivo": {
+                "src": "/Cover/OLadoBomDaVida.jpeg",
+                "alt": "O Lado Bom da Vida"
+            },
+            "avaliacao": 2
+        },
+        {
+            "id": 25,
+            "titulo": "O Segredo",
+            "autor": "Rhonda Byrne",
+            "genero": "Autoajuda",
+            "descricao": "Apresenta a Lei da Atração como princípio para alcançar sucesso e felicidade.",
+            "pags": 216,
+            "path": "o-segredo",
+            "arquivo": {
+                "src": "/Cover/OSegredo.jpeg",
+                "alt": "O Segredo"
+            },
+            "avaliacao": 1
+        },
+        {
+            "id": 26,
+            "titulo": "O Código Da Vinci",
+            "autor": "Dan Brown",
+            "genero": "Suspense",
+            "descricao": "Mistério envolvendo sociedades secretas, símbolos ocultos e uma conspiração religiosa.",
+            "pags": 432,
+            "path": "o-codigo-da-vinci",
+            "arquivo": {
+                "src": "/Cover/OCodigoDaVinci.jpeg",
+                "alt": "O Código Da Vinci"
+            },
+            "avaliacao": 3
+        },
+        {
+            "id": 27,
+            "titulo": "O Alquimista",
+            "autor": "Paulo Coelho",
+            "genero": "Ficção Inspiracional",
+            "descricao": "A jornada de Santiago, um pastor andaluz em busca de seu tesouro pessoal e destino.",
+            "pags": 208,
+            "path": "o-alquimista",
+            "arquivo": {
+                "src": "/Cover/OAlquimista.jpeg",
+                "alt": "O Alquimista"
+            },
+            "avaliacao": 2
+        },
+        {
+            "id": 28,
+            "titulo": "O Poder do Agora",
+            "autor": "Eckhart Tolle",
+            "genero": "Espiritualidade",
+            "descricao": "Ensina como alcançar a iluminação espiritual vivendo plenamente no momento presente.",
+            "pags": 192,
+            "path": "o-poder-do-agora",
+            "arquivo": {
+                "src": "/Cover/OPoderDoAgora.jpeg",
+                "alt": "O Poder do Agora"
+            },
+            "avaliacao": 2
+        },
+        {
+            "id": 29,
+            "titulo": "O Homem Mais Rico da Babilônia",
+            "autor": "George S. Clason",
+            "genero": "Finanças Pessoais",
+            "descricao": "Parábolas sobre como acumular riqueza e manter finanças pessoais saudáveis.",
+            "pags": 160,
+            "path": "o-homem-mais-rico-da-babilonia",
+            "arquivo": {
+                "src": "/Cover/OHomemMaisRicoDaBabilonia.jpeg",
+                "alt": "O Homem Mais Rico da Babilônia"
+            },
+            "avaliacao": 3
+        },
+        {
+            "id": 30,
+            "titulo": "O Poder da Ação",
+            "autor": "Paulo Vieira",
+            "genero": "Autoajuda",
+            "descricao": "Métodos para sair da zona de conforto e alcançar objetivos pessoais e profissionais.",
+            "pags": 176,
+            "path": "o-poder-da-acao",
+            "arquivo": {
+                "src": "/Cover/OPoderDaAcao.jpeg",
+                "alt": "O Poder da Ação"
+            },
+            "avaliacao": 1
+        }
         ]
     }

@@ -26,19 +26,9 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "livro",
+        path: "livro/:bookName",
         element: <BookSpecifications />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: ":bookName",
-            element: <BookSpecifications />
-          },
-          {
-            path: "*",
-            element: <ErrorPage />
-          }
-        ]
+        errorElement: <ErrorPage />
       },
       {
         path: "*",
@@ -47,11 +37,11 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "login",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "cadastro",
+    path: "/cadastro",
     element: <Register />
   },
   {
@@ -63,18 +53,8 @@ const router = createBrowserRouter([
         element: <Catalog />,
       },
       {
-        path: "livro",
-        element: <BookSpecifications />,
-        children: [
-          {
-            path: ":bookName",
-            element: <BookSpecifications />
-          },
-          {
-            path: "*",
-            element: <ErrorPage />
-          }
-        ]
+        path: "livro/:bookName", // Rota direta sem aninhamento desnecessário
+        element: <BookSpecifications />
       },
       {
         path: "*",

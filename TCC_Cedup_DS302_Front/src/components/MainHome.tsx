@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Aside from '../components/Aside';
 import './css/MainHome.css';
 import RouteButton from './RouteButton';
+import BookImage from './BookImage';
 
 interface Book {
     id: number;
@@ -22,6 +23,7 @@ const MainHome = () => {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [minRating, setMinRating] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -60,20 +62,6 @@ const MainHome = () => {
         fetchBooks();
     }, []);
 
-    // 5. Componente de imagem com fallback
-    const BookImage = ({ src, alt }: { src: string; alt: string }) => {
-        const [imgSrc, setImgSrc] = useState(src);
-        
-        return (
-            <img
-                src={imgSrc}
-                alt={alt}
-                className="images-main"
-                onError={() => setImgSrc('/Cover/default-book.jpg')}
-            />
-        );
-    };
-
     if (loading) {
         return (
             <div className="loading-container">
@@ -85,12 +73,11 @@ const MainHome = () => {
 
     if (error) {
         console.warn('Erro carregando dados:', error);
-        // Continua mostrando os livros com fallback
     }
 
     return (
         <main className="MainHome">
-            <Aside />
+            <Aside onRatingChange={setMinRating} currentRating={minRating} />
             <div className="main-content-home">
                 <div className="books-grid">
                     {books.map((book) => (

@@ -3,9 +3,21 @@ import './css/aside.css';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
-const Aside = () => {
-    const [rating, setRating] = useState(0);
+interface AsideProps {
+    onRatingChange: (rating: number | null) => void;
+    currentRating: number | null
+}
+
+const Aside = ({onRatingChange, currentRating}: AsideProps) => {
     const [hover, setHover] = useState(0);
+
+    const handleRatingClick = (ratingValue: number) => {
+        if (currentRating === ratingValue) {
+            onRatingChange(null);
+        } else {
+            onRatingChange(ratingValue);
+        }
+    }
     
 
     return(
@@ -41,28 +53,35 @@ const Aside = () => {
                             const ratingValue = index + 1;
                             
                             return (
-                                <label key={index}>
-                                    <input 
-                                        type="radio" // Arrumar aq
-                                        name="rating" 
-                                        value={ratingValue}
-                                        onClick={() => setRating(ratingValue)}
-                                        className="star-input"
-                                    />
-                                    <FontAwesomeIcon
-                                        icon={faStar}
-                                        className="star-icon"
-                                        style={{
-                                            color: ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"
-                                        }}
-                                        onMouseEnter={() => setHover(ratingValue)}
-                                        onMouseLeave={() => setHover(0)}
-                                        size="2x"
-                                    />
-                                </label>
+                                <>
+                                    <label key={index}>
+                                        <input
+                                            type="radio"
+                                            name="rating"
+                                            value={ratingValue}
+                                            onClick={() => handleRatingClick(ratingValue)}
+                                            className="star-input" />
+
+                                        <FontAwesomeIcon
+                                            icon={faStar}
+                                            className="star-icon"
+                                            style={{
+                                                color: ratingValue <= (hover || currentRating || 0) ? "#ffc107" : "#e4e5e9"
+                                            }}
+                                            onMouseEnter={() => setHover(ratingValue)}
+                                            onMouseLeave={() => setHover(0)}
+                                            size="2x" />
+                                    </label>
+                                </>
                             );
                         })}
                     </div>
+
+                    { currentRating && (
+                        <button
+                            onClick={() => onRatingChange(null)}
+                        >Limpar Filtro</button>
+                    )}
                 </div>
                 
                 <h3 style={{marginLeft: '1dvw'}}>Buscar por quantidades de páginas:</h3>
