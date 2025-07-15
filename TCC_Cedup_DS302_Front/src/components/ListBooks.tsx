@@ -69,7 +69,7 @@ const ListBooks = ({ minRating }: ListBooksProps) => {
     return (
         <div className="main-content-home">
             <div className="books-grid">
-                {filteredBooks.map((book) => (
+                {filteredBooks.sort(() => Math.random() - 0.5).map((book) => (
                     <RouteButton
                         key={book.id}
                         path={`livro/${book.path}`}

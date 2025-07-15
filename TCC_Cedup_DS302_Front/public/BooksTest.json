@@ -145,7 +145,7 @@
             "titulo": "O Mundo Assombrado por Demônios",
             "autor": "Carl Sagan",
             "genero": "Ciência",
-            "descricao": "Carl Sagan defende o pensamento científico e cético como ferramentas para navegar em um mundo cheio de pseudociência e superstições.",
+            "descricao": "Neste manifesto científico, Carl Sagan empreende uma vigorosa defesa do pensamento racional contra as forças da superstição e pseudociência. Com erudição acessível, desmonta mitos contemporâneos – da astrologia aos discos voadores – revelando como o método científico ilumina o mundo real. O capítulo 'O Dragão na Minha Garagem' tornou-se um clássico da epistemologia, ensinando a discernir entre alegações infundadas e evidências verificáveis. Sagan demonstra como a ciência, longe de ser fria e impessoal, é uma aventura humana repleta de poesia, capaz de desvendar desde a estrutura dos átomos até os confins do cosmos.",
             "pags": 480,
             "path": "o-mundo-assombrado-por-demonios",
             "arquivo": {
@@ -159,7 +159,7 @@
             "titulo": "A Arte da Guerra",
             "autor": "Sun Tzu",
             "genero": "Estratégia",
-            "descricao": "Tratado militar chinês do século IV a.C. com princípios atemporais sobre estratégia, liderança e planejamento.",
+            "descricao": "Este tratado milenar transcende seu contexto bélico original, oferecendo princípios atemporais sobre competição e gestão de conflitos. Sun Tzu ensina que a verdadeira vitória se conquista sem combate – através do conhecimento do terreno, da moral das tropas e da psicologia do adversário. Seus aforismos ('Conhece-te a ti mesmo e conhecerás teu inimigo') influenciaram desde táticas militares até estratégias corporativas modernas. A edição comentada revela como seus ensinamentos se aplicam a negociações, planejamento empresarial e até desenvolvimento pessoal.",
             "pags": 96,
             "path": "a-arte-da-guerra",
             "arquivo": {
@@ -173,7 +173,7 @@
             "titulo": "O Hobbit",
             "autor": "J.R.R. Tolkien",
             "genero": "Fantasia",
-            "descricao": "A aventura de Bilbo Bolseiro, um hobbit que se junta a um grupo de anões para recuperar um tesouro guardado por um dragão.",
+            "descricao": "Antes de 'O Senhor dos Anéis', Tolkien criou esta fábula encantadora sobre Bilbo Bolseiro, um hobbit caseiro arrastado para uma jornada épica. A narrativa mescla elementos de conto de fadas (enigmas com Gollum, a floresta de aranhas gigantes) com temas profundos sobre coragem na adversidade. O encontro com Smaug, o dragão cego pela sua própria ganância, é uma masterclass em construção de tensão. Tolkien tece mitologia nórdica, linguística criativa e sua experiência na 1ª Guerra Mundial numa obra que redefine a fantasia moderna.",
             "pags": 310,
             "path": "o-hobbit",
             "arquivo": {
@@ -187,7 +187,7 @@
             "titulo": "O Estrangeiro",
             "autor": "Albert Camus",
             "genero": "Filosofia/Ficção",
-            "descricao": "Romance existencialista sobre Meursault, um homem indiferente que comete um crime aparentemente sem motivo.",
+            "descricao": "Romance seminal do absurdismo, acompanha Meursault, um homem que mata um árabe na praia de Argel sob um sol opressivo. Sua apatia no julgamento ('Porque fazia sol') choca a sociedade francesa. Camus explora o vazio de significado num universo indiferente, onde rituais sociais são máscaras vazias. A cena final, com Meursault confrontando a 'ternura indiferente do mundo' sintetiza o existencialismo camusiano: mesmo sem propósito transcendente, a vida vale pela experiência sensorial e autenticidade.",
             "pags": 123,
             "path": "o-estrangeiro",
             "arquivo": {
@@ -201,7 +201,7 @@
             "titulo": "O Guia do Mochileiro das Galáxias",
             "autor": "Douglas Adams",
             "genero": "Ficção Científica/Humor",
-            "descricao": "A hilária aventura de Arthur Dent após a destruição da Terra para construção de uma via interestelar.",
+            "descricao": "Sátira cósmica que começa com a destruição da Terra para obras viárias intergalácticas. Arthur Dent, o último terrestre, descobre que: 1) A resposta para a vida é 42; 2) Golfinhos sabiam do apocalipse; 3) A nave Coração de Ouro usa o Improvável Drive. Adams mistura física quântica com humor britânico absurdo, criando conceitos como o Campo de Improbabilidade Infinita e o depressivo robô Marvin. Por trás do nonsense, questiona burocracias, fundamentalismos e nossa insignificância cósmica com leveza genial.",
             "pags": 208,
             "path": "o-guia-do-mochileiro-das-galaxias",
             "arquivo": {
@@ -215,7 +215,7 @@
             "titulo": "A Metamorfose",
             "autor": "Franz Kafka",
             "genero": "Ficção Absurda",
-            "descricao": "Gregor Samsa acorda transformado em um inseto monstruoso, explorando alienação e condição humana.",
+            "descricao": "Gregor Samsa acorda transformado num 'inseto monstruoso', iniciando um dos mais perturbadores estudos sobre alienação. Kafka constrói uma alegoria da desumanização no trabalho e família – enquanto Gregor se adapta ao corpo novo, sua família alterna entre nojo e aproveitamento econômico. A cena em que ele ouve a irmã tocar violino, esquecido num canto, é um dos momentos mais comoventes da literatura. O estilo kafkiano, com detalhes hiper-realistas em contextos absurdos, define o que hoje chamamos de 'kafkiano'.",
             "pags": 96,
             "path": "a-metamorfose",
             "arquivo": {
@@ -229,7 +229,7 @@
             "titulo": "O Nome da Rosa",
             "autor": "Umberto Eco",
             "genero": "Romance Histórico",
-            "descricao": "Mistério medieval em uma abadia onde monges morrem em circunstâncias suspeitas.",
+            "descricao": "Em 1327, o frei Guilherme de Baskerville investiga mortes numa abadia beneditina, desvendando uma trama sobre Aristóteles perdido, heresias e a censura ao riso. Eco recria o medievalismo com erudição impressionante – desde debates teológicos até descrições da biblioteca labiríntica. Cada morte reflete um dos sete pecados capitais, enquanto o jovem Adso vive seu amor proibido. Mais que um thriller, é uma meditação sobre o conhecimento como poder e perigo, onde Jorge de Burgos (vilão inspirado em Borges) personifica o fanatismo que destrói livros e vidas.",
             "pags": 512,
             "path": "o-nome-da-rosa",
             "arquivo": {
@@ -243,7 +243,7 @@
             "titulo": "O Pequeno Livro da Filosofia",
             "autor": "Nigel Warburton",
             "genero": "Filosofia",
-            "descricao": "Introdução acessível às grandes ideias e pensadores da filosofia ocidental.",
+            "descricao": "Introdução acessível que percorre 2.500 anos de pensamento ocidental em capítulos curtos. Warburton explica com clareza: a alegoria da caverna de Platão, o cogito de Descartes, o utilitarismo de Bentham e o véu de ignorância de Rawls. Destaque para a comparação entre o super-homem de Nietzsche e os ideais estoicos. Embora simplifique debates complexos, serve como excelente ponto de partida, com sugestões de leitura aprofundada. O capítulo sobre ética animal aplica filosofia a dilemas contemporâneos.",
             "pags": 224,
             "path": "o-pequeno-livro-da-filosofia",
             "arquivo": {
@@ -257,7 +257,7 @@
             "titulo": "O Silmarillion",
             "autor": "J.R.R. Tolkien",
             "genero": "Fantasia",
-            "descricao": "Mitologia da Terra-Média, contando a criação do mundo e as primeiras eras antes de O Senhor dos Anéis.",
+            "descricao": "Bíblia mitológica da Terra-Média, narra desde a criação por Eru Ilúvatar até eventos anteriores a 'O Hobbit'. A tragédia de Fëanor e os Silmarils (joias roubadas por Morgoth) ecoa mitos nórdicos e gregos, com elfos nobres mas imperfeitos. Destaques: a história de amor de Beren e Lúthien (inspirada no romance de Tolkien com Edith), a queda de Gondolin, e a explicação sobre a origem dos orcs. Requer paciência – seu estilo é mais próximo de Hesíodo que de romances modernos – mas recompensa com profundidade lendária.",
             "pags": 480,
             "path": "o-silmarillion",
             "arquivo": {
@@ -271,7 +271,7 @@
             "titulo": "O Capital no Século XXI",
             "autor": "Thomas Piketty",
             "genero": "Economia",
-            "descricao": "Análise sobre desigualdade de renda e concentração de riqueza ao longo da história.",
+            "descricao": "Baseado em 15 anos de pesquisa, Piketty demonstra como o capitalismo tende a concentrar riqueza (r > g: retorno do capital supera crescimento econômico). Analisando dados desde o século XVIII, mostra que desigualdades atuais rivalizam com a Belle Époque. Propõe um imposto global sobre fortunas para evitar crises sociais. Apesar da densidade, os gráficos comparando EUA, Europa e Brasil tornam acessível. Polêmico entre neoliberais, influenciou movimentos como o Occupy Wall Street e debates sobre taxação de bilionários.",
             "pags": 816,
             "path": "o-capital-no-seculo-xxi",
             "arquivo": {
@@ -286,7 +286,7 @@
             "titulo": "O Poder do Hábito",      
             "autor": "Charles Duhigg",
             "genero": "Autoajuda",
-            "descricao": "Como os hábitos funcionam e como podem ser transformados para melhorar nossa vida.",
+            "descricao": "Através de casos reais (desde a virada da Starbucks até a reforma da Alcoa), Duhigg desvenda a 'neurociência dos hábitos': deixa → rotina → recompensa. Mostra como a NASA treinou astronautas para criar automatismos e como técnicas de marketing exploram padrões de consumo. O capítulo sobre hábitos sociais explica o sucesso de movimentos como os direitos civis. Ferramentas práticas incluem: identificação de gatilhos e o 'golden rule' – substituir apenas a rotina, mantendo a mesma recompensa.",
             "pags": 408,
             "path": "o-poder-do-habito",
             "arquivo": {
@@ -300,7 +300,7 @@
             "titulo": "O Andar do Bêbado",
             "autor": "Leonard Mlodinow",
             "genero": "Matemática",
-            "descricao": "Como o acaso e a aleatoriedade influenciam nossas vidas mais do que imaginamos.",
+            "descricao": "Com exemplos do poker à bolsa de valores, o físico demonstra como o acaso distorce nossa percepção. O 'viés do sobrevivente' faz sucessos parecerem previsíveis, enquanto a 'lei dos grandes números' explica sequências improváveis. A análise do efeito Matthew ('quem tem, receberá mais') revela como aleatoriedade gera desigualdades. Destaque para o paradoxo de Simpson em dados médicos e como a regressão à média engana treinadores esportivos. Leitura essencial para tomar decisões em ambientes incertos.",
             "pags": 256,
             "path": "o-andar-do-bebado",
             "arquivo": {
@@ -314,7 +314,7 @@
             "titulo": "O Gene Egoísta",
             "autor": "Richard Dawkins",
             "genero": "Biologia",
-            "descricao": "Apresenta a teoria da evolução centrada nos genes, introduzindo o conceito de meme.",
+            "descricao": "Tese revolucionária: genes (não indivíduos ou espécies) são a unidade da seleção natural. Dawkins explica altruísmo animal (abelhas morrendo pela colmeia) como estratégia genética. Introduz o conceito de 'meme' – unidades culturais que se replicam como genes. Capítulos sobre 'evolução estável' mostram como cooperação emerge mesmo entre egoístas. Apesar da polêmica (críticos acusam reducionismo), sua defesa do 'universo pós-genômico' influenciou da psicologia evolutiva à inteligência artificial.",
             "pags": 464,
             "path": "o-gene-egoista",
             "arquivo": {
@@ -328,7 +328,7 @@
             "titulo": "O Lado Bom da Vida",
             "autor": "Matthew Quick",
             "genero": "Ficção",
-            "descricao": "História de um homem com transtorno mental que tenta se reconciliar com o mundo após internação.",
+            "descricao": "Pat Peoples, ex-professor com trauma não revelado, acredita estar numa 'filmagem divina' onde deve reconquistar sua esposa. A narrativa em primeira pessoa capta com sensibilidade a mente de alguém reconstruindo sua identidade após colapso mental. Cenas como a obsessão por 'Dance of the Sugar Plum Fairy' revelam como a arte salva. Apesar do tom esperançoso, não romantiza doenças mentais – mostra a dura jornada da medicação à reinserção social. Adaptado para o cinema com Bradley Cooper.",
             "pags": 288,
             "path": "o-lado-bom-da-vida",
             "arquivo": {
@@ -342,7 +342,7 @@
             "titulo": "O Segredo",
             "autor": "Rhonda Byrne",
             "genero": "Autoajuda",
-            "descricao": "Apresenta a Lei da Atração como princípio para alcançar sucesso e felicidade.",
+            "descricao": "Baseado na 'Lei da Atração', defende que pensamentos positivos atraem riqueza e saúde. Exemplos históricos (de Einstein a Beethoven) são apresentados como 'prova', ignorando contextos complexos. Críticos apontam: 1) Culpabilização de doentes ('atraíram o câncer'); 2) Pseudociência (afirmações sobre física quântica são distorcidas). Apesar do apelo motivacional, falta rigor – o verdadeiro 'segredo' parece ser vender livros sobre segredos. Útil apenas como estudo de pensamento mágico em culturas capitalistas.",
             "pags": 216,
             "path": "o-segredo",
             "arquivo": {
@@ -356,7 +356,7 @@
             "titulo": "O Código Da Vinci",
             "autor": "Dan Brown",
             "genero": "Suspense",
-            "descricao": "Mistério envolvendo sociedades secretas, símbolos ocultos e uma conspiração religiosa.",
+            "descricao": "Em 'O Código Da Vinci', o simbologista Robert Langdon é chamado às pressas para investigar o assassinato de um curador do Louvre, encontrado com símbolos misteriosos desenhados em seu corpo. A investigação o leva a uma jornada eletrizante por cidades históricas, códigos escondidos em obras de arte de Da Vinci e revelações surpreendentes sobre uma antiga sociedade secreta. Misturando fatos históricos com ficção habilmente construída, o livro propõe uma nova perspectiva sobre o cristianismo e o papel de figuras importantes da história.",
             "pags": 432,
             "path": "o-codigo-da-vinci",
             "arquivo": {
@@ -370,21 +370,21 @@
             "titulo": "O Alquimista",
             "autor": "Paulo Coelho",
             "genero": "Ficção Inspiracional",
-            "descricao": "A jornada de Santiago, um pastor andaluz em busca de seu tesouro pessoal e destino.",
+            "descricao": "Em 'O Alquimista', acompanhamos a jornada espiritual de Santiago, um jovem pastor andaluz que parte em busca de um tesouro escondido próximo às pirâmides do Egito. No caminho, ele encontra personagens enigmáticos — um velho rei, um comerciante de cristais, um alquimista — que o ajudam a entender que a verdadeira riqueza está no autoconhecimento e na realização da Lenda Pessoal. O livro é uma fábula moderna sobre seguir os sonhos, superar medos e compreender os sinais do universo.",
             "pags": 208,
             "path": "o-alquimista",
             "arquivo": {
                 "src": "/Cover/OAlquimista.jpeg",
                 "alt": "O Alquimista"
             },
-            "avaliacao": 2
+        "avaliacao": 2
         },
         {
             "id": 28,
             "titulo": "O Poder do Agora",
             "autor": "Eckhart Tolle",
             "genero": "Espiritualidade",
-            "descricao": "Ensina como alcançar a iluminação espiritual vivendo plenamente no momento presente.",
+            "descricao": "Em 'O Poder do Agora', Eckhart Tolle propõe uma profunda reflexão sobre o sofrimento humano causado pela constante identificação com a mente e o ego. A obra ensina que a chave para a paz interior está na capacidade de se libertar do passado e das ansiedades sobre o futuro, concentrando-se inteiramente no momento presente. Com ensinamentos práticos, linguagem acessível e uma abordagem espiritual não vinculada a religiões específicas, o livro se tornou um guia essencial para quem busca crescimento interior e despertar da consciência.",
             "pags": 192,
             "path": "o-poder-do-agora",
             "arquivo": {
@@ -398,7 +398,7 @@
             "titulo": "O Homem Mais Rico da Babilônia",
             "autor": "George S. Clason",
             "genero": "Finanças Pessoais",
-            "descricao": "Parábolas sobre como acumular riqueza e manter finanças pessoais saudáveis.",
+            "descricao": "Ambientado na antiga Babilônia, este clássico de finanças pessoais utiliza parábolas envolventes para ensinar princípios atemporais de riqueza e prosperidade. Através da história de personagens como Arkad, um humilde escriba que se torna o homem mais rico da cidade, o autor transmite lições práticas sobre poupar, investir sabiamente e evitar dívidas. Simples, direto e eficaz, 'O Homem Mais Rico da Babilônia' é um guia acessível para qualquer pessoa que deseja alcançar independência financeira com disciplina e sabedoria.",
             "pags": 160,
             "path": "o-homem-mais-rico-da-babilonia",
             "arquivo": {
@@ -412,7 +412,7 @@
             "titulo": "O Poder da Ação",
             "autor": "Paulo Vieira",
             "genero": "Autoajuda",
-            "descricao": "Métodos para sair da zona de conforto e alcançar objetivos pessoais e profissionais.",
+            "descricao": "Neste livro impactante, Paulo Vieira desafia o leitor a sair da inércia e assumir o controle da própria vida. 'O Poder da Ação' oferece ferramentas práticas para mudar comportamentos limitantes, romper padrões negativos e alcançar metas audaciosas tanto na vida pessoal quanto profissional. Com uma linguagem motivadora e direta, o autor propõe um verdadeiro plano de ação baseado em autoconhecimento, foco, disciplina e responsabilidade. Uma leitura transformadora para quem busca resultados reais e duradouros.",
             "pags": 176,
             "path": "o-poder-da-acao",
             "arquivo": {

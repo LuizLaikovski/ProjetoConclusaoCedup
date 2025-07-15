@@ -75,13 +75,12 @@ const Aside = ({onRatingChange, currentRating}: AsideProps) => {
                                 </>
                             );
                         })}
+                        { currentRating && (
+                            <button
+                                onClick={() => onRatingChange(null)}
+                            >Limpar Filtro</button>
+                        )}
                     </div>
-
-                    { currentRating && (
-                        <button
-                            onClick={() => onRatingChange(null)}
-                        >Limpar Filtro</button>
-                    )}
                 </div>
                 
                 <h3 style={{marginLeft: '1dvw'}}>Buscar por quantidades de páginas:</h3>

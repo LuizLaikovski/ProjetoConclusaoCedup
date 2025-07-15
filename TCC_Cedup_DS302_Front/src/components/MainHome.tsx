@@ -77,7 +77,6 @@ const MainHome = () => {
 
     return (
         <main className="MainHome">
-            <Aside onRatingChange={setMinRating} currentRating={minRating} />
             <div className="main-content-home">
                 <div className="books-grid">
                     {books.map((book) => (
