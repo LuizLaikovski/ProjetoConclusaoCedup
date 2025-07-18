@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import './css/listbooks.css';
 import RouteButton from './RouteButton';
 import BookImage from './BookImage';
+import GeneroLivro from '../types/genres';
 
 interface Book {
     id: number;
@@ -67,23 +68,25 @@ const ListBooks = ({ minRating }: ListBooksProps) => {
     }
 
     return (
-        <div className="main-content-home">
-            <div className="books-grid">
-                {filteredBooks.sort(() => Math.random() - 0.5).map((book) => (
-                    <RouteButton
-                        key={book.id}
-                        path={`livro/${book.path}`}
-                        img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
-                        style={{
-                            backgroundColor: 'transparent',
-                            border: 'none',
-                            padding: 0,
-                            cursor: 'pointer'
-                        }}
-                    />
-                ))}
+        <main className='MainListBook'>
+            <div className="main-content-catalog">
+                <div className="books-grid">
+                    {filteredBooks.sort(() => Math.random() - 0.5).map((book) => (
+                        <RouteButton
+                            key={book.id}
+                            path={`livro/${book.path}`}
+                            img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
+                            style={{
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                padding: 0,
+                                cursor: 'pointer'
+                            }}
+                        />
+                    ))}
+                </div>
             </div>
-        </div>
+        </main>
     );
 };
 

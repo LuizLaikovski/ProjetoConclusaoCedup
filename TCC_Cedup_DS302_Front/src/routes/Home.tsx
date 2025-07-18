@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import MainHome from "../components/MainHome";
 import Aside from "../components/Aside";
 import { useState } from "react";
+import Footer from "../components/Footer";
 
 const Home = () => {
     const [minRating, setMinRating] = useState<number | null>(null);
@@ -15,6 +16,7 @@ const Home = () => {
                 <Header />
                 <Aside onRatingChange={setMinRating} currentRating={minRating} />
                 <MainHome />
+                <Footer />
             </section>
         </>
     );

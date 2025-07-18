@@ -2,21 +2,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 0 0 0;
+    flex-direction: column;
+    height: 320dvh;
+    margin: -90dvh 0 0 0;
     padding: 0 0 0 0;
 }
 
 .main-content-home {
     position: relative;
     display: grid;
-    top: 22dvh;
     left: 10.1dvw;
     width: 80%;
-    height: 88%;
 }
 
 .images-main {
     height: 39dvh;
+    max-width: 200px;
+    max-height: 100%;
     margin: 20px 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

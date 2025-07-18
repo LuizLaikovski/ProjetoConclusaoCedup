@@ -10,6 +10,7 @@ interface AsideProps {
 
 const Aside = ({onRatingChange, currentRating}: AsideProps) => {
     const [hover, setHover] = useState(0);
+    const [numberPags, setNumberPags] = useState(0);
 
     const handleRatingClick = (ratingValue: number) => {
         if (currentRating === ratingValue) {

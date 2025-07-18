@@ -1,5 +1,4 @@
 import './css/Register.css';
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react';
@@ -7,6 +6,28 @@ import { useState } from 'react';
 const Register = () => {
 
     const [cpf, setCpf] = useState('');
+    const [formData, setFormData] = useState({
+        nomeCompleto: '',
+        email: '',
+        password: '',
+        cpf: '',
+        telefone: '',
+        rememberMe: false
+    });
+    const [showData, setShowData] = useState(false);
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        setShowData(true);
+    }
+
+    const handleChange = (e: any) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
 
     const formatCPF = (e: any) => {
         // Remove tudo que não for dígito
@@ -29,6 +50,10 @@ const Register = () => {
         setCpf(value);
     };
 
+
+    formData.cpf = cpf;
+
+
     return (
         <>
             <section id="register">
@@ -36,14 +61,17 @@ const Register = () => {
                     <FontAwesomeIcon icon={faCircleUser} size="4x" />
                 </div>
                 <div className="container-register">
-                    <form className="register-form">
+                    <form className="register-form" onSubmit={handleSubmit}>
                         <h1>Cadastro</h1>     
 
                         <div className="form-group">
                             <input
                                 type="text"
+                                id="nomeCompleto"
+                                name="nomeCompleto"
+                                value={formData.nomeCompleto}
                                 placeholder="Digite seu nome completo"
-                                id="nameUser"
+                                onChange={handleChange}
                                 required
                             />
                         </div>
@@ -51,18 +79,23 @@ const Register = () => {
                         <div className="form-group">
                             <input 
                                 type="email" 
-                                id="email" 
+                                id="email"
+                                name="email"
+                                value={formData.email}
                                 placeholder="Digite seu Email" 
+                                onChange={handleChange}
                                 required 
                             />
                         </div>
                         
                         <div className="form-group">
                             <input 
-                                type="password" 
-                                id="password" 
-                                placeholder="Digite sua Senha"
-                                // ••••••••
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                placeholder="Digite sua Senha"   // ••••••••
+                                onChange={handleChange}
                                 required 
                             />
                         </div>
@@ -70,24 +103,34 @@ const Register = () => {
                         <div className="form-group">
                             <input
                                 type="text"
+                                id="cpf"
+                                name="cpf"
+                                value={formData.cpf}
                                 placeholder="Digite seu CPF"
-                                id='cpfUser'
-                                value={cpf}
                                 onChange={formatCPF}
                                 inputMode="numeric" // Teclado numérico em dispositivos móveis
+                                required
                             />
                         </div>
 
                         <div className="form-group">
                             <input 
                                 type="tel"
+                                id="telefone"
+                                name="telefone"
+                                value={formData.telefone}
                                 placeholder='Telefone(Opcional)'
-                                id="telUser" />
+                                onChange={handleChange}
+                            />
                         </div>
             
                         <div className="form-group-small-box">
-                            <input type="checkbox"
-                                id=""
+                            <input 
+                                type="checkbox"
+                                id="rememberMe"
+                                name="rememberMe"
+                                checked={formData.rememberMe}
+                                onChange={handleChange}
                             />
                             <h3>Lembrar-me</h3>
                         </div>

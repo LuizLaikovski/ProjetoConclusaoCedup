@@ -2,8 +2,26 @@ import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const Header = () => {
+
+  const [ searchBook, setSearchBook] = useState({
+    book: ''
+  });
+
+  const [showData, setShowData] = useState(false);
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    setShowData(true); // Mostra os dados quando o formulário é submetido
+    console.log('Busca:', searchBook.book);
+  };
+
+  const handleChange = (e: any) => {
+    const { value } = e.target;
+    setSearchBook({ book: value });
+  };
 
   return (
     <header className='header'>
@@ -12,11 +30,13 @@ const Header = () => {
         <img src="" alt="" />
         <Link to="/home" className='link-to-home-header'>Home</Link>
 
-        <form className="search-container">
+        <form className="search-container" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Digite sua busca..."
             className="search-input"
+            value={searchBook.book}
+            onChange={handleChange}
           />
           <button type="submit" className="search-button">
             <FontAwesomeIcon icon={faSearch} color='black' size='2x' />

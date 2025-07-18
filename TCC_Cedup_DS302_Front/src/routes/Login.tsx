@@ -11,6 +11,8 @@ const Login = () => {
         rememberMe: false
     });
 
+    const [showData, setShowData] = useState(false); // Estado para controlar a exibição dos dados
+
     const handleChange = (e: any) => {
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
@@ -21,38 +23,12 @@ const Login = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        setShowData(true); // Mostra os dados quando o formulário é submetido
         
-        try {
-            const response = await fetch('URL_DO_SEU_BACKEND/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error('Erro no login');
-            }
-
-            const data = await response.json();
-            
-            // Armazena o token se necessário
-            if (data.token) {
-                localStorage.setItem('token', data.token);
-            }
-            
-            // Redireciona o usuário após login bem-sucedido
-            // window.location.href = '/dashboard';
-            
-        } catch (error) {
-            console.error('Erro ao fazer login:', error);
-            // Aqui você pode adicionar tratamento de erros, como mostrar uma mensagem para o usuário
-        }
+        // Simulação de login (substitua pelo seu código real de API)
+        console.log('Dados do formulário:', formData);
     };
+    
 
     return(
         <>
@@ -96,12 +72,23 @@ const Login = () => {
                                 checked={formData.rememberMe}
                                 onChange={handleChange}
                             />
-                            <h3>Lembrar-me</h3>
+                            <label htmlFor="rememberMe">Lembrar-me</label>
                         </div>
                         
-                        <Link to='/home'><button type="submit" className="login-button" >Confirmar</button></Link>
+                        <button type="submit" className="login-button">Confirmar</button>
                         <Link to="/cadastro" className='link-return'>Ainda não possuo uma conta</Link>
                     </form>
+
+
+                    {/* Área para exibir os dados do formulário */}
+                    {showData && (
+                        <div className="form-data-display">
+                            <h3>Dados Informados:</h3>
+                            <p><strong>Email:</strong> {formData.email}</p>
+                            <p><strong>Senha:</strong> {formData.password}</p>
+                            <p><strong>Lembrar-me:</strong> {formData.rememberMe ? 'Sim' : 'Não'}</p>
+                        </div>
+                    )}
                 </div>
             </section>
         </>
