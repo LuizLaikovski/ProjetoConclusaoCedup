@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './css/listbooks.css';
 import RouteButton from './RouteButton';
 import BookImage from './BookImage';
-import GeneroLivro from '../types/genres';
+
 
 interface Book {
     id: number;

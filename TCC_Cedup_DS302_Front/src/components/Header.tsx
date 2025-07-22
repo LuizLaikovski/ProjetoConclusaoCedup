@@ -1,26 +1,30 @@
 import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 const Header = () => {
-
-  const [ searchBook, setSearchBook] = useState({
+  const [searchBook, setSearchBook] = useState({
     book: ''
   });
 
   const [showData, setShowData] = useState(false);
+  const [showModal, setShowModal] = useState(false); // Estado para controlar a visibilidade do modal
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    setShowData(true); // Mostra os dados quando o formulário é submetido
+    setShowData(true);
     console.log('Busca:', searchBook.book);
   };
 
   const handleChange = (e: any) => {
     const { value } = e.target;
     setSearchBook({ book: value });
+  };
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
   };
 
   return (
@@ -43,19 +47,51 @@ const Header = () => {
           </button>
         </form>
 
+        {showData && (
+          <div>
+            <p>dados enviados para a requisição: {searchBook.book}</p>
+          </div>
+        )}
+
         <Link to="/login" className='link-to-login-header'>Faça seu Login</Link>
-        <button className='button-for-favorites-header'>
+        <button className='button-for-favorites-header' onClick={toggleModal}>
           <FontAwesomeIcon icon={faHeart} size='2x' className='favorite-book-header'/>
         </button>
       </div>
       <div className='container-category-header'>
-        <ul>     {/* Futuramente implemenatr botões no lugar dos li's para querys */}
+        <ul>
           <Link to='/catalogo'><li>Todos</li></Link>     
           <li>Mais Procurados</li>
           <li>Em Alta</li>
           <li>Clássicos</li>
         </ul>
       </div>
+
+      {/* Modal de Favoritos */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Seus Favoritos</h2>
+              <button className="close-button" onClick={toggleModal}>
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </div>
+            <div className="modal-body">
+              {/* Conteúdo dos favoritos vai aqui */}
+              <p>Lista de livros favoritos aparecerá aqui</p>
+              {/* Exemplo de item de favorito */}
+              <div className="favorite-item">
+                <span>Nome do Livro Favorito</span>
+                <button className="remove-favorite">Remover</button>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="close-modal-button" onClick={toggleModal}>Fechar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

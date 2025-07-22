@@ -82,7 +82,7 @@ const MainHome = () => {
                     {books.map((book) => (
                         <RouteButton
                             key={book.id}
-                            path={`livro/${book.path}`}
+                            path={`/catalogo/livro/${book.path}`}
                             img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
                             style={{
                                 backgroundColor: 'transparent',

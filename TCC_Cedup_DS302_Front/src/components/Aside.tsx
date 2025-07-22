@@ -73,9 +73,12 @@ const Aside = ({onRatingChange, currentRating}: AsideProps) => {
                                             onMouseLeave={() => setHover(0)}
                                             size="2x" />
                                     </label>
+                                    
                                 </>
                             );
                         })}
+
+
                         { currentRating && (
                             <button
                                 onClick={() => onRatingChange(null)}

@@ -14,11 +14,29 @@ const Register = () => {
         telefone: '',
         rememberMe: false
     });
+    
     const [showData, setShowData] = useState(false);
+
+    const saveToDB = async (data: any) => {
+        try {
+            const resposnse =  await fetch('./UsersTest.json');
+            const db = await resposnse.json();
+
+            db.users.push(data);
+
+            const jsonData = JSON.stringify(data, null, 2);
+            console.log(jsonData); // Aqui você pode salvar o JSON em um arquivo ou enviar para um servidor
+        } catch (error) {
+            console.error('Erro ao converter dados para JSON:', error);
+        }
+    };
+
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setShowData(true);
+
+        saveToDB(formData);
     }
 
     const handleChange = (e: any) => {
@@ -137,6 +155,18 @@ const Register = () => {
 
                         <button type="submit" className="register-button">Confirmar</button>
                     </form>
+
+                    {/* {showData && (
+                        <div className="data-display">
+                            <h2>Dados do Formulário</h2>
+                            <p><strong>Nome Completo:</strong> {formData.nomeCompleto}</p>
+                            <p><strong>Email:</strong> {formData.email}</p>
+                            <p><strong>Senha:</strong> {formData.password}</p>
+                            <p><strong>CPF:</strong> {formData.cpf}</p>
+                            <p><strong>Telefone:</strong> {formData.telefone}</p>
+                            <p><strong>Lembrar-me:</strong> {formData.rememberMe ? 'Sim' : 'Não'}</p>
+                        </div>
+                    )} */}
                 </div>
             </section>
         </>

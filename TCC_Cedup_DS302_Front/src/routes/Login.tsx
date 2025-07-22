@@ -84,6 +84,7 @@ const Login = () => {
                     {showData && (
                         <div className="form-data-display">
                             <h3>Dados Informados:</h3>
+                            <p></p>
                             <p><strong>Email:</strong> {formData.email}</p>
                             <p><strong>Senha:</strong> {formData.password}</p>
                             <p><strong>Lembrar-me:</strong> {formData.rememberMe ? 'Sim' : 'Não'}</p>

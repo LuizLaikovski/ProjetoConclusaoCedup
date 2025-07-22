@@ -28,14 +28,10 @@ const BookSpecifications = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Remova os estados de rating e hover pois usaremos a avaliação do livro
-    // const [rating, setRating] = useState(0);
-    // const [hover, setHover] = useState(0);
-
     useEffect(() => {
         const loadBook = async () => {
             try {
-                const response = await fetch('/BooksTest.json');
+                const response = await fetch('/BooksTest.json');   // Altere para o JSON para a API
                 if (!response.ok) {
                     throw new Error('Falha ao carregar dados');
                 }
@@ -151,14 +147,14 @@ const BookSpecifications = () => {
                             </h1>
                         </div>
                         
-                        <RiskH grossura={2} largura={33} margens={20} />
+                        {/* <RiskH grossura={2} largura={33} margens={20} />
                         <div>
                             <h2>ADICIONAR AS IMAGENS DO LIVRO NESTE LOCAL</h2>
-                        </div>
+                        </div> */}
                         <RiskH grossura={2} largura={33} margens={20} />
                         <div className="book-details">
                             <h2 className="book-pages"><strong>Número de Paginas: </strong>{book.pags}</h2>
-                            <h2>Descrição</h2>
+                            <h2>Descrição:</h2>
                             <p>{book.descricao}</p>
                         </div>
                     </div>
