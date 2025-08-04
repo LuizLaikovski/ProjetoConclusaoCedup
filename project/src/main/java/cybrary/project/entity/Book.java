@@ -1,6 +1,7 @@
 package cybrary.project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -13,12 +14,13 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_book;
-    @NonNull
-    private String title;
-    @NonNull
-    private Integer author;
-    private String genre;
-    private Integer quant_pages;
-    @NonNull
-    private Integer image;
+    @NotBlank
+    private String book_title;
+//    @NonNull
+    private Integer book_author;
+    private String book_genre;
+    private Integer book_quant_pages;
+    private Double book_rating;
+//    @NonNull
+    private Integer book_image;
 }

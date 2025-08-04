@@ -1,10 +1,7 @@
 package cybrary.project.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "image")
@@ -16,6 +13,8 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_image;
+    @NonNull
     private String src;
+    @NonNull
     private String alt;
 }
