@@ -1,7 +1,9 @@
-package cybrary.project.service;
+package project.service;
 
-import cybrary.project.entity.Book;
-import cybrary.project.repository.BookRepository;
+import project.entity.Book;
+import project.repository.BookRepository;
+
+import java.util.List;
 
 @org.springframework.stereotype.Service
 public class BookService {
@@ -17,5 +19,9 @@ public class BookService {
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Book> listAll(){
+        return bookRepository.findAll();
     }
 }

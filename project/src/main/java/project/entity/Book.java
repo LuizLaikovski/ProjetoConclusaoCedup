@@ -1,4 +1,4 @@
-package cybrary.project.entity;
+package project.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

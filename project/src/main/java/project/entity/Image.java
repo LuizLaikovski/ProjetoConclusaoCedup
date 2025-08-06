@@ -1,6 +1,7 @@
-package cybrary.project.entity;
+package project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -13,8 +14,8 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_image;
-    @NonNull
-    private String src;
-    @NonNull
-    private String alt;
+    @NotBlank
+    private String image_src;
+    @NotBlank
+    private String image_alt;
 }

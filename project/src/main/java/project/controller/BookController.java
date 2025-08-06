@@ -1,9 +1,11 @@
-package cybrary.project.controller;
+package project.controller;
 
-import cybrary.project.entity.Book;
-import cybrary.project.service.BookService;
+import project.entity.Book;
+import project.service.BookService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/book")
 @org.springframework.stereotype.Controller
@@ -22,8 +24,9 @@ public class BookController {
     }
 
     @GetMapping()
-    public String list(){
-        return "";
+    public List<Book> list(){
+        List<Book> list = bookService.listAll();
+        return list;
     }
 
     @PutMapping()

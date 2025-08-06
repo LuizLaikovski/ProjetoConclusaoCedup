@@ -1,6 +1,6 @@
-package cybrary.project.repository;
+package project.repository;
 
-import cybrary.project.entity.Book;
+import project.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookRepository extends JpaRepository<Book, Long> {

@@ -1,6 +1,7 @@
-package cybrary.project.entity;
+package project.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.sql.Date;
@@ -15,9 +16,9 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_author;
-    @NonNull
-    private String name;
-    private Date year_born;
-    private Date year_death;
-    private String about;
+    @NotBlank
+    private String author_name;
+    private Date author_year_born;
+    private Date author_year_death;
+    private String author_about;
 }
