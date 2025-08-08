@@ -1,2 +1,3 @@
 # ProjetoConclusaoCedup
- Projeto de Conclusão do curso de desenvolvimento no Cedup Hermann Hering
+ Projeto de Conclusão de curso de desenvolvimento de sistemas na escola técnica Cedup Hermann Hering
+

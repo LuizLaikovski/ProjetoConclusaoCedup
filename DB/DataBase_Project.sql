@@ -3,20 +3,20 @@ USE PROJETO_CONCLUSAO_DS302;
 
 CREATE TABLE `author` (
   `id_author` int NOT NULL AUTO_INCREMENT,
-  `author_name` varchar(75) NOT NULL,
+  `author_name` varchar(255) NOT NULL,
   `author_year_born` date DEFAULT NULL,
   `author_year_death` date DEFAULT NULL,
-  `author_about` text,
+  `author_about` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_author`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `book` (
   `id_book` int NOT NULL AUTO_INCREMENT,
-  `book_title` varchar(100) NOT NULL,
-  `book_quant_pags` int NOT NULL,
-  `book_rating` decimal(2,2) DEFAULT NULL,
+  `book_title` varchar(255) NOT NULL,
+  `book_quant_pages` int DEFAULT NULL,
+  `book_rating` double DEFAULT NULL,
   PRIMARY KEY (`id_book`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `genre` (
   `id_genre` int NOT NULL AUTO_INCREMENT,
@@ -26,18 +26,18 @@ CREATE TABLE `genre` (
 
 CREATE TABLE `image` (
   `id_image` int NOT NULL AUTO_INCREMENT,
-  `image_src` text NOT NULL,
-  `image_alt` text NOT NULL,
+  `image_src` varchar(255) NOT NULL,
+  `image_alt` varchar(255) NOT NULL,
   PRIMARY KEY (`id_image`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `book_author` (
+CREATE TABLE `book_image` (
   `id_book` int NOT NULL,
-  `id_author` int NOT NULL,
-  PRIMARY KEY (`id_book`,`id_author`),
-  KEY `id_author_idx` (`id_author`),
-  CONSTRAINT `id_author_book` FOREIGN KEY (`id_author`) REFERENCES `author` (`id_author`),
-  CONSTRAINT `id_book_author` FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`)
+  `id_image` int NOT NULL,
+  PRIMARY KEY (`id_book`,`id_image`),
+  KEY `id_image_book_idx` (`id_image`),
+  CONSTRAINT `id_book_image` FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`),
+  CONSTRAINT `id_image_book` FOREIGN KEY (`id_image`) REFERENCES `image` (`id_image`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `book_genre` (
@@ -49,11 +49,11 @@ CREATE TABLE `book_genre` (
   CONSTRAINT `id_genre_book` FOREIGN KEY (`id_genre`) REFERENCES `genre` (`id_genre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `book_image` (
+CREATE TABLE `book_author` (
   `id_book` int NOT NULL,
-  `id_image` int NOT NULL,
-  PRIMARY KEY (`id_book`,`id_image`),
-  KEY `id_image_book_idx` (`id_image`),
-  CONSTRAINT `id_book_image` FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`),
-  CONSTRAINT `id_image_book` FOREIGN KEY (`id_image`) REFERENCES `image` (`id_image`)
+  `id_author` int NOT NULL,
+  PRIMARY KEY (`id_book`,`id_author`),
+  KEY `id_author_idx` (`id_author`),
+  CONSTRAINT `id_author_book` FOREIGN KEY (`id_author`) REFERENCES `author` (`id_author`),
+  CONSTRAINT `id_book_author` FOREIGN KEY (`id_book`) REFERENCES `book` (`id_book`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
