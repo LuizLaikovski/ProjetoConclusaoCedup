@@ -58,12 +58,6 @@
     transition: all 0.5s;
 }
 
-.form-group input:hover, input:focus {
-    border: 2px solid var(--secondary);
-    box-shadow: 0px 0px 0px 7px rgb( 255, 230, 153, 20%);
-    background-color: white;
-}
-
 
 .form-group h3 {
     color: var(--secondary);
@@ -110,6 +104,22 @@
 @media (max-width: 480px) {
     .container-login {
         padding: 1rem;
+        height: 70dvh;
+        width: 90dvw;
+        padding: 1rem;
+        border-radius: 30px;
+    }
+
+    .box {
+        margin-bottom: 63dvh;
+    }
+
+    .login-form .input-login {
+        width: 80dvw;
+    }
+
+    .login-button {
+        width: 80dvw;
     }
     
     .login-form {

@@ -1,6 +1,6 @@
 import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -32,19 +32,9 @@ const Header = () => {
       <div className='align-header'>
         {/* ADICIONAR A LOGO AQUI */}
         <img src="" alt="" />
-        <Link to="/home" className='link-to-home-header'>Home</Link>
 
-        <form className="search-container" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Digite sua busca..."
-            className="search-input"
-            value={searchBook.book}
-            onChange={handleChange}
-          />
-          <button type="submit" className="search-button">
-            <FontAwesomeIcon icon={faSearch} color='black' size='2x' />
-          </button>
+        <form className="search-container w-[25dvw]" onSubmit={handleSubmit}>
+            <FontAwesomeIcon icon={faSearch} color='white' size='2x' />
         </form>
 
         {showData && (
@@ -53,18 +43,12 @@ const Header = () => {
           </div>
         )}
 
-        <Link to="/login" className='link-to-login-header'>Faça seu Login</Link>
-        <button className='button-for-favorites-header' onClick={toggleModal}>
+        <Link to="/login" className='link-to-login-header'><FontAwesomeIcon icon={faUser} /></Link>
+
+        {/* BOTÃO QUE ABRE O MODAL DE FAVORITOS */}
+        {/* <button className='button-for-favorites-header' onClick={toggleModal}>
           <FontAwesomeIcon icon={faHeart} size='2x' className='favorite-book-header'/>
-        </button>
-      </div>
-      <div className='container-category-header'>
-        <ul>
-          <Link to='/catalogo'><li>Todos</li></Link>     
-          <li>Mais Procurados</li>
-          <li>Em Alta</li>
-          <li>Clássicos</li>
-        </ul>
+        </button> */}
       </div>
 
       {/* Modal de Favoritos */}

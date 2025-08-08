@@ -58,7 +58,7 @@
     transition: all 0.5s;
 }
 
-.form-group input:hover, input:focus {
+.form-group :hover, input:focus {
     border: 2px solid var(--secondary);
     box-shadow: 0px 0px 0px 7px rgb( 255, 230, 153, 20%);
     background-color: white;
@@ -108,7 +108,29 @@
 /* Responsividade */
 @media (max-width: 480px) {
     .container-register {
+        height: 87dvh;
+        width: 90dvw;
         padding: 1rem;
+        border-radius: 30px;
+    }
+
+    .box-register {
+        margin-bottom: 80dvh;
+    }
+
+    .container-register input {
+        width: 80dvw;
+    }
+
+    .form-group-small-box {
+        width: 80dvw;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+    }
+
+    .register-button {
+        width: 80dvw;
     }
     
     .register-form {

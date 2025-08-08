@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './css/Login.css';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import Checkbox from '../components/Checkbox';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -38,13 +39,14 @@ const Login = () => {
                 </div>
                 <div className="container-login">
                     <form className="login-form" onSubmit={handleSubmit}>
-                        <h1>Login</h1>
+                    <h1>Login</h1>
                         
                         <div className="form-group">
                             <input 
                                 type="email" 
                                 id="email" 
                                 name="email"
+                                className="input-login h-[5dvh] w-[20dvw]  placeholder-gray-400 text-black"
                                 placeholder="Digite seu Email" 
                                 required
                                 value={formData.email}
@@ -57,6 +59,7 @@ const Login = () => {
                                 type="password" 
                                 id="password" 
                                 name="password"
+                                className="input-login h-[5dvh] w-[20dvw] placeholder-gray-400 text-black"
                                 placeholder="Digite sua Senha"
                                 required
                                 value={formData.password}
@@ -65,18 +68,13 @@ const Login = () => {
                         </div>
 
                         <div className="form-group-small-box">
-                            <input 
-                                type="checkbox"
-                                id="rememberMe"
-                                name="rememberMe"
-                                checked={formData.rememberMe}
-                                onChange={handleChange}
-                            />
+
+                            <Checkbox checked={formData.rememberMe} onChange={handleChange} />
                             <label htmlFor="rememberMe">Lembrar-me</label>
                         </div>
                         
                         <button type="submit" className="login-button">Confirmar</button>
-                        <Link to="/cadastro" className='link-return'>Ainda não possuo uma conta</Link>
+                        <Link to="/cadastro" className='link-return underline'>Ainda não possuo uma conta</Link>
                     </form>
 
 

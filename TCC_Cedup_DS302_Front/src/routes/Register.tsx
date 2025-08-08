@@ -2,6 +2,7 @@ import './css/Register.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react';
+import Checkbox from '../components/Checkbox';
 
 const Register = () => {
 
@@ -88,6 +89,7 @@ const Register = () => {
                                 id="nomeCompleto"
                                 name="nomeCompleto"
                                 value={formData.nomeCompleto}
+                                className="h-[5dvh] w-[20dvw] placeholder-gray-400 text-black"
                                 placeholder="Digite seu nome completo"
                                 onChange={handleChange}
                                 required
@@ -100,6 +102,7 @@ const Register = () => {
                                 id="email"
                                 name="email"
                                 value={formData.email}
+                                className="h-[5dvh] w-[20dvw] placeholder-gray-400 text-black"
                                 placeholder="Digite seu Email" 
                                 onChange={handleChange}
                                 required 
@@ -112,6 +115,7 @@ const Register = () => {
                                 id="password"
                                 name="password"
                                 value={formData.password}
+                                className="h-[5dvh] w-[20dvw]  placeholder-gray-400 text-black"
                                 placeholder="Digite sua Senha"   // ••••••••
                                 onChange={handleChange}
                                 required 
@@ -124,6 +128,7 @@ const Register = () => {
                                 id="cpf"
                                 name="cpf"
                                 value={formData.cpf}
+                                className="h-[5dvh] w-[20dvw]  placeholder-gray-400 text-black"
                                 placeholder="Digite seu CPF"
                                 onChange={formatCPF}
                                 inputMode="numeric" // Teclado numérico em dispositivos móveis
@@ -137,26 +142,21 @@ const Register = () => {
                                 id="telefone"
                                 name="telefone"
                                 value={formData.telefone}
+                                className="h-[5dvh] w-[20dvw]  placeholder-gray-400 text-black"
                                 placeholder='Telefone(Opcional)'
                                 onChange={handleChange}
                             />
                         </div>
             
                         <div className="form-group-small-box">
-                            <input 
-                                type="checkbox"
-                                id="rememberMe"
-                                name="rememberMe"
-                                checked={formData.rememberMe}
-                                onChange={handleChange}
-                            />
-                            <h3>Lembrar-me</h3>
+                            <Checkbox checked={formData.rememberMe} onChange={handleChange} />
+                            <label htmlFor="rememberMe">Lembrar-me</label>
                         </div>
 
                         <button type="submit" className="register-button">Confirmar</button>
                     </form>
 
-                    {/* {showData && (
+                    {showData && (
                         <div className="data-display">
                             <h2>Dados do Formulário</h2>
                             <p><strong>Nome Completo:</strong> {formData.nomeCompleto}</p>
@@ -166,7 +166,7 @@ const Register = () => {
                             <p><strong>Telefone:</strong> {formData.telefone}</p>
                             <p><strong>Lembrar-me:</strong> {formData.rememberMe ? 'Sim' : 'Não'}</p>
                         </div>
-                    )} */}
+                    )}
                 </div>
             </section>
         </>

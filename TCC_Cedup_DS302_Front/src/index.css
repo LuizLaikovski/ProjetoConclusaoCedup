@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
     color: var(--white);
     font-family: "Pragati Narrow", sans-serif;

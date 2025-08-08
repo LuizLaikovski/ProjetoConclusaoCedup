@@ -5,7 +5,7 @@ interface RouteButtonProps {
     label?: React.ReactNode;
     img?: React.ReactNode;
     style?: React.CSSProperties;
-    classe?: string; // o ? antes do : quer dizer que é opcional
+    classe?: string;     // o ? antes do : quer dizer que é opcional
 }
 
 

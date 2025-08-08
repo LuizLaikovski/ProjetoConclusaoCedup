@@ -2,12 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Itim&family=Pragati+Narrow:wght@400;700&display=swap');
 
 :root {
-    --primary: #002147;
-    --primary-dark: #00152e;
-    --primary-clear: #002D61;
-    --secondary: #ffe699;
-    --secondary-dark: #ffdc75;
-    --secondary-clear: #ffefc1;
+    --primary: #003631;
+    --primary-dark: #001d1a;
+    --primary-clear: #014740;
+    --secondary: #ffeda8;
+    --secondary-dark: #bfb27f;
+    --secondary-clear: #fff4c9;
     --tertiary: #4d5c60;
     --yellow: #FFEA00;
     --white: rgba(255, 255, 255, 0.87);

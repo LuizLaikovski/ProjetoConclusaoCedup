@@ -14,7 +14,6 @@ const Home = () => {
         <>
             <section className="Home">
                 <Header />
-                <Aside onRatingChange={setMinRating} currentRating={minRating} />
                 <MainHome />
                 <Footer />
             </section>
