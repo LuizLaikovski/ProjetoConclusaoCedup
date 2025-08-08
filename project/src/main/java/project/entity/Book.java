@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "book")
 @Getter
@@ -14,13 +16,14 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_book;
+
     @NotBlank
+    @Column(nullable = false)
     private String book_title;
-//    @NonNull
-    private Integer book_author;
-    private String book_genre;
+
+    @Column(nullable = false)
     private Integer book_quant_pages;
+
+//    @Column(columnDefinition = "DECIMAL(2,2)")
     private Double book_rating;
-//    @NonNull
-    private Integer book_image;
 }

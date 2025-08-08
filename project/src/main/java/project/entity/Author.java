@@ -16,9 +16,14 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_author;
+
     @NotBlank
+    @Column(nullable = false)
     private String author_name;
+
     private Date author_year_born;
+
     private Date author_year_death;
+
     private String author_about;
 }
