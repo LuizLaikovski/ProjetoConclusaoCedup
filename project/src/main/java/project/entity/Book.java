@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "book")
@@ -24,6 +24,7 @@ public class Book {
     @Column(nullable = false)
     private Integer book_quant_pages;
 
-//    @Column(columnDefinition = "DECIMAL(2,2)")
+    private LocalDate book_date_published;
+
     private Double book_rating;
 }

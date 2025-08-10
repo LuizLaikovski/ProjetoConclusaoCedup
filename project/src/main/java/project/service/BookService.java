@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import project.entity.Book;
 import project.repository.BookRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -24,6 +25,9 @@ public class BookService {
             }
             if(book.getBook_quant_pages() != null && book.getBook_quant_pages() > 0){
                 book.setBook_quant_pages(book.getBook_quant_pages());
+            }
+            if(book.getBook_date_published() != null && !book.getBook_date_published().isAfter(LocalDate.now())){
+                book.setBook_date_published(book.getBook_date_published());
             }
 
             return bookRepository.save(book);
@@ -48,6 +52,7 @@ public class BookService {
         try {
             Book book_updated = bookRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Livro com id: "+id+" não encontrado!"));
+
             if(book.getBook_title() != null && !book.getBook_title().trim().isEmpty()){
                 book_updated.setBook_title(book.getBook_title().trim());
             }
@@ -56,6 +61,9 @@ public class BookService {
             }
             if(book.getBook_quant_pages() != null && book.getBook_quant_pages() > 0){
                 book_updated.setBook_quant_pages(book.getBook_quant_pages());
+            }
+            if(book_updated.getBook_date_published() != null && !book.getBook_date_published().isAfter(LocalDate.now())){
+                book_updated.setBook_date_published(book.getBook_date_published());
             }
             return bookRepository.save(book_updated);
         } catch (RuntimeException e) {
