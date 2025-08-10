@@ -55,8 +55,8 @@ public class BookController {
             bookService.delete_by_id(id);
 
             return ResponseEntity.ok("O objeto de id: "+id+" foi deletado com sucesso");
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+        } catch (RuntimeException e){
+            return ResponseEntity.notFound().build();
         }
     }
 }
