@@ -1,4 +1,5 @@
 CREATE SCHEMA PROJETO_CONCLUSAO_DS302;
+
 USE PROJETO_CONCLUSAO_DS302;
 
 CREATE TABLE `author` (
@@ -15,6 +16,7 @@ CREATE TABLE `book` (
   `book_title` varchar(255) NOT NULL,
   `book_quant_pages` int DEFAULT NULL,
   `book_rating` double DEFAULT NULL,
+  `book_date_published` date DEFAULT NULL,
   PRIMARY KEY (`id_book`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
