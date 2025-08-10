@@ -16,8 +16,8 @@ CREATE TABLE `book` (
   `book_title` varchar(255) NOT NULL,
   `book_quant_pages` int NOT NULL,
   `book_rating` double DEFAULT NULL,
-  `book_date_published` date DEFAULT NULL,
-  `book_description` text,
+  `book_date_published` DATE DEFAULT NULL,
+  `book_description` TEXT DEFAULT NULL,
   PRIMARY KEY (`id_book`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
