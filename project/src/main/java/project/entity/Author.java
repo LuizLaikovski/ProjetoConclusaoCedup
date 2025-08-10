@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "author")
@@ -21,9 +21,11 @@ public class Author {
     @Column(nullable = false)
     private String author_name;
 
-    private Date author_year_born;
+    private LocalDate author_year_born;
 
-    private Date author_year_death;
+    private LocalDate author_year_death;
 
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String author_about;
 }

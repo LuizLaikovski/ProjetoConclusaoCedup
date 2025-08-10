@@ -27,4 +27,8 @@ public class Book {
     private LocalDate book_date_published;
 
     private Double book_rating;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String book_description;
 }

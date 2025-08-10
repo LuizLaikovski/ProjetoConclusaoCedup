@@ -2,35 +2,34 @@ package project.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import project.entity.Book;
-import project.service.BookService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import project.entity.Author;
+import project.service.AuthorService;
 
 import java.util.List;
 
-@RequestMapping("/book")
+@RequestMapping("/author")
 @Controller
-public class BookController {
+public class AuthorController {
+    private final AuthorService service;
 
-    public final BookService service;
-
-    public BookController(BookService service) {
+    public AuthorController(AuthorService service) {
         this.service = service;
     }
 
-    @PostMapping()
-    public ResponseEntity<Book> create(@Validated @RequestBody Book book){
+    @PostMapping
+    public ResponseEntity<Author> create(@Validated @RequestBody Author author){
         try {
-            Book new_book = service.create(book);
-            return ResponseEntity.ok(new_book);
+            Author new_author = service.create(author);
+            return ResponseEntity.ok(new_author);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Book>> list(){
+    @GetMapping
+    public ResponseEntity<List<Author>> list_all(){
         try {
             return ResponseEntity.ok(service.list_all());
         } catch (RuntimeException e) {
@@ -39,13 +38,13 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Book book){
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Author author){
         try {
-            Book book_updated = service.update(id, book);
-            return ResponseEntity.ok(book_updated);
-        } catch (RuntimeException e) {
+            Author author_updated = service.update(id, author);
+            return ResponseEntity.ok(author_updated);
+        } catch(IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
+        } catch(Exception e){
             return ResponseEntity.internalServerError().body("Erro ao atualizar livro");
         }
     }
@@ -55,8 +54,8 @@ public class BookController {
         try {
             service.delete_by_id(id);
 
-            return ResponseEntity.ok("O livro de id: "+id+" foi deletado com sucesso");
-        } catch (RuntimeException e){
+            return ResponseEntity.ok("O author de id: "+id+" foi deletado com sucesso");
+        } catch(RuntimeException e){
             return ResponseEntity.notFound().build();
         }
     }

@@ -7,18 +7,19 @@ CREATE TABLE `author` (
   `author_name` varchar(255) NOT NULL,
   `author_year_born` date DEFAULT NULL,
   `author_year_death` date DEFAULT NULL,
-  `author_about` varchar(255) DEFAULT NULL,
+  `author_about` TEXT DEFAULT NULL,
   PRIMARY KEY (`id_author`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `book` (
   `id_book` int NOT NULL AUTO_INCREMENT,
   `book_title` varchar(255) NOT NULL,
-  `book_quant_pages` int DEFAULT NULL,
+  `book_quant_pages` int NOT NULL,
   `book_rating` double DEFAULT NULL,
   `book_date_published` date DEFAULT NULL,
+  `book_description` text,
   PRIMARY KEY (`id_book`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `genre` (
   `id_genre` int NOT NULL AUTO_INCREMENT,
