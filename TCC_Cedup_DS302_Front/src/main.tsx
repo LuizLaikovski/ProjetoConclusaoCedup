@@ -11,6 +11,7 @@ import BookSpecifications from './routes/BookSpecifications.tsx';
 import Register from './routes/Register.tsx';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Search from './routes/Search.tsx';
 
 
 const router = createBrowserRouter([
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/cadastro",
     element: <Register />
+  },
+  {
+    path: "/pesquisa",
+    element: <Search />, // Usando o mesmo layout principal
   },
   {
     path: "/catalogo",

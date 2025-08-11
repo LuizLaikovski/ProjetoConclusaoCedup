@@ -1,6 +1,6 @@
 import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -29,13 +29,12 @@ const Header = () => {
 
   return (
     <header className='header'>
-      <div className='align-header'>
+      <div className='align-header '>
         {/* ADICIONAR A LOGO AQUI */}
         <img src="" alt="" />
 
-        <form className="search-container w-[25dvw]" onSubmit={handleSubmit}>
-            <FontAwesomeIcon icon={faSearch} color='white' size='2x' />
-        </form>
+        <Link to="/" className='link-to-home-header'><FontAwesomeIcon icon={faHouse} color='white' size='2x' /></Link>
+        <Link to="/pesquisa" className='link-to-search-header'><FontAwesomeIcon icon={faSearch} color='white' size='2x' /></Link>
 
         {showData && (
           <div>

@@ -1,59 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import Aside from '../components/Aside';
-import './css/MainHome.css';
+import { useState, useEffect, useRef } from 'react';
 import RouteButton from './RouteButton';
 import BookImage from './BookImage';
 
 interface Book {
     id: number;
     titulo: string;
-    autor: string;
-    genero?: string;
-    descricao?: string;
-    pags?: number;
-    path: string;
     arquivo: {
         src: string;
         alt: string;
     };
+    path: string;
     avaliacao: number;
 }
 
 const MainHome = () => {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [minRating, setMinRating] = useState<number | null>(null);
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const [showControls, setShowControls] = useState(false);
 
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                // 1. Verificação de ambiente
-                const jsonPath = '/BooksTest.json';
-                
-                // 2. Fetch com tratamento completo
-                const response = await fetch(jsonPath);
-                
-                if (!response.ok) {
-                    throw new Error(`Erro ${response.status}: ${response.statusText}`);
-                }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType?.includes('application/json')) {
-                    throw new Error('Resposta não é JSON');
-                }
-                
+                const response = await fetch('/BooksTest.json');
                 const data = await response.json();
-                
-                // 3. Validação dos dados
-                if (!data.books || !Array.isArray(data.books)) {
-                    throw new Error('Formato de dados inválido');
-                }
-                
-                setBooks(data.books);
-            } catch (err) {
-                console.error('Erro na requisição:', err);
-                setError(err instanceof Error ? err.message : 'Erro desconhecido');
+                setBooks(data.books || []);
+            } catch (error) {
+                console.error("Error loading books:", error);
             } finally {
                 setLoading(false);
             }
@@ -62,39 +35,81 @@ const MainHome = () => {
         fetchBooks();
     }, []);
 
+    const scrollLeft = () => {
+        if (carouselRef.current) {
+            carouselRef.current.scrollBy({
+                left: -300,
+                behavior: 'smooth'
+            });
+        }
+    };
+
+    const scrollRight = () => {
+        if (carouselRef.current) {
+            carouselRef.current.scrollBy({
+                left: 300,
+                behavior: 'smooth'
+            });
+        }
+    };
+
     if (loading) {
-        return (
-            <div className="loading-container">
-                <div className="spinner"></div>
-                <p>Carregando catálogo...</p>
-            </div>
-        );
+        return <div className="text-center py-8">Carregando livros...</div>;
     }
 
-    if (error) {
-        console.warn('Erro carregando dados:', error);
+    if (books.length === 0) {
+        return <div className="text-center py-8">Nenhum livro disponível</div>;
     }
 
     return (
-        <main className="MainHome">
-            <div className="main-content-home">
-                <div className="books-grid">
+        <div 
+            className="relative w-full max-w-full mx-auto my-8 px-8"
+            onMouseEnter={() => setShowControls(true)}
+            onMouseLeave={() => setShowControls(false)}
+        >
+            <h2 className="text-xl font-bold mb-4 ml-2">Catálogo de Livros</h2>
+            
+            <div className="relative">
+                {/* Botão esquerdo */}
+                <button 
+                    onClick={scrollLeft}
+                    className={`border-8 absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black bg-opacity-70 text-white rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
+                    aria-label="Scroll left"
+                >
+                    <span className="text-2xl font-bold">&#8249;</span>
+                </button>
+
+                {/* Carrossel */}
+                <div 
+                    ref={carouselRef}
+                    className="flex overflow-x-auto scrollbar-hide space-x-4 py-4 px-2"
+                    style={{ scrollSnapType: 'x mandatory' }}
+                >
                     {books.map((book) => (
-                        <RouteButton
+                        <div 
                             key={book.id}
-                            path={`/catalogo/livro/${book.path}`}
-                            img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
-                            style={{
-                                backgroundColor: 'transparent',
-                                border: 'none',
-                                padding: 0,
-                                cursor: 'pointer'
-                            }}
-                        />
+                            className="flex-shrink-0 w-48 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105 hover:z-10"
+                            style={{ scrollSnapAlign: 'start' }}
+                        >
+                            <RouteButton 
+                                img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
+                                classe="h-[28dvh]"
+                                path={`/catalogo/livro/${book.path}`}
+                            />
+                        </div>
                     ))}
                 </div>
+
+                {/* Botão direito */}
+                <button 
+                    onClick={scrollRight}
+                    className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black bg-opacity-70 text-white rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
+                    aria-label="Scroll right"
+                >
+                    <span className="text-2xl font-bold">&#8250;</span>
+                </button>
             </div>
-        </main>
+        </div>
     );
 };
 
