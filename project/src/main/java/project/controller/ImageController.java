@@ -2,35 +2,37 @@ package project.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import project.entity.Book;
-import project.service.BookService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import project.entity.Book;
+import project.entity.Image;
+import project.service.ImageService;
 
 import java.util.List;
 
-@RequestMapping("/book")
+@RequestMapping("/image")
 @Controller
-public class BookController {
+public class ImageController {
 
-    public final BookService service;
+    private final ImageService service;
 
-    public BookController(BookService service) {
+    public ImageController(ImageService service) {
         this.service = service;
     }
 
-    @PostMapping()
-    public ResponseEntity<Book> create(@Validated @RequestBody Book book){
+    @PostMapping
+    public ResponseEntity<Image> create(@RequestBody @Validated Image image){
         try {
-            Book new_book = service.create(book);
-            return ResponseEntity.ok(new_book);
+            Image new_image = service.create(image);
+
+            return ResponseEntity.ok(new_image);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Book>> list(){
+    @GetMapping
+    public ResponseEntity<List<Image>> list_all(){
         try {
             return ResponseEntity.ok(service.list_all());
         } catch (RuntimeException e) {
@@ -39,14 +41,14 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Book book){
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Image image){
         try {
-            Book book_updated = service.update(id, book);
-            return ResponseEntity.ok(book_updated);
+            Image image_updated = service.update(id, image);
+            return ResponseEntity.ok(image_updated);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao atualizar livro");
+            return ResponseEntity.internalServerError().body("Erro ao atualizar a imagem");
         }
     }
 
@@ -54,9 +56,8 @@ public class BookController {
     public ResponseEntity<String> delete_by_id(@PathVariable Long id){
         try {
             service.delete_by_id(id);
-
-            return ResponseEntity.ok("Livro de id: "+id+" foi deletado com sucesso");
-        } catch (RuntimeException e){
+            return ResponseEntity.ok("Imagem de id: "+id+" deletada com sucesso");
+        } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
