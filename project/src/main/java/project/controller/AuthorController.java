@@ -1,7 +1,6 @@
 package project.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import project.model.Author;
 import project.service.AuthorService;
@@ -18,7 +17,7 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<Author> create(@RequestBody @Validated Author book){
+    public ResponseEntity<Author> create(@RequestBody Author book){
         try {
             return ResponseEntity.ok().body(authorService.create(book));
         } catch (RuntimeException e) {

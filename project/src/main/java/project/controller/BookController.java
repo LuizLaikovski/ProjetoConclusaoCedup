@@ -2,7 +2,6 @@ package project.controller;
 
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import project.model.Book;
 import project.service.BookService;
@@ -19,7 +18,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<Book> create(@RequestBody @Validated Book book){
+    public ResponseEntity<Book> create(@RequestBody Book book){
         try {
             return ResponseEntity.ok().body(bookService.create(book));
         } catch (RuntimeException e) {
