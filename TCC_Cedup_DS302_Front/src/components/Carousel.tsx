@@ -1,0 +1,122 @@
+import { useState, useEffect, useRef } from 'react';
+import RouteButton from './RouteButton';
+import BookImage from './BookImage';
+
+interface Book {
+    id: number;
+    titulo: string;
+    arquivo: {
+        src: string;
+        alt: string;
+    };
+    path: string;
+    avaliacao: number;
+}
+
+interface CarouselProps {
+    minBooks: number,
+    maxBooks: number
+}
+
+const Carousel = ({minBooks, maxBooks}: CarouselProps) => {
+    const [books, setBooks] = useState<Book[]>([]);
+    const [loading, setLoading] = useState(true);
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const [showControls, setShowControls] = useState(false);
+
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                const response = await fetch('/BooksTest.json');
+                const data = await response.json();
+                setBooks(data.books || []);
+            } catch (error) {
+                console.error("Error loading books:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBooks();
+    }, []);
+
+    const scrollLeft = () => {
+        if (carouselRef.current) {
+            carouselRef.current.scrollBy({
+                left: -300,
+                behavior: 'smooth'
+            });
+        }
+    };
+
+    const scrollRight = () => {
+        if (carouselRef.current) {
+            carouselRef.current.scrollBy({
+                left: 300,
+                behavior: 'smooth'
+            });
+        }
+    };
+
+    if (loading) {
+        return <div className="text-center py-8">Carregando livros...</div>;
+    }
+
+    if (books.length === 0) {
+        return <div className="text-center py-8">Nenhum livro disponível</div>;
+    }
+
+    return (
+        <>
+            <div
+                className="relative w-full max-w-full mx-auto my-8 px-8"
+                onMouseEnter={() => setShowControls(true)}
+                onMouseLeave={() => setShowControls(false)}
+            >
+
+                <div className="carrousel relative h-[32.5dvh] overflow-hidden">
+                    {/* Botão esquerdo */}
+                    <button
+                        onClick={scrollLeft}
+                        className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black bg-opacity-70 text-white rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
+                        style={{ backgroundColor: 'var(--primary-clear)' }}
+                        aria-label="Scroll left"
+                    >
+                        <span className="text-2xl font-bold">&#8249;</span>
+                    </button>
+
+                    {/* Carrossel  */}
+                    <div
+                        ref={carouselRef}
+                        className="flex h-[45dvh] overflow-x-auto scrollbar-hide space-x-4 py-4 px-2"
+                        style={{ scrollSnapType: 'x mandatory' }}
+                    >
+                        {books.slice(minBooks, maxBooks).map((book) => (
+                            <div
+                                key={book.id}
+                                className="flex-shrink-0 w-auto rounded-lg overflow-hidden transition-transform hover:scale-105 hover:z-10"
+                                style={{ scrollSnapAlign: 'start' }}
+                            >
+                                <RouteButton
+                                    img={<BookImage src={book.arquivo.src} alt={book.titulo}/>}
+                                    path={`/catalogo/livro/${book.path}`} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Botão direito */}
+                    <button
+                        onClick={scrollRight}
+                        className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-opacity-70 rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
+                        style={{ backgroundColor: 'var(--primary-clear)' }}
+                        aria-label="Scroll right"
+                    >
+                        <span className="text-2xl font-bold">&#8250;</span>
+                    </button>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default Carousel;

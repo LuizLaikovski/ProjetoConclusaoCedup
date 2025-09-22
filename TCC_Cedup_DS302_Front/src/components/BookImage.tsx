@@ -4,19 +4,20 @@ import { useState } from "react";
 interface BookImageProps {
     src: string,
     alt: string,
+    classe?: string;
     style?: CSSProperties;
 }
 
-const BookImage = ({ src, alt, style}: BookImageProps) => {
+const BookImage = ({ src, alt, style, classe}: BookImageProps) => {
         const [imgSrc, setImgSrc] = useState(src);
         
         return (
             <img
                 src={imgSrc}
                 alt={alt}
-                className="images-main images-catalog"
+                className={`images-main images-catalog ${classe}`}
                 onError={() => setImgSrc('/Cover/default-book.jpg')}
-                style={style}
+                style={{height: "25dvh"}}
             />
         );
     };

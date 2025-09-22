@@ -1,115 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
-import RouteButton from './RouteButton';
-import BookImage from './BookImage';
+import Carousel from './Carousel';
 
-interface Book {
-    id: number;
-    titulo: string;
-    arquivo: {
-        src: string;
-        alt: string;
-    };
-    path: string;
-    avaliacao: number;
-}
 
 const MainHome = () => {
-    const [books, setBooks] = useState<Book[]>([]);
-    const [loading, setLoading] = useState(true);
-    const carouselRef = useRef<HTMLDivElement>(null);
-    const [showControls, setShowControls] = useState(false);
-
-    useEffect(() => {
-        const fetchBooks = async () => {
-            try {
-                const response = await fetch('/BooksTest.json');
-                const data = await response.json();
-                setBooks(data.books || []);
-            } catch (error) {
-                console.error("Error loading books:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchBooks();
-    }, []);
-
-    const scrollLeft = () => {
-        if (carouselRef.current) {
-            carouselRef.current.scrollBy({
-                left: -300,
-                behavior: 'smooth'
-            });
-        }
-    };
-
-    const scrollRight = () => {
-        if (carouselRef.current) {
-            carouselRef.current.scrollBy({
-                left: 300,
-                behavior: 'smooth'
-            });
-        }
-    };
-
-    if (loading) {
-        return <div className="text-center py-8">Carregando livros...</div>;
-    }
-
-    if (books.length === 0) {
-        return <div className="text-center py-8">Nenhum livro disponível</div>;
-    }
-
     return (
-        <div 
-            className="relative w-full max-w-full mx-auto my-8 px-8"
-            onMouseEnter={() => setShowControls(true)}
-            onMouseLeave={() => setShowControls(false)}
-        >
-            <h2 className="text-xl font-bold mb-4 ml-2">Catálogo de Livros</h2>
-            
-            <div className="relative">
-                {/* Botão esquerdo */}
-                <button 
-                    onClick={scrollLeft}
-                    className={`border-8 absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black bg-opacity-70 text-white rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
-                    aria-label="Scroll left"
-                >
-                    <span className="text-2xl font-bold">&#8249;</span>
-                </button>
-
-                {/* Carrossel */}
-                <div 
-                    ref={carouselRef}
-                    className="flex overflow-x-auto scrollbar-hide space-x-4 py-4 px-2"
-                    style={{ scrollSnapType: 'x mandatory' }}
-                >
-                    {books.map((book) => (
-                        <div 
-                            key={book.id}
-                            className="flex-shrink-0 w-48 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105 hover:z-10"
-                            style={{ scrollSnapAlign: 'start' }}
-                        >
-                            <RouteButton 
-                                img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
-                                classe="h-[28dvh]"
-                                path={`/catalogo/livro/${book.path}`}
-                            />
-                        </div>
-                    ))}
-                </div>
-
-                {/* Botão direito */}
-                <button 
-                    onClick={scrollRight}
-                    className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black bg-opacity-70 text-white rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
-                    aria-label="Scroll right"
-                >
-                    <span className="text-2xl font-bold">&#8250;</span>
-                </button>
-            </div>
-        </div>
+        <>  
+            {/* <h1 className='ml-96 text-4xl mt-[30dvh]'>Carousel 1</h1> */}
+            <Carousel minBooks={0} maxBooks={9} />
+            {/* <h1 className="ml-96 text-4xl">Carousel 2</h1> */}
+            <Carousel minBooks={10} maxBooks={19} />
+            {/* <h1 className='ml-96 text-4xl'>Carousel 3</h1> */}
+            <Carousel minBooks={20} maxBooks={29} />
+        </>
     );
 };
 

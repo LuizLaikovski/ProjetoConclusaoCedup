@@ -4,6 +4,7 @@ import './css/Login.css';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Checkbox from '../components/Checkbox';
+import Footer from '../components/Footer';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -89,6 +90,7 @@ const Login = () => {
                         </div>
                     )}
                 </div>
+                <Footer />
             </section>
         </>
     );

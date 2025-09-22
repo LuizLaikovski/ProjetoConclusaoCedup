@@ -1,11 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../components/Header";
 import RouteButton from "../components/RouteButton";
-import './css/BookSpecifications.css';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import RiskH from "../components/RiskH";
+import Footer from "../components/Footer";
 
 interface Book {
     id: number;
@@ -19,7 +18,7 @@ interface Book {
         src: string;
         alt: string;
     };
-    avaliacao: number; // Adicione esta propriedade à interface
+    avaliacao: number;
 }
 
 const BookSpecifications = () => {
@@ -31,7 +30,7 @@ const BookSpecifications = () => {
     useEffect(() => {
         const loadBook = async () => {
             try {
-                const response = await fetch('/BooksTest.json');   // Altere para o JSON para a API
+                const response = await fetch('/BooksTest.json');
                 if (!response.ok) {
                     throw new Error('Falha ao carregar dados');
                 }
@@ -111,7 +110,8 @@ const BookSpecifications = () => {
                     icon={faStar}
                     className="star-icon"
                     style={{
-                        color: ratingValue <= rating ? "#ffc107" : "#e4e5e9"
+                        color: ratingValue <= rating ? "#ffc107" : "#e4e5e9",
+                        height: "25px"
                     }}
                 />
             );
@@ -120,53 +120,26 @@ const BookSpecifications = () => {
 
     return (
         <>
-            <main className="book-specifications-main">
-                <Header />
-                <div className="book-specifications-container">
-                    <div className="book-cover-container">
-                        <img 
-                            src={book.arquivo.src} 
-                            alt={book.arquivo.alt} 
-                            className="book-cover"
-                            onError={(e) => {
-                                e.currentTarget.src = '/Cover/default-book.jpg';
-                                e.currentTarget.alt = 'Capa padrão';
-                            }}
-                        />
+            <Header />
+            <main className="book-specifications-main flex justify-center items-center flex-col w-[100dvw] h-auto" style={{margin: "20px"}}>
+                <div className="bg-white h-auto w-[90dvw] text-black rounded-2xl shadow-2xl flex justify-center items-center flex-col" style={{padding: "15px"}}>
+                    <img src={book.arquivo.src} alt={book.arquivo.alt} className="h-50 shadow-2xl" />
+                    <h1 className="text-3xl text-center">{book.titulo}</h1>
+                    <div className="avaliation-starts-book">
+                        {renderStars(book.avaliacao)}
                     </div>
-                    
-                    <div className="book-info">
-                        <h1 className="book-title">{book.titulo}</h1>
-                        <h2 className="book-author"><strong>Autor: </strong>{book.autor}</h2>
-                        <h2 className="book-author"><strong>Gênero: </strong>{book.genero}</h2>
-
-                        <div className="avaliation-starts-book">
-                            {renderStars(book.avaliacao)}
-                            <h1 style={{ fontSize: '5dvh', margin: '0 0 0 10px' }}>
-                                {book.avaliacao.toFixed(1)} {/* Mostra a avaliação com 1 casa decimal */}
-                            </h1>
-                        </div>
-                        
-                        {/* <RiskH grossura={2} largura={33} margens={20} />
-                        <div>
-                            <h2>ADICIONAR AS IMAGENS DO LIVRO NESTE LOCAL</h2>
-                        </div> */}
-                        <RiskH grossura={2} largura={33} margens={20} />
-                        <div className="book-details">
-                            <h2 className="book-pages"><strong>Número de Paginas: </strong>{book.pags}</h2>
-                            <h2>Descrição:</h2>
-                            <p>{book.descricao}</p>
-                        </div>
-                    </div>
-                    <div className="book-archiver-actions">
-                        <div className="book-archiver-actions-container">
-                            <button className="primary-button button-archiver">Download</button>
-                            <button className="primary-button button-archiver">Favoritar</button>
-                            <RouteButton path="/home" label='Voltar a Tela Inicial' classe="primary-button button-archiver" />
-                        </div>
-                    </div>
+                    <h1>{book.autor}</h1>
+                    <h1>Quantidade de Páginas: {book.pags}</h1>
+                    <h1>Gênero: {book.genero}</h1>
                 </div>
+
+                <div className="bg-white h-auto w-[90dvw] text-black rounded-2xl shadow-2xl flex justify-center items-center flex-col text-justify" style={{padding: "15px", marginTop: "30px"}}>
+                    <h1>{book.descricao}</h1>
+                </div>
+
+                <button className="primary-button w-[80dvw] text-2xl">Leia Agora</button>
             </main>
+            <Footer />
         </>
     );
 };

@@ -42,9 +42,7 @@ function App() {
         alignItems: 'center',
         flexDirection: 'column'
       }}>  
-
         <Outlet />
-
       </div>
     </>
   )

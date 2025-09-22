@@ -6,12 +6,7 @@ const ErrorPage = () => {
 
     return(
         <>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column'
-            }}>
+            <div className="flex justify-center items-center flex-col text-black">
                 <h1>Error Page 404!</h1>
 
 

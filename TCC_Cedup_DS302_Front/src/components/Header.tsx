@@ -1,80 +1,113 @@
 import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faHeart, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Header = () => {
   const [searchBook, setSearchBook] = useState({
     book: ''
   });
 
-  const [showData, setShowData] = useState(false);
-  const [showModal, setShowModal] = useState(false); // Estado para controlar a visibilidade do modal
+  const [showAside, setShowAside] = useState(false);
+  const asideRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (e: any) => {
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showAside && asideRef.current && !asideRef.current.contains(event.target as Node)) {
+        setShowAside(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showAside]);
+
+  const toggleAside = () => {
+    setShowAside(!showAside);
+  }
+
+  // Função para lidar com o envio do formulário de busca
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setShowData(true);
-    console.log('Busca:', searchBook.book);
+    console.log('Livro buscado:', searchBook.book);
+    // Aqui você normalmente faria uma requisição à API
   };
 
-  const handleChange = (e: any) => {
+  // Função para atualizar o estado da busca
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchBook({ book: value });
   };
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
-
   return (
-    <header className='header'>
-      <div className='align-header '>
-        {/* ADICIONAR A LOGO AQUI */}
-        <img src="" alt="" />
+    <header className='header w-[100%]'>
+      <div className='align-header'>
+        <Link to="/" className='logo-link'>
+        </Link>
 
-        <Link to="/" className='link-to-home-header'><FontAwesomeIcon icon={faHouse} color='white' size='2x' /></Link>
-        <Link to="/pesquisa" className='link-to-search-header'><FontAwesomeIcon icon={faSearch} color='white' size='2x' /></Link>
+      
 
-        {showData && (
-          <div>
-            <p>dados enviados para a requisição: {searchBook.book}</p>
-          </div>
+        <form onSubmit={handleSubmit} className='form-search-book-header'>
+          <input
+            type="text"
+            name="book"
+            placeholder='Buscar livro...'
+            value={searchBook.book}
+            onChange={handleChange}
+            className='input-search-book-header'
+          />
+          <button type="submit" className='button-submit-search-book-header'>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </form>
+
+        <nav className='main-navigation'>
+          <ul>
+            <li className='flex justify-center items-center'>
+              <Link to="/">
+                <FontAwesomeIcon icon={faHouse} size='lg' />
+                <span className='text-[20px]'>Início</span>
+              </Link>
+            </li>
+            <li className='flex justify-center items-center'>
+              <Link to="/perfil">
+                <FontAwesomeIcon icon={faUser} />
+                <span className='text-[20px]'>Perfil</span>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        {/* Botão do menu mobile */}
+        <button className='mobile-menu-button' onClick={toggleAside}>
+          <FontAwesomeIcon icon={showAside ? faTimes : faBars} />
+        </button>
+
+        {/* Menu lateral para mobile */}
+        {showAside && (
+          <aside className='mobile-aside' ref={asideRef}>
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/" onClick={toggleAside}>
+                    <FontAwesomeIcon icon={faHouse} />
+                    <span>Início</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/perfil" onClick={toggleAside}>
+                    <FontAwesomeIcon icon={faUser} />
+                    <span>Perfil</span>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </aside>
         )}
-
-        <Link to="/login" className='link-to-login-header'><FontAwesomeIcon icon={faUser} /></Link>
-
-        {/* BOTÃO QUE ABRE O MODAL DE FAVORITOS */}
-        {/* <button className='button-for-favorites-header' onClick={toggleModal}>
-          <FontAwesomeIcon icon={faHeart} size='2x' className='favorite-book-header'/>
-        </button> */}
       </div>
-
-      {/* Modal de Favoritos */}
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Seus Favoritos</h2>
-              <button className="close-button" onClick={toggleModal}>
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-            </div>
-            <div className="modal-body">
-              {/* Conteúdo dos favoritos vai aqui */}
-              <p>Lista de livros favoritos aparecerá aqui</p>
-              {/* Exemplo de item de favorito */}
-              <div className="favorite-item">
-                <span>Nome do Livro Favorito</span>
-                <button className="remove-favorite">Remover</button>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button className="close-modal-button" onClick={toggleModal}>Fechar</button>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 };

@@ -5,7 +5,7 @@
     --primary: #003631;
     --primary-dark: #001d1a;
     --primary-clear: #014740;
-    --secondary: #ffeda8;
+    --secondary: #ffeea8b2;
     --secondary-dark: #bfb27f;
     --secondary-clear: #fff4c9;
     --tertiary: #4d5c60;
@@ -17,6 +17,7 @@
     margin: 0 0 0 0;
     padding: 0 0 0 0;
 }
+
 
 body {
     overflow-x: hidden;
@@ -53,7 +54,7 @@ input[type='checkbox'] {
 
 .primary-button:hover {
     background-color: var(--white);
-    border: 4px var(--primary-clear) solid;
+    border: 2px var(--primary-clear) solid;
     color: var(--primary-clear);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
