@@ -1,6 +1,6 @@
-package project.controller;
+package project.controller.solo;
 
-
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.model.Book;
@@ -10,12 +10,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/book")
+@AllArgsConstructor
 public class BookController {
     private final BookService bookService;
 
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
+//    public BookController(BookService bookService) {
+//        this.bookService = bookService;
+//    }
 
     @PostMapping
     public ResponseEntity<Book> create(@RequestBody Book book){
@@ -27,9 +28,9 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> listAll(){
+    public ResponseEntity<List<Book>> getAll(){
         try {
-            return ResponseEntity.ok(bookService.listAll());
+            return ResponseEntity.ok(bookService.getAll());
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

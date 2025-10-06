@@ -1,15 +1,20 @@
-package project.model.dto;
+package project.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.model.Author;
 import project.model.Book;
+import project.model.Image;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookAuthorDTO {
+public class BookAuthorsDTO {
     private Book book;
-    private Author author;
+    private List<Author> authors;
+    private List<Image> imagesBook;
+    private List<Image> imagesAuthor;
 }

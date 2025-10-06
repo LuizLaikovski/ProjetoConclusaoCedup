@@ -1,7 +1,9 @@
 package project.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.model.Book;
+import project.model.Image;
 import project.repository.BookRepository;
 
 import java.time.LocalDate;
@@ -32,6 +34,12 @@ public class BookService {
             if(book.getDescription() != null && !book.getDescription().trim().isBlank()){
                 book.setDescription(book.getDescription().trim());
             }
+            if(book.getAuthors() != null && !book.getAuthors().isEmpty()){
+                book.setAuthors(book.getAuthors());
+            }
+            if(book.getImages() != null && !book.getImages().isEmpty()){
+                book.setImages(book.getImages());
+            }
 
             return bookRepository.save(book);
         } catch (RuntimeException e) {
@@ -39,9 +47,17 @@ public class BookService {
         }
     }
 
-    public List<Book> listAll(){
+    public List<Book> getAll(){
         try {
             return bookRepository.findAll();
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Book get(String id){
+        try {
+            return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
@@ -55,6 +71,7 @@ public class BookService {
         }
     }
 
+    @Transactional
     public Book update(String id, Book book){
         try {
             Book newBook = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("livro de id:"+id+" não encontrado!"));
@@ -74,11 +91,16 @@ public class BookService {
             if(book.getDescription() != null && !book.getDescription().trim().isBlank()){
                 newBook.setDescription(book.getDescription().trim());
             }
+            if(book.getAuthors() != null && !book.getAuthors().isEmpty()){
+                newBook.setAuthors(book.getAuthors());
+            }
+            if(book.getImages() != null && !book.getImages().isEmpty()){
+                newBook.setImages(book.getImages());
+            }
 
             return bookRepository.save(book);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

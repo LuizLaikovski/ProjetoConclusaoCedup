@@ -1,5 +1,6 @@
-package project.controller;
+package project.controller.solo;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.model.Author;
@@ -9,12 +10,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/author")
+@AllArgsConstructor
 public class AuthorController {
     private final AuthorService authorService;
 
-    public AuthorController(AuthorService authorService) {
-        this.authorService = authorService;
-    }
+//    public AuthorController(AuthorService authorService) {
+//        this.authorService = authorService;
+//    }
 
     @PostMapping
     public ResponseEntity<Author> create(@RequestBody Author book){
@@ -26,9 +28,18 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Author>> listAll(){
+    public ResponseEntity<List<Author>> getAll(){
         try {
-            return ResponseEntity.ok(authorService.listAll());
+            return ResponseEntity.ok(authorService.getAll());
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Author> get(@PathVariable String id){
+        try {
+            return ResponseEntity.ok(authorService.get(id));
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
