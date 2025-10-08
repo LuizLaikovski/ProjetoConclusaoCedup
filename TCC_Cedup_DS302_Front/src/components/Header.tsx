@@ -1,8 +1,9 @@
 import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faHeart, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import RouteButton from './RouteButton';
 
 const Header = () => {
   const [searchBook, setSearchBook] = useState({
@@ -11,6 +12,7 @@ const Header = () => {
 
   const [showAside, setShowAside] = useState(false);
   const asideRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate(); // Hook para navegação
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -32,14 +34,28 @@ const Header = () => {
   // Função para lidar com o envio do formulário de busca
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Livro buscado:', searchBook.book);
-    // Aqui você normalmente faria uma requisição à API
+    
+    // Remove espaços extras e verifica se não está vazio
+    const searchTerm = searchBook.book.trim();
+    
+    if (searchTerm) {
+      // Codifica o termo de busca para URL (trata caracteres especiais)
+      const encodedSearchTerm = encodeURIComponent(searchTerm);
+      
+      // Navega para a rota de pesquisa
+      navigate(`/search/${encodedSearchTerm}`);
+    }
   };
 
-  // Função para atualizar o estado da busca
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRealTimeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchBook({ book: value });
+    
+    // Se quiser busca em tempo real enquanto digita, descomente abaixo:
+    const searchTerm = value.trim();
+    if (searchTerm) {
+      navigate(`/search/${encodeURIComponent(searchTerm)}`);
+    }
   };
 
   return (
@@ -48,17 +64,16 @@ const Header = () => {
         <Link to="/" className='logo-link'>
         </Link>
 
-      
-
-        <form onSubmit={handleSubmit} className='form-search-book-header'>
+        <form onSubmit={handleSubmit} className='form-search-book-header text-black'>
           <input
             type="text"
             name="book"
             placeholder='Buscar livro...'
             value={searchBook.book}
-            onChange={handleChange}
-            className='input-search-book-header'
+            onChange={handleRealTimeSearch}
+            className='input-search-book-header bg-white'
           />
+          
           <button type="submit" className='button-submit-search-book-header'>
             <FontAwesomeIcon icon={faSearch} />
           </button>
@@ -81,12 +96,10 @@ const Header = () => {
           </ul>
         </nav>
 
-        {/* Botão do menu mobile */}
         <button className='mobile-menu-button' onClick={toggleAside}>
           <FontAwesomeIcon icon={showAside ? faTimes : faBars} />
         </button>
 
-        {/* Menu lateral para mobile */}
         {showAside && (
           <aside className='mobile-aside' ref={asideRef}>
             <nav>

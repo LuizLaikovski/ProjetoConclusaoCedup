@@ -72,7 +72,7 @@ const BookSpecifications = () => {
         return (
             <>
                 <Header />
-                <div className="error-container">
+                <div className="error-container bg-[var(--secondary)]">
                     <p>{error}</p>
                     <RouteButton 
                         path="/home" 
@@ -138,8 +138,9 @@ const BookSpecifications = () => {
                 </div>
 
                 <button className="primary-button w-[80dvw] text-2xl sm:hidden">Leia Agora</button>
+                <Footer />
+                <div className="h-[10dvh]"></div>
             </main>
-            <Footer />
         </>
     );
 };

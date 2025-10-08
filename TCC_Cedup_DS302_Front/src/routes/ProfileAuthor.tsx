@@ -19,11 +19,6 @@ interface Book {
 const ProfileAutor = () => {
 
     const [books, setBooks] = useState<Book[]>([]);
-        const [modal, setModal] = useState(false);
-    
-        const handleModal = () => {
-            setModal(!modal);
-        }
         
         useEffect(() => {
             const fecthBooks = async () => {
@@ -47,7 +42,6 @@ const ProfileAutor = () => {
                     <div className="mr-10 text-black">
                         <h1 className="text-3xl" style={{marginLeft: "20px"}}>Luiz Henrique</h1>
                         <h2 style={{marginLeft: "20px"}}>Email: luizlaikovski@gmail.com</h2>
-                        <button style={{marginLeft: "20px", marginTop: "5px"}} className="primary-button" onClick={handleModal}>Editar Perfil</button>
                     </div>
                 </div>
                 <div className="w-[100dvw] text-black top-35">

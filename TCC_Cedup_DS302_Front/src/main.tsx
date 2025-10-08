@@ -48,6 +48,10 @@ const router = createBrowserRouter([
     element: <Register />
   },
   {
+    path: "/search/:bookName",
+    element: <Home />
+  },
+  {
     path: "/perfil",
     element: <ProfileUser />, 
   },

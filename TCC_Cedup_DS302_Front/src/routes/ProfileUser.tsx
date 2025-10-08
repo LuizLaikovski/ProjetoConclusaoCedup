@@ -57,11 +57,11 @@ const ProfileUser = () => {
                 <div className="w-[100dvw] text-black top-35">
                     <h1 className="text-5xl" style={{marginLeft: "20px"}}>Favoritos</h1>
                     <div className="border-y-green-900 border-2 w-[100dvw]"></div>
-                    <div className="grid grid-cols-2 sm:grid-cols-7">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-7  p-4" style={{marginTop: "20px"}}>
                         {books.slice(0, 16).map((book) => (
                             <div key={book.id}>
                                 <RouteButton path={`/catalogo/livro/${book.path}`}
-                                    img={<BookImage src={book.arquivo.src} alt={book.arquivo.alt} style={{height: "200px"}} />}
+                                    img={<BookImage src={book.arquivo.src} alt={book.arquivo.alt} style={{height: "100px"}} />}
                                 />
                             </div>
                         ))}

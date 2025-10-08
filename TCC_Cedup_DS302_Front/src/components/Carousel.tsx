@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import RouteButton from './RouteButton';
 import BookImage from './BookImage';
+import type { CSSProperties } from '@mui/material';
 
 interface Book {
     id: number;
@@ -15,10 +16,12 @@ interface Book {
 
 interface CarouselProps {
     minBooks: number,
-    maxBooks: number
+    maxBooks: number,
+    classe?: string,
+    styles?: CSSProperties
 }
 
-const Carousel = ({minBooks, maxBooks}: CarouselProps) => {
+const Carousel = ({minBooks, maxBooks, classe, styles}: CarouselProps) => {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
     const carouselRef = useRef<HTMLDivElement>(null);
@@ -69,7 +72,8 @@ const Carousel = ({minBooks, maxBooks}: CarouselProps) => {
     return (
         <>
             <div
-                className="relative w-full max-w-full mx-auto my-8 px-8"
+                className={`relative w-full max-w-full mx-auto my-8 px-8 ${classe}`}
+                style={styles}
                 onMouseEnter={() => setShowControls(true)}
                 onMouseLeave={() => setShowControls(false)}
             >
