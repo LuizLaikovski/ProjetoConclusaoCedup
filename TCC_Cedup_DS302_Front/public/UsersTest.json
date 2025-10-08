@@ -1,14 +1,12 @@
-{
-    "users": [
-        {
-            "id": 1,
-            "name": "Luiz Laikovski",
-            "email": "luizlaikovski@gmail.com",
-            "password": "16012008",
-            "confirmPassword": "16012008",
-            "cpf": "127.952.299.27",
-            "phone": "47 98872-9248",
-            "birthDate": "2000-01-16"
-        }
-    ]
-}
+[
+    {
+        "id": 1,
+        "name": "Luiz Laikovski",
+        "email": "luizlaikovski@gmail.com",
+        "password": "16012008",
+        "confirmPassword": "16012008",
+        "cpf": "127.952.299.27",
+        "phone": "47 98872-9248",
+        "birthDate": "2000-01-16"
+    }
+]

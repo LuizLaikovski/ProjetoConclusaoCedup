@@ -44,7 +44,7 @@ const Header = () => {
 
   return (
     <header className='header w-[100%]'>
-      <div className='align-header'>
+      <div className='align-header 2xl:'>
         <Link to="/" className='logo-link'>
         </Link>
 
@@ -68,7 +68,7 @@ const Header = () => {
           <ul>
             <li className='flex justify-center items-center'>
               <Link to="/">
-                <FontAwesomeIcon icon={faHouse} size='lg' />
+                <FontAwesomeIcon icon={faHouse} size='lg' className='sm:hidden' />
                 <span className='text-[20px]'>Início</span>
               </Link>
             </li>

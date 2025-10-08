@@ -82,7 +82,7 @@ const Register = () => {
                 </div>
                 <div className="container-register">
                     <form className="register-form" onSubmit={handleSubmit}>
-                        <h1>Cadastro</h1>     
+                        <h1 className=''>Cadastro</h1>     
 
                         <div className="form-group">
                             <input

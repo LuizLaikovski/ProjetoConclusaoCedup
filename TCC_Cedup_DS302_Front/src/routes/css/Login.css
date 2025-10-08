@@ -1,71 +1,12 @@
-#login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    min-height: 100vh;
-    background-color: var(--secondary);
-}
-
-.container-login {
-    position: absolute;
-    z-index: 1;
-    background-color: var(--tertiary);
-    width: 30dvw;
-    height: 64dvh;
-    border-radius: 5%;
-}
+.container-login { background-color: var(--tertiary);}
 
 .box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin-bottom: 63dvh;
-    z-index: 100;
-    height: 17dvh;
-    width: 17dvh;
     background-color: var(--primary);
-    border-radius: 50%;
-}
-
-.login-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
 .form-group {
     margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #555;
-    font-weight: 600;
-}
-
-.form-group input {
-    border: 2px solid transparent;
-    width: 20dvw;
-    height: 5dvh;
-    padding-left: 0.8em;
-    outline: none;
-    overflow: hidden;
-    background-color: #F3F3F3;
-    border-radius: 10px;
-    transition: all 0.5s;
-}
-
-
-.form-group h3 {
-    color: var(--secondary);
-}
-
-.form-group-small-box {
-    display: flex;
-    width: 22dvw;
 }
 
 .login-form h1 {

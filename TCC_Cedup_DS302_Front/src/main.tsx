@@ -12,6 +12,7 @@ import Register from './routes/Register.tsx';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ProfileUser from './routes/ProfileUser.tsx';
+import ProfileAutor from './routes/ProfileAuthor.tsx';
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/perfil",
     element: <ProfileUser />, 
+  },
+  {
+    path: "/perfilAutor",
+    element: <ProfileAutor />
   },
   {
     path: "/catalogo",

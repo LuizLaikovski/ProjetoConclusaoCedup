@@ -6,7 +6,7 @@ const ErrorPage = () => {
 
     return(
         <>
-            <div className="flex justify-center items-center flex-col text-black">
+            <div className="flex justify-center items-center flex-col text-black min-h-[100dvh]">
                 <h1>Error Page 404!</h1>
 
 

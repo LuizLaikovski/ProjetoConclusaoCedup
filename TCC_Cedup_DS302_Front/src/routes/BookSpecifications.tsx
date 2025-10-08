@@ -124,20 +124,20 @@ const BookSpecifications = () => {
             <main className="book-specifications-main flex justify-center items-center flex-col w-[100dvw] h-auto" style={{margin: "20px"}}>
                 <div className="bg-white h-auto w-[90dvw] text-black rounded-2xl shadow-2xl flex justify-center items-center flex-col" style={{padding: "15px"}}>
                     <img src={book.arquivo.src} alt={book.arquivo.alt} className="h-50 shadow-2xl" />
-                    <h1 className="text-3xl text-center">{book.titulo}</h1>
+                    <h1 className="text-4xl text-center">{book.titulo}</h1>
                     <div className="avaliation-starts-book">
                         {renderStars(book.avaliacao)}
                     </div>
-                    <h1>{book.autor}</h1>
-                    <h1>Quantidade de Páginas: {book.pags}</h1>
-                    <h1>Gênero: {book.genero}</h1>
+                    <h1 className="sm:text-4xl">{book.autor}</h1>
+                    <h1 className="sm:text-2xl">Quantidade de Páginas: {book.pags}</h1>
+                    <h1 className="sm:text-2xl font-">Gênero: {book.genero}</h1>
                 </div>
 
-                <div className="bg-white h-auto w-[90dvw] text-black rounded-2xl shadow-2xl flex justify-center items-center flex-col text-justify" style={{padding: "15px", marginTop: "30px"}}>
+                <div className="bg-white h-auto w-[90dvw] text-black rounded-2xl shadow-2xl flex justify-center items-center flex-col text-justify sm:text-[20px]" style={{padding: "15px", marginTop: "30px"}}>
                     <h1>{book.descricao}</h1>
                 </div>
 
-                <button className="primary-button w-[80dvw] text-2xl">Leia Agora</button>
+                <button className="primary-button w-[80dvw] text-2xl sm:hidden">Leia Agora</button>
             </main>
             <Footer />
         </>

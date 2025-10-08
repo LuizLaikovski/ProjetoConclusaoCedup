@@ -1,13 +1,12 @@
 .footer {
-  display: absolute;
+  position: fixed;
   bottom: 0;
+  left: 0;
   width: 100dvw;
   height: 10dvh;
-  background-color: var(--primary);
-  position: sticky;
-  top: 0;
   z-index: 100;
 }
+
 
 /* Modal Styles */
 .modal-overlay {
@@ -103,4 +102,10 @@
 
 .close-modal-button:hover {
   background-color: var(--secondary-dark);
+}
+
+@media(min-width: 900px) {
+    .footer {
+      display: none;
+    }
 }

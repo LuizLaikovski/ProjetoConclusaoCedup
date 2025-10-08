@@ -1,0 +1,272 @@
+[
+    {
+        "id": "a1b2c3d4e5f6g7h8i9j0",
+        "name": "Platão",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["1"],
+        "images": []
+    },
+    {
+        "id": "b2c3d4e5f6g7h8i9j0a1",
+        "name": "Karl Marx",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["2"],
+        "images": []
+    },
+    {
+        "id": "c3d4e5f6g7h8i9j0a1b2",
+        "name": "Friedrich Engels",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["2"],
+        "images": []
+    },
+    {
+        "id": "d4e5f6g7h8i9j0a1b2c3",
+        "name": "Antoine de Saint-Exupéry",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["3"],
+        "images": []
+    },
+    {
+        "id": "e5f6g7h8i9j0a1b2c3d4",
+        "name": "Euclides da Cunha",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["4"],
+        "images": []
+    },
+    {
+        "id": "f6g7h8i9j0a1b2c3d4e5",
+        "name": "Anne Frank",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["5"],
+        "images": []
+    },
+    {
+        "id": "g7h8i9j0a1b2c3d4e5f6",
+        "name": "George Orwell",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["6"],
+        "images": []
+    },
+    {
+        "id": "h8i9j0a1b2c3d4e5f6g7",
+        "name": "Marcia Tiburi",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["7"],
+        "images": []
+    },
+    {
+        "id": "i9j0a1b2c3d4e5f6g7h8",
+        "name": "Bill Bryson",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["8"],
+        "images": []
+    },
+    {
+        "id": "j0a1b2c3d4e5f6g7h8i9",
+        "name": "Nicolau Maquiavel",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["9"],
+        "images": []
+    },
+    {
+        "id": "k1a2b3c4d5e6f7g8h9i0",
+        "name": "Machado de Assis",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["10"],
+        "images": []
+    },
+    {
+        "id": "l2a3b4c5d6e7f8g9h0i1",
+        "name": "Carl Sagan",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["11"],
+        "images": []
+    },
+    {
+        "id": "m3a4b5c6d7e8f9g0h1i2",
+        "name": "Sun Tzu",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["12"],
+        "images": []
+    },
+    {
+        "id": "n4a5b6c7d8e9f0g1h2i3",
+        "name": "J.R.R. Tolkien",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["13", "19"],
+        "images": []
+    },
+    {
+        "id": "o5a6b7c8d9e0f1g2h3i4",
+        "name": "Albert Camus",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["14"],
+        "images": []
+    },
+    {
+        "id": "p6a7b8c9d0e1f2g3h4i5",
+        "name": "Douglas Adams",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["15"],
+        "images": []
+    },
+    {
+        "id": "q7a8b9c0d1e2f3g4h5i6",
+        "name": "Franz Kafka",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["16"],
+        "images": []
+    },
+    {
+        "id": "r8a9b0c1d2e3f4g5h6i7",
+        "name": "Umberto Eco",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["17"],
+        "images": []
+    },
+    {
+        "id": "s9a0b1c2d3e4f5g6h7i8",
+        "name": "Nigel Warburton",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["18"],
+        "images": []
+    },
+    {
+        "id": "t0a1b2c3d4e5f6g7h8i9",
+        "name": "Thomas Piketty",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["20"],
+        "images": []
+    },
+    {
+        "id": "u1a2b3c4d5e6f7g8h9i0",
+        "name": "Charles Duhigg",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["21"],
+        "images": []
+    },
+    {
+        "id": "v2a3b4c5d6e7f8g9h0i1",
+        "name": "Leonard Mlodinow",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["22"],
+        "images": []
+    },
+    {
+        "id": "w3a4b5c6d7e8f9g0h1i2",
+        "name": "Richard Dawkins",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["23"],
+        "images": []
+    },
+    {
+        "id": "x4a5b6c7d8e9f0g1h2i3",
+        "name": "Matthew Quick",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["24"],
+        "images": []
+    },
+    {
+        "id": "y5a6b7c8d9e0f1g2h3i4",
+        "name": "Rhonda Byrne",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["25"],
+        "images": []
+    },
+    {
+        "id": "z6a7b8c9d0e1f2g3h4i5",
+        "name": "Dan Brown",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["26"],
+        "images": []
+    },
+    {
+        "id": "a7b8c9d0e1f2g3h4i5j6",
+        "name": "Paulo Coelho",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["27"],
+        "images": []
+    },
+    {
+        "id": "b8c9d0e1f2g3h4i5j6k7",
+        "name": "Eckhart Tolle",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["28"],
+        "images": []
+    },
+    {
+        "id": "c9d0e1f2g3h4i5j6k7l8",
+        "name": "George S. Clason",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["29"],
+        "images": []
+    },
+    {
+        "id": "d0e1f2g3h4i5j6k7l8m9",
+        "name": "Paulo Vieira",
+        "yearBorn": null,
+        "yearDeath": null,
+        "description": null,
+        "books": ["30"],
+        "images": []
+    }
+]

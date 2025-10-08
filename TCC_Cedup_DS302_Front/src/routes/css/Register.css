@@ -4,7 +4,6 @@
     align-items: center;
     position: relative;
     min-height: 100vh;
-    background-color: var(--secondary);
 }
 
 .container-register {
@@ -104,6 +103,42 @@
     font-size: 20px;
     color: var(--secondary);
 }
+
+@media(max-width: 0px) {
+
+}
+
+@media(max-width: 900px) {
+    .container-register {
+        width: 70dvw;
+        height: 87dvh;
+        padding: 1rem;
+        border-radius: 30px;
+    }
+
+    .box-register {
+        margin-bottom: 80dvh;
+        height: 12dvh;
+        width: 12dvh;
+    }
+
+    .container-register input {
+        width: 55dvw;
+    }
+
+    .form-group-small-box {
+        width: 55dvw;
+    }
+
+    .register-button {
+        width: 55dvw;
+    }
+    
+    .register-form {
+        padding: 1.5rem;
+    }
+}
+
 
 /* Responsividade */
 @media (max-width: 480px) {

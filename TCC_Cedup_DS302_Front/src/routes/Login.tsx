@@ -34,12 +34,12 @@ const Login = () => {
 
     return(
         <>
-            <section id="login">
-                <div className="box">
+            <section id="login" className='flex justify-center items-center relative min-h-[100dvh]'>
+                <div className="box flex justify-center items-center z-50 h-[17vh] w-[17vh] rounded-[50%]">
                     <FontAwesomeIcon icon={faCircleUser} size="5x" />
                 </div>
-                <div className="container-login">
-                    <form className="login-form" onSubmit={handleSubmit}>
+                <div className="container-login absolute z-10 w-[30vw] h-[64vh] rounded-2xl">
+                    <form className="login-form flex justify-center items-center flex-col" onSubmit={handleSubmit}>
                     <h1>Login</h1>
                         
                         <div className="form-group">
@@ -69,12 +69,11 @@ const Login = () => {
                         </div>
 
                         <div className="form-group-small-box">
-
                             <Checkbox checked={formData.rememberMe} onChange={handleChange} />
                             <label htmlFor="rememberMe">Lembrar-me</label>
                         </div>
                         
-                        <button type="submit" className="login-button">Confirmar</button>
+                        <button type="submit" className="login-button w-[20dvw] ">Confirmar</button>
                         <Link to="/cadastro" className='link-return underline'>Ainda não possuo uma conta</Link>
                     </form>
 

@@ -1,11 +1,9 @@
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Footer from "../components/Footer";
-import { faTimes, faUserCircle } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
 import RouteButton from "../components/RouteButton";
 import BookImage from "../components/BookImage";
-import Header from "../components/Header";
-
+import { useEffect, useState } from "react";
+import Footer from "../components/Footer";
 
 interface Book {
     id: number;
@@ -18,33 +16,31 @@ interface Book {
     avaliacao: number;
 }
 
-const ProfileUser = () => {
+const ProfileAutor = () => {
 
     const [books, setBooks] = useState<Book[]>([]);
-    const [modal, setModal] = useState(false);
-
-    const handleModal = () => {
-        setModal(!modal);
-    }
+        const [modal, setModal] = useState(false);
     
-    useEffect(() => {
-        const fecthBooks = async () => {
-            try {
-                const response = await fetch("./BooksTest.json");
-                const data = await response.json();
-                setBooks(data.books); 
-            } catch (error) {
-                console.error("Error ao carregar os livros do back:", error);
-            }
-        };
+        const handleModal = () => {
+            setModal(!modal);
+        }
+        
+        useEffect(() => {
+            const fecthBooks = async () => {
+                try {
+                    const response = await fetch("./BooksTest.json");
+                    const data = await response.json();
+                    setBooks(data.books); 
+                } catch (error) {
+                    console.error("Error ao carregar os livros do back:", error);
+                }
+            };
+    
+            fecthBooks();
+        }, []);
 
-        fecthBooks();
-    }, []);
-
-
-    return (
+    return(
         <>
-            <Header />
             <div className="flex justify-center items-center flex-col">
                 <div className="ignore-margin w-[90dvw] h-[20dvh] flex items-center bg-white rounded-3xl shadow-2xl" style={{margin: "20px"}}>
                     <FontAwesomeIcon icon={faUserCircle} style={{marginLeft: "20px"}} size="5x" color="#003631" />
@@ -68,28 +64,10 @@ const ProfileUser = () => {
                     </div>
 
                 </div>
+                <Footer />
             </div>
-
-            {modal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h2>Ediatr seus Dados</h2>
-                            <button className="close-button" onClick={handleModal}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </button>
-                        </div>
-                        <div className="modal-body text-black">
-                        </div>
-                        <div className="modal-footer">
-                            <button className="close-modal-button" onClick={handleModal}>Fechar</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-            <Footer />
         </>
     );
 };
 
-export default ProfileUser;
+export default ProfileAutor
