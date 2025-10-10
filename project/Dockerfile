@@ -1,16 +1,18 @@
-FROM ubuntu:latest AS build
+FROM ubuntu:22.04 AS build
 
-RUN apt-get update
-RUN apt-get install openjdk-21-jdk -y
+RUN apt-get update && \
+    apt-get install -y openjdk-21-jdk maven && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
 COPY . .
+RUN mvn clean package -DskipTests
 
-RUN apt-get install maven -y
-RUN mvn clean install
+FROM openjdk:21-jre-slim
 
-FROM openjdk:21-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
-
-COPY --from=build /target/project-0.0.1-SNAPSHOT.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
