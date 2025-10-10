@@ -4,17 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.model.Author;
-import project.model.Book;
 import project.model.Image;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class BookAuthorsDTO {
-    private Book book;
-    private List<Image> imagesBook;
-    private List<AuthorImagesDTO> authorsImages;
+@NoArgsConstructor
+public class AuthorImagesDTO {
+    private Author author;
+    private List<Image> images = new ArrayList<>();
 }
-
