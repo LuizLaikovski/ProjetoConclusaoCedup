@@ -75,7 +75,7 @@ const Header = () => {
           />
           
           <button type="submit" className='button-submit-search-book-header'>
-            <FontAwesomeIcon icon={faSearch} />
+            <FontAwesomeIcon icon={faSearch} color='white' />
           </button>
         </form>
 

@@ -56,7 +56,7 @@ const router = createBrowserRouter([
     element: <ProfileUser />, 
   },
   {
-    path: "/perfilAutor",
+    path: "/perfilAutor/:authorName",
     element: <ProfileAutor />
   },
   {

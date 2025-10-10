@@ -4,6 +4,7 @@ import RouteButton from "../components/RouteButton";
 import BookImage from "../components/BookImage";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 interface Book {
     id: number;
@@ -16,23 +17,58 @@ interface Book {
     avaliacao: number;
 }
 
+interface Author {
+    id: number;
+    nome: string;
+    email: string;
+    livros: Book[];
+}
+
 const ProfileAutor = () => {
 
     const [books, setBooks] = useState<Book[]>([]);
+    const [author, setAuthor] = useState<Author | null>(null);
         
         useEffect(() => {
-            const fecthBooks = async () => {
+            const fecthBooksAndAuthor = async () => {
                 try {
                     const response = await fetch("./BooksTest.json");
-                    const data = await response.json();
-                    setBooks(data.books); 
+                    if (!response.ok) {
+                        throw new Error("Erro ao carregar os livros do back");
+                    }
+
+
+                    const data: {author: Author[]} = await response.json();
+                    const authorFind = data.author.find((author) => author.id === 1);
+                    if (!authorFind) {
+                        throw new Error("Autor não encontrado");
+                    } else {
+                        setAuthor(authorFind);
+                        setBooks(authorFind.livros);
+                    }
                 } catch (error) {
                     console.error("Error ao carregar os livros do back:", error);
                 }
             };
     
-            fecthBooks();
+            fecthBooksAndAuthor();
         }, []);
+
+    if (!author) {
+        return (
+            <>
+                <Header />
+                <div className="not-found-container">
+                    <p>Livro não encontrado</p>
+                    <RouteButton 
+                        path="/home" 
+                        label="Voltar à tela inicial" 
+                        style={{ marginTop: '20px', fontSize: '50px' }}
+                    />
+                </div>
+            </>
+        );
+    }
 
     return(
         <>

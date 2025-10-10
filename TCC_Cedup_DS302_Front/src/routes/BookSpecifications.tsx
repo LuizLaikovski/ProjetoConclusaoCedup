@@ -128,7 +128,7 @@ const BookSpecifications = () => {
                     <div className="avaliation-starts-book">
                         {renderStars(book.avaliacao)}
                     </div>
-                    <h1 className="sm:text-4xl">{book.autor}</h1>
+                    <RouteButton path={`/perfilAutor/${book.path}`} label={`${book.autor}`} classe="font-bold text-2xl cursor-pointer" />
                     <h1 className="sm:text-2xl">Quantidade de Páginas: {book.pags}</h1>
                     <h1 className="sm:text-2xl font-">Gênero: {book.genero}</h1>
                 </div>
