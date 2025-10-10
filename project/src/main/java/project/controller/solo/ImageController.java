@@ -1,4 +1,4 @@
-package project.controller.solo;
+//package project.controller.solo;
 
 //import org.springframework.http.ResponseEntity;
 //import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ package project.controller.solo;
 
 //@RestController
 //@RequestMapping("/image")
-public class ImageController {
+//public class ImageController {
 //    private final ImageService imageService;
 //
 //    public ImageController(ImageService imageService) {
@@ -55,4 +55,4 @@ public class ImageController {
 //            return ResponseEntity.internalServerError().body("Erro ao atualizar imagem");
 //        }
 //    }
-}
+//}
