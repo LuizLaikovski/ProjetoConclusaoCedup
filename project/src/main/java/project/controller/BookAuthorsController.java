@@ -59,9 +59,41 @@ public class BookAuthorsController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listAll(){
+    public ResponseEntity<?> getAll(){
         try {
-            return null;
+            List<Book> books = bookService.getAll();
+            List<BookAuthorsDTO> bookAuthorsDTO = new ArrayList<>();
+
+            for(Book book : books){
+                List<Image> bookImages = new ArrayList<>();
+                List<AuthorImagesDTO> authorImagesDTO = new ArrayList<>();
+
+                for(String idImage : book.getImages()){
+                    if(idImage != null && !idImage.trim().isBlank()){
+                        bookImages.add(imageService.get(idImage));
+                    }
+                }
+
+                for(String idAuthor : book.getAuthors()){
+                    if(idAuthor != null && !idAuthor.trim().isBlank()){
+                        Author author = authorService.get(idAuthor);
+                        List<Image> authorImages = new ArrayList<>();
+
+                        for(String idImage : author.getImages()){
+                            if(idImage != null && !idImage.trim().isBlank()){
+                                authorImages.add(imageService.get(idImage));
+                            }
+                        }
+
+                        authorImagesDTO.add(new AuthorImagesDTO(author, authorImages));
+                    }
+                }
+
+                bookAuthorsDTO.add(new BookAuthorsDTO(book, bookImages, authorImagesDTO));
+            }
+
+
+            return ResponseEntity.ok(bookAuthorsDTO);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
