@@ -1,18 +1,21 @@
-FROM ubuntu:22.04 AS build
-
-RUN apt-get update && \
-    apt-get install -y openjdk-21-jdk maven && \
-    rm -rf /var/lib/apt/lists/*
+FROM maven:3.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
-COPY . .
+COPY pom.xml .
+COPY src ./src
+
 RUN mvn clean package -DskipTests
 
-FROM openjdk:21-jre-slim
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Com flags para limpar warnings
+ENTRYPOINT ["java", \
+    "-XX:+IgnoreUnrecognizedVMOptions", \
+    "--add-opens=java.base/java.lang=ALL-UNNAMED", \
+    "--add-opens=java.base/sun.misc=ALL-UNNAMED", \
+    "-jar", "app.jar"]
