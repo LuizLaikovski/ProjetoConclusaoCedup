@@ -1,0 +1,10 @@
+.env
+*.env
+.git
+.gitignore
+README.md
+target/
+.classpath
+.project
+.settings/
+.idea/
