@@ -59,7 +59,7 @@ public class BookAuthorsController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<List<BookAuthorsDTO>> getAll(){
         try {
             List<Book> books = bookService.getAll();
             List<BookAuthorsDTO> bookAuthorsDTO = new ArrayList<>();
@@ -94,6 +94,16 @@ public class BookAuthorsController {
 
 
             return ResponseEntity.ok(bookAuthorsDTO);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable String id){
+        try {
+            bookService.deleteById(id);
+            return ResponseEntity.ok("Objeto de id: "+id+" deletado com sucesso!");
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
