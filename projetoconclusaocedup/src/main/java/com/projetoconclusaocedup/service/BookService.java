@@ -21,6 +21,9 @@ public class BookService {
             if(book.getTitle() != null && !book.getTitle().trim().isBlank()){
                 book.setTitle(book.getTitle().trim());
             }
+            if(book.getPath() != null && !book.getPath().trim().isBlank()){
+                book.setPath(book.getPath().trim());
+            }
             if(book.getRating() != null && (book.getRating() >= 5 || book.getRating() >= 0)){
                 book.setRating(book.getRating());
             }
@@ -38,6 +41,9 @@ public class BookService {
             }
             if(book.getImages() != null && !book.getImages().isEmpty()){
                 book.setImages(book.getImages());
+            }
+            if(book.getArchive() != null){
+                book.setArchive(book.getArchive());
             }
 
             return bookRepository.save(book);
@@ -80,6 +86,9 @@ public class BookService {
             if(book.getTitle() != null && !book.getTitle().trim().isBlank()){
                 bookUpdated.setTitle(book.getTitle().trim());
             }
+            if(book.getPath() != null && !book.getPath().trim().isBlank()){
+                bookUpdated.setPath(book.getPath().trim());
+            }
             if(book.getRating() != null && (book.getRating() >= 5 || book.getRating() >= 0)){
                 bookUpdated.setRating(book.getRating());
             }
@@ -97,6 +106,9 @@ public class BookService {
             }
             if(book.getImages() != null && !book.getImages().isEmpty()){
                 bookUpdated.setImages(book.getImages());
+            }
+            if(book.getArchive() != null){
+                bookUpdated.setArchive(book.getArchive());
             }
 
             return bookRepository.save(bookUpdated);

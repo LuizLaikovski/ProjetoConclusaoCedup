@@ -92,7 +92,6 @@ public class BookAuthorsController {
                 bookAuthorsDTO.add(new BookAuthorsDTO(book, bookImages, authorImagesDTO));
             }
 
-
             return ResponseEntity.ok(bookAuthorsDTO);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -102,7 +101,14 @@ public class BookAuthorsController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteById(@PathVariable String id){
         try {
-            bookService.deleteById(id);
+            Book book = bookService.get(id);
+
+            bookService.deleteById(book.getId());
+
+            for(String idImages : book.getImages()){
+                imageService.deleteById(idImages);
+            }
+
             return ResponseEntity.ok("Objeto de id: "+id+" deletado com sucesso!");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
