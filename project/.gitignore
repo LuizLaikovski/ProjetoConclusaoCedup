@@ -38,6 +38,6 @@ build/
 .vscode/
 
 .env
-env.properties
+#env.properties
 #application-dev.properties
 #application-prod.properties
