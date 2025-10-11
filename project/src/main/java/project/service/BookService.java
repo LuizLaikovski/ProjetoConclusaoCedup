@@ -75,31 +75,31 @@ public class BookService {
     @Transactional
     public Book update(String id, Book book){
         try {
-            Book newBook = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("livro de id:"+id+" não encontrado!"));
+            Book bookUpdated = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("livro de id:"+id+" não encontrado!"));
 
             if(book.getTitle() != null && !book.getTitle().trim().isBlank()){
-                newBook.setTitle(book.getTitle().trim());
+                bookUpdated.setTitle(book.getTitle().trim());
             }
             if(book.getRating() != null && (book.getRating() >= 5 || book.getRating() >= 0)){
-                newBook.setRating(book.getRating());
+                bookUpdated.setRating(book.getRating());
             }
             if(book.getNumPages() != null && book.getNumPages() > 0){
-                newBook.setNumPages(book.getNumPages());
+                bookUpdated.setNumPages(book.getNumPages());
             }
             if(book.getYearPublished() != null && !book.getYearPublished().isAfter(LocalDate.now())){
-                newBook.setYearPublished(book.getYearPublished());
+                bookUpdated.setYearPublished(book.getYearPublished());
             }
             if(book.getDescription() != null && !book.getDescription().trim().isBlank()){
-                newBook.setDescription(book.getDescription().trim());
+                bookUpdated.setDescription(book.getDescription().trim());
             }
             if(book.getAuthors() != null && !book.getAuthors().isEmpty()){
-                newBook.setAuthors(book.getAuthors());
+                bookUpdated.setAuthors(book.getAuthors());
             }
             if(book.getImages() != null && !book.getImages().isEmpty()){
-                newBook.setImages(book.getImages());
+                bookUpdated.setImages(book.getImages());
             }
 
-            return bookRepository.save(book);
+            return bookRepository.save(bookUpdated);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

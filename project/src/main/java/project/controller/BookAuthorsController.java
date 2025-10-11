@@ -1,7 +1,6 @@
 package project.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.dto.AuthorImagesDTO;
@@ -25,7 +24,7 @@ public class BookAuthorsController {
     private final ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<BookAuthorsDTO> create(@RequestBody BookAuthorsDTO bookAuthorsDTO){
+    public ResponseEntity<?> create(@RequestBody BookAuthorsDTO bookAuthorsDTO){
         try {
             Book newBook = bookService.create(bookAuthorsDTO.getBook());
             List<Image> newBookImages = imageService.createAll(bookAuthorsDTO.getImagesBook());
@@ -55,12 +54,12 @@ public class BookAuthorsController {
 
             return ResponseEntity.ok(newBookAuthorsDTO);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<BookAuthorsDTO>> getAll(){
+    public ResponseEntity<?> getAll(){
         try {
             List<Book> books = bookService.getAll();
             List<BookAuthorsDTO> bookAuthorsDTO = new ArrayList<>();
@@ -96,7 +95,7 @@ public class BookAuthorsController {
 
             return ResponseEntity.ok(bookAuthorsDTO);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -106,7 +105,45 @@ public class BookAuthorsController {
             bookService.deleteById(id);
             return ResponseEntity.ok("Objeto de id: "+id+" deletado com sucesso!");
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping()
+    public ResponseEntity<?> update(@RequestBody BookAuthorsDTO bookAuthorsDTO){
+        try {
+            for(AuthorImagesDTO authorImagesDTO : bookAuthorsDTO.getAuthorsImages()){
+                if(authorImagesDTO.getAuthor().getId() != null){
+                    authorService.update(authorImagesDTO.getAuthor().getId(), authorImagesDTO.getAuthor());
+                } else {
+                    Author newAuthor = authorService.create(authorImagesDTO.getAuthor());
+                    bookAuthorsDTO.getBook().getAuthors().add(newAuthor.getId());
+                }
+
+                for(Image authorImages : authorImagesDTO.getImages()){
+                    if(authorImages.getId() != null){
+                        imageService.update(authorImages.getId(), authorImages);
+                    } else {
+                        Image newImage = imageService.create(authorImages);
+                        authorImagesDTO.getAuthor().getImages().add(newImage.getId());
+                    }
+                }
+            }
+
+            for(Image bookImages : bookAuthorsDTO.getImagesBook()){
+                if(bookImages.getId() != null){
+                    imageService.update(bookImages.getId(), bookImages);
+                } else {
+                    Image newImage = imageService.create(bookImages);
+                    bookAuthorsDTO.getBook().getImages().add(newImage.getId());
+                }
+            }
+
+            bookService.update(bookAuthorsDTO.getBook().getId(), bookAuthorsDTO.getBook());
+
+            return ResponseEntity.ok(bookAuthorsDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
