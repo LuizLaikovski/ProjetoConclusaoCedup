@@ -1,13 +1,10 @@
-version: '3.8'
-
+# For production docker-compose (without .env reference)
 services:
   app:
     build: .
     ports:
       - "8080:8080"
-    env_file:
-      - .env
     environment:
-      - DB_CONNECTION=${MONGODB_URI}
+      - MONGODB_URI=${MONGODB_URI}
       - SPRING_PROFILES_ACTIVE=prod
     restart: unless-stopped
