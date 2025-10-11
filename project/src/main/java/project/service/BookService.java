@@ -3,7 +3,6 @@ package project.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.model.Book;
-import project.model.Image;
 import project.repository.BookRepository;
 
 import java.time.LocalDate;
@@ -65,7 +64,9 @@ public class BookService {
 
     public void deleteById(String id){
         try {
-            bookRepository.deleteById(id);
+            Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro de id: "+id+" não encontrado"));
+
+            bookRepository.delete(book);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

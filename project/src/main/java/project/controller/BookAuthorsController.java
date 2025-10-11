@@ -1,6 +1,7 @@
 package project.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.dto.AuthorImagesDTO;
