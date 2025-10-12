@@ -4,6 +4,8 @@ import Header from "../components/Header";
 import RouteButton from "../components/RouteButton";
 import Footer from "../components/Footer";
 import "./css/BooksSpecification.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 interface BookAPIItem {
   book: {
@@ -37,7 +39,7 @@ interface Book {
     src: string;
     alt: string;
   };
-  avaliacao?: number;
+  avaliacao: number;
   path: string;
 }
 
@@ -125,6 +127,24 @@ const BookSpecifications = () => {
       </div>
     );
 
+    // Função para renderizar as estrelas baseadas na avaliação
+    const renderStars = (rating: number) => {
+        return [...Array(5)].map((_, index) => {
+            const ratingValue = index + 1;
+            return (
+                <FontAwesomeIcon 
+                    key={index}
+                    icon={faStar}
+                    className="star-icon"
+                    style={{
+                        color: ratingValue <= rating ? "#ffc107" : "#e4e5e9",
+                        height: "25px"
+                    }}
+                />
+            );
+        });
+    };
+
   return (
         <>
             <Header />
@@ -133,7 +153,7 @@ const BookSpecifications = () => {
                     <img src={book.arquivo.src} alt={book.arquivo.alt} className="h-50 shadow-2xl" />
                     <h1 className="text-4xl text-center">{book.titulo}</h1>
                     <div className="avaliation-starts-book">
-                        {/* {renderStars(book.avaliacao)} // arrumar ainda */}
+                        {renderStars(book.avaliacao)}
                     </div>
                     <RouteButton path={`/perfilAutor/${book.path}`} label={`${book.autor}`} classe="font-bold text-2xl cursor-pointer" />
                     <h1 className="sm:text-2xl">Quantidade de Páginas: {book.pags}</h1>
@@ -143,7 +163,7 @@ const BookSpecifications = () => {
                     <h1>{book.descricao}</h1>
                 </div>
 
-                <button className="primary-button w-[80dvw] text-2xl sm:hidden">Leia Agora</button>
+                <button className="primary-button w-[80dvw] text-2xl">Leia Agora</button>
                 <Footer />
                 <div className="h-[10dvh]"></div>
             </main>
