@@ -57,6 +57,43 @@ public class BookAuthorsController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PostMapping
+    public ResponseEntity<?> createAll(@RequestBody List<BookAuthorsDTO> bookAuthorsDTOS){
+        try {
+            List<BookAuthorsDTO> newBookAuthorsDTOS = new ArrayList<>();
+            for(BookAuthorsDTO bookAuthorsDTO : bookAuthorsDTOS){
+                Book newBook = bookService.create(bookAuthorsDTO.getBook());
+                List<Image> newBookImages = imageService.createAll(bookAuthorsDTO.getImagesBook());
+                List<AuthorImagesDTO> newAuthorImages = bookAuthorsDTO.getAuthorsImages();
+
+                for(Image image : newBookImages){
+                    newBook.getImages().add(image.getId());
+                }
+
+                for(AuthorImagesDTO authorImagesDTO : newAuthorImages){
+                    authorService.create(authorImagesDTO.getAuthor());
+                    imageService.createAll(authorImagesDTO.getImages());
+                    newBook.getAuthors().add(authorImagesDTO.getAuthor().getId());
+                    authorImagesDTO.getAuthor().getBooks().add(newBook.getId());
+                    for (Image image : authorImagesDTO.getImages()){
+                        authorImagesDTO.getAuthor().getImages().add(image.getId());
+                    }
+                }
+
+                bookService.update(newBook.getId(), newBook);
+
+                for(AuthorImagesDTO authorImagesDTO : newAuthorImages){
+                    authorService.update(authorImagesDTO.getAuthor().getId(), authorImagesDTO.getAuthor());
+                }
+
+                newBookAuthorsDTOS.add(new BookAuthorsDTO(newBook, newBookImages, newAuthorImages));
+            }
+
+            return ResponseEntity.ok(newBookAuthorsDTOS);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @GetMapping
     public ResponseEntity<?> getAll(){
