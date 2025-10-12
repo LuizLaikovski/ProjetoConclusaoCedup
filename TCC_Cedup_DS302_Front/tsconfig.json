@@ -1,6 +1,12 @@
 {
   "compilerOptions": {
-    "types": ["vite/client", "react" , "react-dom"]
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
+    "skipLibCheck": true,
+    "types": ["vite/client", "node"]
   },
   "files": [],
   "references": [
