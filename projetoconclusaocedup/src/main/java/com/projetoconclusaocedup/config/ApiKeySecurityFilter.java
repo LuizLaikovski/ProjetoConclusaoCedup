@@ -1,9 +1,10 @@
 package com.projetoconclusaocedup.config;
 
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,8 +18,9 @@ public class ApiKeySecurityFilter extends BasicAuthenticationFilter {
     private static final String API_KEY_HEADER = "X-API-Key";
     private final String validApiKey;
 
-    public ApiKeySecurityFilter(String validApiKey) {
-        super(null);
+    // Construtor corrigido
+    public ApiKeySecurityFilter(AuthenticationManager authenticationManager, String validApiKey) {
+        super(authenticationManager);
         this.validApiKey = validApiKey;
     }
 
