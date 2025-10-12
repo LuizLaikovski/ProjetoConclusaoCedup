@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface RiskHProps {
     largura?: number; // largura em dvw (opcional)
     grossura?: number; // grossura em px (opcional)
@@ -11,7 +9,6 @@ const RiskH = ({
     grossura = 2,   // Valor padrão: 2 (se undefined/null)
     margens = 1     // Valor padrão: 0 (se undefined/null)
 }: RiskHProps) => {
-    const [size, setSize] = useState({ width: 100, height: 100 });
     
     return (
         <div

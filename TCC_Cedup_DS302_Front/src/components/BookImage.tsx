@@ -8,7 +8,7 @@ interface BookImageProps {
     style?: CSSProperties;
 }
 
-const BookImage = ({ src, alt, style, classe}: BookImageProps) => {
+const BookImage = ({ src, alt, classe}: BookImageProps) => {
         const [imgSrc, setImgSrc] = useState(src);
         
         return (
