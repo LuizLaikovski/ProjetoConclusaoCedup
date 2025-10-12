@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import './css/footer.css';
+import './css/footer.css';  
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faHouse, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';

@@ -1,9 +1,8 @@
 import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faHeart, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import RouteButton from './RouteButton';
 
 const Header = () => {
   const [searchBook, setSearchBook] = useState({
