@@ -1,23 +1,17 @@
-import { useRouteError } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
-const ErrorPage = () => {
-    const error = useRouteError();
-    console.error(error);
+function ErrorPage() {
+    const navigate = useNavigate()
 
-    return(
-        <>
-            <div className="flex justify-center items-center flex-col text-black min-h-[100dvh]">
-                <h1>Error Page 404!</h1>
-
-
-                <h3>Opss!</h3>
-                <p>Desculpe, a página que você está procurando não existe.</p>
-                <p>
-                    <i>{(error as Error)?.message  || "Página não encontrada"}</i>
-                </p>
-            </div>
-        </>
-    );
-};
+    return (
+        <div style={{ padding: '2rem', textAlign: 'center' }}>
+            <h1>Oops! Página não encontrada</h1>
+            <p>Desculpe, a página que você está procurando não existe.</p>
+            <button onClick={() => navigate('/')}>
+                Voltar para a página inicial
+            </button>
+        </div>
+    )
+}
 
 export default ErrorPage;
