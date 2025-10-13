@@ -23,4 +23,5 @@ public class Author {
     private String description;
     private List<String> books = new ArrayList<>();
     private List<String> images = new ArrayList<>();
+    private String path;
 }

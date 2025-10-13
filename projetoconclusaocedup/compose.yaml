@@ -1,9 +1,16 @@
+version: '3.8'
+
 services:
   app:
     build: .
+    container_name: clickready-fullstack
     ports:
       - "8080:8080"
+      - "27017:27017"
     environment:
-      - MONGODB_URI=${MONGODB_URI}
-      - SPRING_PROFILES_ACTIVE=prod
-    restart: unless-stopped
+      SPRING_DATA_MONGODB_URI: ${MONGO_URI}
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
