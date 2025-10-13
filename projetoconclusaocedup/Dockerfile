@@ -1,3 +1,9 @@
+FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean install -DskipTests
+
 FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y \
@@ -11,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /data/db
 
 WORKDIR /app
-COPY target/*.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080 27017
 
