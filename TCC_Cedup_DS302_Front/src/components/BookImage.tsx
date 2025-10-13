@@ -15,7 +15,7 @@ const BookImage = ({ src, alt, classe}: BookImageProps) => {
             <img
                 src={imgSrc}
                 alt={alt}
-                className={`images-main images-catalog ${classe}`}
+                className={`images-main images-catalog ${classe} rounded-lg`}
                 onError={() => setImgSrc('/Cover/default-book.jpg')}
                 style={{height: "25dvh"}}
             />

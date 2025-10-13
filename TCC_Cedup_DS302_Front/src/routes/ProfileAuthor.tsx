@@ -143,7 +143,7 @@ const ProfileAutor = () => {
         return (
             <>
                 <Header />
-                <div className="loading-container flex flex-col justify-center items-center h-[60vh]">
+                <div className="loading-container flex flex-col justify-center items-center h-[80vh]">
                     <div className="loader h-[75px] w-[75px]"></div>
                 </div>
                 <Footer />
@@ -180,40 +180,45 @@ const ProfileAutor = () => {
     return (
         <>
         <Header />
-        <main className="flex justify-center items-center flex-col w-[100dvw] h-auto" style={{ margin: "20px" }}>
-            <div className="bg-white w-[90dvw] h-auto flex items-center rounded-3xl shadow-2xl p-6 text-black mb-10">
-                <FontAwesomeIcon icon={faUserCircle} size="6x" color="#003631" className="ml-4 mr-6" />
-                <div>
-                    <h1 className="text-3xl font-semibold">{author.name}</h1>
-                    {author.yearBorn && <p>Nascimento: {author.yearBorn}</p>}
-                    {author.yearDeath && <p>Falecimento: {author.yearDeath}</p>}
-                    {author.description && <p className="mt-3">{author.description}</p>}
-                </div>
-            </div>
-
-            <div className="w-[100dvw] text-black">
-                <h1 className="text-4xl mb-2 ml-4">Livros do Autor</h1>
-                <div className="border-y-2 border-green-900 w-[100dvw] mb-6"></div>
-
-                {books.length === 0 ? (
-                    <p className="text-center text-gray-600 text-xl">Nenhum livro encontrado para este autor.</p>
-                ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-6 gap-4 px-4">
-                    {books.map((book) => (
-                        <div key={book.id} className="flex flex-col items-center">
-                            <RouteButton
-                                path={`/catalogo/livro/${book.path ?? book.id}`}
-                                img={<BookImage src={`${book.arquivo.src}`} alt={`${book.arquivo.alt}`} style={{ height: "200px" }} />}
-                            />
+        <div className="flex justify-center items-center">
+            <main className="flex justify-center items-center flex-col w-[90dvw] h-auto" style={{marginTop: "20px"}}>
+                <div className="flex justify-center items-center flex-col">
+                    <div className="bg-white w-[90dvw] h-[20dvh] flex items-center rounded-3xl shadow-2xl p-6 text-black">
+                        <FontAwesomeIcon icon={faUserCircle} size="6x" color="#003631" className="ml-4 mr-6" style={{marginLeft: "20px"}} />
+                        <div style={{marginLeft: "20px"}}>
+                            <h1 className="text-2xl font-semibold">{author.name}</h1>
+                            {author.yearBorn && <p>Nascimento: {author.yearBorn}</p>}
+                            {author.yearDeath && <p>Falecimento: {author.yearDeath}</p>}
+                            {author.description && <p className="mt-3">{author.description}</p>}
                         </div>
-                    ))}
                     </div>
-                )}
-            </div>
+                </div>
 
-            <Footer />
-            <div className="h-[10dvh]"></div>
-        </main>
+                <div className="w-[90dvw] text-black flex justify-center items-center flex-col" style={{marginTop: "20px"}}>
+                    <h1 className="text-4xl mb-2 ml-4">Livros do Autor</h1>
+                    <div className="border-y-2 border-green-900 w-[80dvw] mb-6"></div>
+
+                    {books.length === 0 ? (
+                        <p className="text-center text-gray-600 text-xl">Nenhum livro encontrado para este autor.</p>
+                    ) : (
+                        <div className="grid w-[80dvw] grid-cols-2 sm:grid-cols-6 gap-4 px-4" style={{margin: "20px"}}>
+                        {books.map((book) => (
+                            <div key={book.id} className="flex flex-col items-center"
+                            >
+                                <RouteButton
+                                    path={`/catalogo/livro/${book.path ?? book.id}`}
+                                    img={<BookImage src={`${book.arquivo.src}`} alt={`${book.arquivo.alt}`} style={{ height: "200px", margin: "20px" }} />}
+                                />
+                            </div>
+                        ))}
+                        </div>
+                    )}
+                </div>
+
+                <Footer />
+                <div className="h-[10dvh]"></div>
+            </main>
+        </div>
         </>
     );
 };
