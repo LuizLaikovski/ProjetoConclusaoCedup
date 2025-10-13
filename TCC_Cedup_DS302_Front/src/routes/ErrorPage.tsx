@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router';
 
 function ErrorPage() {
     const navigate = useNavigate()
