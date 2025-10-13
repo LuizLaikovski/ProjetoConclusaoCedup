@@ -83,7 +83,7 @@ const BookSpecifications = () => {
             titulo: item.book.title,
             autor:
               item.authorsImages?.[0]?.author?.name || "Autor desconhecido",
-            autorPath: item.authorsImages?.[0]?.author.path,
+            autorPath: item.authorsImages?.[0]?.author.name.toLowerCase().replace(/\s+/g, "-"),
             pags: item.book.numPages || 0,
             descricao: item.book.description || "Sem descrição disponível",
             arquivo: {
