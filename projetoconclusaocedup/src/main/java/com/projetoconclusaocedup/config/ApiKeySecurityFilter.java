@@ -18,7 +18,6 @@ public class ApiKeySecurityFilter extends BasicAuthenticationFilter {
     private static final String API_KEY_HEADER = "X-API-Key";
     private final String validApiKey;
 
-    // Construtor corrigido
     public ApiKeySecurityFilter(AuthenticationManager authenticationManager, String validApiKey) {
         super(authenticationManager);
         this.validApiKey = validApiKey;
