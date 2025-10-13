@@ -58,7 +58,7 @@ const Header = () => {
   };
 
   return (
-    <header className='header w-[100%]'>
+    <header className='header w-[100dvw]'>
       <div className='align-header 2xl:'>
         <Link to="/" className='logo-link'>
         </Link>
