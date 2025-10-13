@@ -24,6 +24,7 @@ interface BookAPIItem {
     author: {
       id: string;
       name: string;
+      path: string;
     };
     images: { src: string; alt: string }[];
   }[];
@@ -33,6 +34,7 @@ interface Book {
   id: string;
   titulo: string;
   autor: string;
+  autorPath: string;
   pags?: number;
   descricao?: string;
   arquivo: {
@@ -49,7 +51,8 @@ const BookSpecifications = () => {
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const API_KEY = "projeto-cedup-2025-chave-api-que-escola-boa";
+  const API_KEY = import.meta.env.VITE_API_KEY;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // Normaliza strings para URL amigável
   const normalize = (str: string) =>
@@ -63,7 +66,7 @@ const BookSpecifications = () => {
     const fetchBook = async () => {
       try {
         const res = await fetch(
-          "https://projetoconclusaocedup.onrender.com/book/authors",
+          API_URL,
           {
             headers: { "X-API-Key": API_KEY },
           }
@@ -80,6 +83,7 @@ const BookSpecifications = () => {
             titulo: item.book.title,
             autor:
               item.authorsImages?.[0]?.author?.name || "Autor desconhecido",
+            autorPath: item.authorsImages?.[0]?.author.path,
             pags: item.book.numPages || 0,
             descricao: item.book.description || "Sem descrição disponível",
             arquivo: {
@@ -119,7 +123,7 @@ const BookSpecifications = () => {
       <div className="flex flex-col items-center justify-center h-screen text-center">
         <h1 className="text-2xl font-bold mb-4">Livro não encontrado</h1>
         <button
-          onClick={() => navigate("/catalogo")}
+          onClick={() => navigate("/home")}
           className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           Voltar à tela inicial
@@ -155,7 +159,7 @@ const BookSpecifications = () => {
                     <div className="avaliation-starts-book">
                         {renderStars(book.avaliacao)}
                     </div>
-                    <RouteButton path={`/perfilAutor/${book.path}`} label={`${book.autor}`} classe="font-bold text-2xl cursor-pointer" />
+                    <RouteButton path={`/perfilAutor/${book.autorPath}`} label={`${book.autor}`} classe="font-bold text-2xl cursor-pointer" />
                     <h1 className="sm:text-2xl">Quantidade de Páginas: {book.pags}</h1>
                 </div>
 

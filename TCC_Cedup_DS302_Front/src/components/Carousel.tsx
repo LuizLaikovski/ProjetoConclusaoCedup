@@ -22,7 +22,8 @@ interface CarouselProps {
 }
 
 const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
-  const API_KEY = "projeto-cedup-2025-chave-api-que-escola-boa";
+  const API_KEY = import.meta.env.VITE_API_KEY;
+  const API_URL = import.meta.env.VITE_API_URL;
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -32,7 +33,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
     const fetchBooks = async () => {
       try {
         const response = await fetch(
-          "https://projetoconclusaocedup.onrender.com/book/authors",
+          API_URL,
           {
             method: "GET",
             headers: {
@@ -43,7 +44,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         );
 
         if (!response.ok) {
-          throw new Error("Erro ao carregar livros: " + response.statusText);
+          throw new Error("Erro ao carregar livros: " + response.status);
         }
 
         const data = await response.json();
