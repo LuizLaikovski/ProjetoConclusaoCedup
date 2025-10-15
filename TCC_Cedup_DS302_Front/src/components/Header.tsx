@@ -11,7 +11,7 @@ const Header = () => {
 
   const [showAside, setShowAside] = useState(false);
   const asideRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate(); // Hook para navegação
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,40 +28,29 @@ const Header = () => {
 
   const toggleAside = () => {
     setShowAside(!showAside);
-  }
+  };
 
-  // Função para lidar com o envio do formulário de busca
+  // 🔍 MÉTODO que pesquisa apenas ao clicar no botão ou pressionar Enter
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Remove espaços extras e verifica se não está vazio
+
     const searchTerm = searchBook.book.trim();
-    
+
     if (searchTerm) {
-      // Codifica o termo de busca para URL (trata caracteres especiais)
       const encodedSearchTerm = encodeURIComponent(searchTerm);
-      
-      // Navega para a rota de pesquisa
       navigate(`/search/${encodedSearchTerm}`);
     }
   };
 
-  const handleRealTimeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSearchBook({ book: value });
-    
-    // Se quiser busca em tempo real enquanto digita, descomente abaixo:
-    const searchTerm = value.trim();
-    if (searchTerm) {
-      navigate(`/search/${encodeURIComponent(searchTerm)}`);
-    }
+  // Atualiza o valor do input sem pesquisar automaticamente
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchBook({ book: e.target.value });
   };
 
   return (
     <header className='header w-[100dvw]'>
-      <div className='align-header 2xl:'>
-        <Link to="/" className='logo-link'>
-        </Link>
+      <div className='align-header'>
+        <Link to="/" className='logo-link'></Link>
 
         <form onSubmit={handleSubmit} className='form-search-book-header text-black'>
           <input
@@ -69,10 +58,10 @@ const Header = () => {
             name="book"
             placeholder='Buscar livro...'
             value={searchBook.book}
-            onChange={handleRealTimeSearch}
+            onChange={handleChange}
             className='input-search-book-header bg-white'
           />
-          
+
           <button type="submit" className='button-submit-search-book-header'>
             <FontAwesomeIcon icon={faSearch} color='white' />
           </button>

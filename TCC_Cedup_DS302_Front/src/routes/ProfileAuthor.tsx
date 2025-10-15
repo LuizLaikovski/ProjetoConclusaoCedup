@@ -16,8 +16,8 @@ interface ApiImage {
 interface ApiAuthorObj {
     id: string;
     name: string;
-    yearBorn?: string | null;
-    yearDeath?: string | null;
+    yearBorn?: Date | null;
+    yearDeath?: Date | null;
     description?: string | null;
     path?: string | null;
     // outros campos que o backend tiver...
@@ -120,8 +120,8 @@ const ProfileAutor = () => {
                     titulo: it.book.title,
                     path: it.book.path ?? undefined,
                     arquivo: {
-                    src: it.book.archive?.src ?? it.imagesBook?.[0]?.src ?? "",
-                    alt: it.book.archive?.alt ?? it.book.title ?? "",
+                        src: it.book.archive?.src ?? it.imagesBook?.[0]?.src ?? "",
+                        alt: it.book.archive?.alt ?? it.book.title ?? "",
                     },
                     avaliacao: it.book.rating,
                     authors: it.book.authors,
@@ -139,11 +139,21 @@ const ProfileAutor = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authorName]);
 
+    const ageAuthor = (yearBirth?: Date, yearDeath?: Date): number | null => {
+        if (!yearBirth) return null;
+
+        const birthYear = yearBirth.getFullYear();
+        const referenceYear = yearDeath ? yearDeath.getFullYear() : new Date().getFullYear();
+
+        return referenceYear - birthYear;
+    };
+
+
+
     if (loading) {
         return (
             <>
-                <Header />
-                <div className="loading-container flex flex-col justify-center items-center h-[80vh]">
+                <div className="loading-container flex flex-col justify-center items-center h-[100vh]">
                     <div className="loader h-[75px] w-[75px]"></div>
                 </div>
                 <Footer />
@@ -180,17 +190,24 @@ const ProfileAutor = () => {
     return (
         <>
         <Header />
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center h-[80dvh]">
             <main className="flex justify-center items-center flex-col w-[90dvw] h-auto" style={{marginTop: "20px"}}>
                 <div className="flex justify-center items-center flex-col">
                     <div className="bg-white w-[90dvw] h-[20dvh] flex items-center rounded-3xl shadow-2xl p-6 text-black">
                         <FontAwesomeIcon icon={faUserCircle} size="6x" color="#003631" className="ml-4 mr-6" style={{marginLeft: "20px"}} />
                         <div style={{marginLeft: "20px"}}>
                             <h1 className="text-2xl font-semibold">{author.name}</h1>
-                            {author.yearBorn && <p>Nascimento: {author.yearBorn}</p>}
-                            {author.yearDeath && <p>Falecimento: {author.yearDeath}</p>}
-                            {author.description && <p className="mt-3">{author.description}</p>}
+                            <p className="text-[14px]">Data de Nascimento:{" "}{author.yearBorn ? author.yearBorn.getFullYear() : "não informada"}</p>
+                                {!author.yearDeath && author.yearBorn && (
+                                    <p className="text-[14px]">Idade: {ageAuthor(author.yearBorn)} anos</p>
+                                )}
+                                {author.yearDeath && (
+                                    <p className="text-[14px]">Data de Falecimento: {author.yearDeath.getFullYear()}</p>
+                                )}
+
                         </div>
+
+
                     </div>
                 </div>
 
@@ -206,6 +223,7 @@ const ProfileAutor = () => {
                             <div key={book.id} className="flex flex-col items-center"
                             >
                                 <RouteButton
+                                    classe="cursor-pointer hover:scale-108 transition"
                                     path={`/catalogo/livro/${book.path ?? book.id}`}
                                     img={<BookImage src={`${book.arquivo.src}`} alt={`${book.arquivo.alt}`} style={{ height: "200px", margin: "20px" }} />}
                                 />

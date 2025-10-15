@@ -2,7 +2,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
-
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
 import Login from './routes/Login.tsx';
 import ErrorPage from './routes/ErrorPage.tsx';
@@ -12,6 +11,7 @@ import BookSpecifications from './routes/BookSpecifications.tsx';
 import ProfileUser from './routes/ProfileUser.tsx';
 import ProfileAutor from './routes/ProfileAuthor.tsx';
 import Register from './routes/Register.tsx';
+import SearchResult from './routes/SearchResult.tsx';
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/home" replace /> },
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
   },
   { path: "/login", element: <Login /> },
   { path: "/cadastro", element: <Register /> },
-  { path: "/search/:bookName", element: <Home /> },
+  { path: "/search/:bookName", element: <SearchResult /> },
   { path: "/perfil", element: <ProfileUser /> },
   { path: "/perfilAutor/:authorName", element: <ProfileAutor /> },
   {

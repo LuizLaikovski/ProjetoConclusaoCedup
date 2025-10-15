@@ -159,7 +159,7 @@ const BookSpecifications = () => {
                     <div className="avaliation-starts-book">
                         {renderStars(book.avaliacao)}
                     </div>
-                    <RouteButton path={`/perfilAutor/${book.autorPath}`} label={`${book.autor}`} classe="font-bold text-2xl cursor-pointer" />
+                    <RouteButton path={`/perfilAutor/${book.autorPath}`} label={`${book.autor}`} classe="font-bold text-2xl cursor-pointer hover:scale-105" />
                     <h1 className="sm:text-2xl">Quantidade de Páginas: {book.pags}</h1>
                 </div>
 
@@ -168,6 +168,7 @@ const BookSpecifications = () => {
                 </div>
 
                 <button className="primary-button w-[80dvw] text-2xl">Leia Agora</button>
+                <button className="primary-button w-[80dvw] text-2xl">Avaliar o Livro</button>
                 <Footer />
                 <div className="h-[10dvh]"></div>
             </main>

@@ -75,7 +75,7 @@ const ProfileUser = () => {
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h2>Ediatr seus Dados</h2>
+                            <h2>Editar seus Dados</h2>
                             <button className="close-button" onClick={handleModal}>
                                 <FontAwesomeIcon icon={faTimes} />
                             </button>

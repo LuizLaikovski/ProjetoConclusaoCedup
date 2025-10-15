@@ -48,7 +48,6 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         }
 
         const data = await response.json();
-        console.log("📚 Dados recebidos:", data);
 
         if (Array.isArray(data)) {
           // Mapeia os livros a partir do campo book.archive
@@ -83,7 +82,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
     };
 
     fetchBooks();
-  }, []);
+  }, [API_KEY, API_URL]);
 
   const scrollLeft = () => {
     if (carouselRef.current) {
