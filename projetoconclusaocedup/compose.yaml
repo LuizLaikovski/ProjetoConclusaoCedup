@@ -2,10 +2,15 @@ version: '3.8'
 
 services:
   app:
+    container_name: "projetoconclusaocedup"
+    image: "dockerprojeto"
     build: .
     ports:
       - "8080:8080"
+
     environment:
-        - MONGODB_URI=${MONGODB_URI}
-        - SPRING_PROFILES_ACTIVE=prod
+      - MONGODB_URI=${MONGODB_URI}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - FRONTEND=${FRONTEND}
+      - API_KEY=${API_KEY}
     restart: unless-stopped

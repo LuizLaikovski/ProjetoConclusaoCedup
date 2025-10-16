@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/book/authors")
+@RequestMapping("/book/all")
 @AllArgsConstructor
-public class BookAuthorsController {
+public class AllInfoFromBookController {
     private final BookService bookService;
     private final AuthorService authorService;
     private final ImageService imageService;

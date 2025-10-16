@@ -68,6 +68,14 @@ public class BookService {
         }
     }
 
+    public List<Book> findBy(String where, String query){
+        try {
+            return bookRepository.searchBy(where, query);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void deleteById(String id){
         try {
             Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro de id: "+id+" não encontrado"));
