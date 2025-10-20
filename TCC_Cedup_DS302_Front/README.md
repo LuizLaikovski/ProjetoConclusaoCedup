@@ -2,6 +2,9 @@
 
 Este projeto é o *frontend* desenvolvido para o Trabalho de Conclusão de Curso (TCC) do CEDUP. Ele é a interface principal de uma aplicação de gerenciamento e visualização de livros, focada em proporcionar uma experiência de usuário fluida e responsiva.
 
+## Node Version
+v24.1.0
+
 ## 🌟 Tecnologias Utilizadas
 
 O projeto foi construído com um *stack* moderno e robusto, utilizando as seguintes tecnologias principais:
