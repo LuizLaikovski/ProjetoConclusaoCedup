@@ -12,7 +12,6 @@ import ProfileUser from './routes/ProfileUser.tsx';
 import ProfileAutor from './routes/ProfileAuthor.tsx';
 import Register from './routes/Register.tsx';
 import SearchResult from './routes/SearchResult.tsx';
-import Test from './routes/Test.tsx';
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/home" replace /> },
@@ -26,7 +25,6 @@ const router = createBrowserRouter([
     ]
   },
   { path: "/login", element: <Login /> },
-  {path: "/teste", element: <Test />},
   { path: "/cadastro", element: <Register /> },
   { path: "/search/:bookName", element: <SearchResult /> },
   { path: "/perfil", element: <ProfileUser /> },
