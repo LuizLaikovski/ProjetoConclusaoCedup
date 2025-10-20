@@ -1,7 +1,7 @@
 import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
 const Header = () => {
