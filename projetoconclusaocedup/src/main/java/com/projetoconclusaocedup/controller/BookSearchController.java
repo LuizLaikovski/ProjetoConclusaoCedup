@@ -22,20 +22,48 @@ public class BookSearchController {
     private final BookService bookService;
     private final ImageService imageService;
 
-    @GetMapping("/{where}={query}")
-    public ResponseEntity<?> getSearch(@PathVariable String where, @PathVariable String query){
+    @GetMapping("/q={query}")
+    public ResponseEntity<?> getSearch(@PathVariable String query){
         try {
-            List<Book> books = bookService.findBy(where, query);
+            List<Book> books = bookService.findBy(query);
             List<BookSearchDTO> bookSearchDTOS = new ArrayList<>();
+
             if(books != null && !books.isEmpty()){
                 for(Book book : books){
                     List<Image> images = new ArrayList<>();
+
                     for(String idImage : book.getImages()){
                         images.add(imageService.get(idImage));
                     }
+
                     bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), images));
                 }
             }
+
+            return ResponseEntity.ok(bookSearchDTOS);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/catalog")
+    public ResponseEntity<?> getAll(){
+        try {
+            List<Book> books = bookService.getAll();
+            List<BookSearchDTO> bookSearchDTOS = new ArrayList<>();
+
+            if(books != null && !books.isEmpty()){
+                for(Book book : books){
+                    List<Image> images = new ArrayList<>();
+
+                    for(String idImage : book.getImages()){
+                        images.add(imageService.get(idImage));
+                    }
+
+                    bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), images));
+                }
+            }
+
             return ResponseEntity.ok(bookSearchDTOS);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
