@@ -68,9 +68,9 @@ public class BookService {
         }
     }
 
-    public List<Book> findBy(String query){
+    public List<Book> findByTitle(String query){
         try {
-            return bookRepository.searchBy(query);
+            return bookRepository.searchByTitle(query);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

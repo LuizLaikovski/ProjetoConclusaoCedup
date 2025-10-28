@@ -92,6 +92,14 @@ public class AuthorService {
         }
     }
 
+    public Author getByPath(String path){
+        try {
+            return authorRepository.getByPath(path);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void deleteById(String id){
         try {
             authorRepository.deleteById(id);

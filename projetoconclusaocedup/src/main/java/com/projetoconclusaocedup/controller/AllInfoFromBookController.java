@@ -57,7 +57,7 @@ public class AllInfoFromBookController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @PostMapping("/all")
+    @PostMapping("/createAll")
     public ResponseEntity<?> createAll(@RequestBody List<BookAuthorsDTO> bookAuthorsDTOS){
         try {
             List<BookAuthorsDTO> newBookAuthorsDTOS = new ArrayList<>();

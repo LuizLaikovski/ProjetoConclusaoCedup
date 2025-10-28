@@ -15,6 +15,6 @@ import java.util.List;
 public class AuthorBooksDTO {
     private Author author;
     private List<Book> books;
-    private List<Image> imagesAuthor;
     private List<Image> imagesBook;
+    private List<Image> imagesAuthor;
 }

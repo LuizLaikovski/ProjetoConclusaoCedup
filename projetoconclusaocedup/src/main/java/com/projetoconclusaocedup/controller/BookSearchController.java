@@ -25,7 +25,7 @@ public class BookSearchController {
     @GetMapping("/q={query}")
     public ResponseEntity<?> getSearch(@PathVariable String query){
         try {
-            List<Book> books = bookService.findBy(query);
+            List<Book> books = bookService.findByTitle(query);
             List<BookSearchDTO> bookSearchDTOS = new ArrayList<>();
 
             if(books != null && !books.isEmpty()){
