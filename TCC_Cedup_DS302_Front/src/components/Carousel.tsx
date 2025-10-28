@@ -48,32 +48,28 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         }
 
         const data = await response.json();
+        console.log(JSON.stringify(data, null, 2)); // debug
+        
 
         if (Array.isArray(data)) {
-          // Mapeia os livros a partir do campo book.archive
-          const mappedBooks: Book[] = data
-            .filter((item) => item.book?.archive?.src)
-            .map((item) => ({
-              id: item.book.id,
-              titulo: item.book.title,
-              arquivo: {
-                src: item.book.archive.src,
-                alt: item.book.archive.alt || item.book.title,
-              },
-              path: item.book.path, // Pode ajustar conforme seu sistema de rotas
-              avaliacao: item.book.rating || 0,
-            }));
+        const mappedBooks: Book[] = data.map((item) => ({
+          id: item.book?.id ?? crypto.randomUUID(),
+          titulo: item.book?.title ?? "Sem título",
+          arquivo: {
+            // 🔹 Garante que o caminho da imagem esteja correto
+            src: item.book.archive.src,
+            alt: item.book?.archive?.alt ?? item.book?.title ?? "Capa",
+          },
+          path: item.book?.path ?? "#",
+          avaliacao: item.book?.rating ?? 0,
+        }));
 
-          // Remove duplicados
-          const uniqueBooks = Array.from(
-            new Map(mappedBooks.map((b) => [b.id, b])).values()
-          );
+        setBooks(mappedBooks);
+      } else {
+        console.warn("Formato inesperado da resposta:", data);
+        setBooks([]);
+      }
 
-          setBooks(uniqueBooks);
-        } else {
-          console.warn("Formato inesperado:", data);
-          setBooks([]);
-        }
       } catch (error) {
         console.error("Erro ao buscar capas:", error);
       } finally {
@@ -137,7 +133,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
           {books.slice(minBooks, maxBooks).map((book) => (
             <div
               key={book.id}
-              className="flex-shrink-0 w-auto rounded-2xl overflow-hidden transition-transform hover:scale-105 hover:z-10"
+              className="shrink-0 w-auto rounded-2xl overflow-hidden transition-transform hover:scale-105 hover:z-10"
               style={{ scrollSnapAlign: 'start', padding: "10px" }}
             >
               <RouteButton
