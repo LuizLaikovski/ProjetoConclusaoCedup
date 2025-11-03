@@ -10,14 +10,18 @@ const ModalAssessment = ({ setModalAssessment }: ModalAssessmentProp) => {
     const [rating, setRating] = useState<number>(0);
     const [hover, setHover] = useState<number>(0);
 
+    const API_KEY = import.meta.env.VITE_API_KEY;
+    const API_URL = import.meta.env.VITE_API_URL;
+
     const handleRatingClick = async (value: number) => {
         setRating(value);
 
         try {
-            const response = await fetch("http://localhost:3000/api/avaliacao", {
+            const response = await fetch(`${API_URL}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "X-API-Key": API_KEY
                 },
                 body: JSON.stringify({ nota: value }),
             });
