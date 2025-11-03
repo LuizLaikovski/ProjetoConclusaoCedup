@@ -1,27 +1,23 @@
 package com.projetoconclusaocedup.model;
 
+import com.projetoconclusaocedup.dto.BookSearchDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "Authors")
+@Document(collection = "Users")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Author {
+@AllArgsConstructor
+public class User {
     @MongoId
     private String id;
     private String name;
-    private LocalDate yearBorn;
-    private LocalDate yearDeath;
-    private String description;
-    private String path;
-    private List<String> books = new ArrayList<>();
-    private List<String> images = new ArrayList<>();
+    private String email;
+    private String password;
+    private List<BookSearchDTO> booksFavorited;
 }

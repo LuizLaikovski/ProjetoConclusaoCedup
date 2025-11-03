@@ -1,5 +1,6 @@
 package com.projetoconclusaocedup.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.projetoconclusaocedup.model.Image;
@@ -9,12 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ImageService {
     private final ImageRepository imageRepository;
-
-    public ImageService(ImageRepository imageRepository) {
-        this.imageRepository = imageRepository;
-    }
 
     public Image create(Image image){
         try {

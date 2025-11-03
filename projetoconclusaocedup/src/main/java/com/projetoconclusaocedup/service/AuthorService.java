@@ -1,5 +1,6 @@
 package com.projetoconclusaocedup.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.projetoconclusaocedup.model.Author;
@@ -10,12 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class AuthorService {
     private final AuthorRepository authorRepository;
-
-    public AuthorService(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
 
     public Author create(Author author){
         try {
