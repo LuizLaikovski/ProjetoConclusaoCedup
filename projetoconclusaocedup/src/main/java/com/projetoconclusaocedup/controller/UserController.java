@@ -1,5 +1,6 @@
 package com.projetoconclusaocedup.controller;
 
+import com.projetoconclusaocedup.dto.IdsDTO;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.service.UserService;
 import lombok.AllArgsConstructor;
@@ -53,6 +54,16 @@ public class UserController {
     public ResponseEntity<?> update(@RequestBody User user){
         try {
             return ResponseEntity.ok(userService.update(user.getId(), user));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/favorite")
+    public ResponseEntity<?> favorite(@RequestBody IdsDTO idsDTO){
+        try {
+            userService.favorite(idsDTO.getId1(), idsDTO.getId2());
+            return ResponseEntity.ok("foi meu patrão");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
