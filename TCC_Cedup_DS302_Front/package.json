@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build cp public/_redirects dist/_redirects",
+    "build": "tsc -b && vite build && cp public/_redirects dist/_redirects",
     "lint": "eslint .",
     "preview": "vite preview"
   },

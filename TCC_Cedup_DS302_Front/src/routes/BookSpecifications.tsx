@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import "./css/BooksSpecification.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import ModalAssessment from "../components/ModalAssessment";
 
 interface BookAPIItem {
   book: {
@@ -50,9 +51,14 @@ const BookSpecifications = () => {
   const navigate = useNavigate();
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
+  const [modalAssessment, setModalAssessment] = useState(false);
 
   const API_KEY = import.meta.env.VITE_API_KEY;
   const API_URL = import.meta.env.VITE_API_URL;
+
+  const toggleModal = () => {
+    setModalAssessment(!modalAssessment);
+  }
 
   // Normaliza strings para URL amigável
   const normalize = (str: string) =>
@@ -168,10 +174,16 @@ const BookSpecifications = () => {
                 </div>
 
                 <button className="primary-button w-[80dvw] text-2xl">Leia Agora</button>
-                <button className="primary-button w-[80dvw] text-2xl">Avaliar o Livro</button>
+                <button onClick={toggleModal} className="primary-button w-[80dvw] text-2xl">Avaliar o Livro</button>
                 <Footer />
                 <div className="h-[10dvh]"></div>
             </main>
+
+            {modalAssessment && (
+              <ModalAssessment
+                setModalAssessment={setModalAssessment}
+              />
+            )}
         </>
     );
 };
