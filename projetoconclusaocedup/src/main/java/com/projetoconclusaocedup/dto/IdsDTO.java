@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IdsDTO {
-    private String id1;
-    private String id2;
+    private String idBook;
+    private String idUser;
 }

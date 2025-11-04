@@ -62,7 +62,7 @@ public class UserController {
     @PostMapping("/favorite")
     public ResponseEntity<?> favorite(@RequestBody IdsDTO idsDTO){
         try {
-            userService.favorite(idsDTO.getId1(), idsDTO.getId2());
+            userService.favorite(idsDTO.getIdBook(), idsDTO.getIdUser());
             return ResponseEntity.ok("foi meu patrão");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
