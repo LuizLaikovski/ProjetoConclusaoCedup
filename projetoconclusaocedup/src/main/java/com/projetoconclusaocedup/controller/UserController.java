@@ -50,7 +50,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public ResponseEntity<?> update(@RequestBody User user){
         try {
             return ResponseEntity.ok(userService.update(user.getId(), user));
