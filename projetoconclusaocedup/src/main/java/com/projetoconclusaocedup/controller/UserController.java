@@ -50,10 +50,10 @@ public class UserController {
         }
     }
 
-    @PutMapping("")
-    public ResponseEntity<?> update(@RequestBody User user){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody User user){
         try {
-            return ResponseEntity.ok(userService.update(user.getId(), user));
+            return ResponseEntity.ok(userService.update(id, user));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

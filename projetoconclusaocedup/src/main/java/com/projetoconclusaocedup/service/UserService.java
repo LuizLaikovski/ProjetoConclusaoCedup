@@ -82,13 +82,13 @@ public class UserService {
                 newUser.setBooksFavorited(user.getBooksFavorited());
             }
 
-            return userRepository.save(user);
+            return userRepository.save(newUser);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public List<BookSearchDTO> favorite(String idBook, String idUser){
+    public void favorite(String idBook, String idUser){
         try {
             Book book = bookService.get(idBook);
             User user = get(idUser);
@@ -108,7 +108,6 @@ public class UserService {
 
             update(user.getId(), user);
 
-            return user.getBooksFavorited();
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
