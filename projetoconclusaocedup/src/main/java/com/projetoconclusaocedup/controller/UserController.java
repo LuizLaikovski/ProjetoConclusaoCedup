@@ -1,6 +1,7 @@
 package com.projetoconclusaocedup.controller;
 
 import com.projetoconclusaocedup.dto.IdsDTO;
+import com.projetoconclusaocedup.dto.LoginDTO;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.service.UserService;
 import lombok.AllArgsConstructor;
@@ -23,9 +24,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(String email, String password){
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
         try {
-            return ResponseEntity.ok(userService.login(email, password));
+            return ResponseEntity.ok(userService.login(loginDTO.getEmail(), loginDTO.getPassword()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
