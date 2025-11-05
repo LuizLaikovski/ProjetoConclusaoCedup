@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import RouteButton from "../components/RouteButton";
 import Footer from "../components/Footer";
 import "./css/BooksSpecification.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -55,6 +54,7 @@ const BookSpecifications = () => {
 
   const API_KEY = import.meta.env.VITE_API_KEY;
   const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL_BOOKS = import.meta.env.VITE_API_URL_BOOKS;
 
   const toggleModal = () => {
     setModalAssessment(!modalAssessment);
@@ -72,7 +72,7 @@ const BookSpecifications = () => {
     const fetchBook = async () => {
       try {
         const res = await fetch(
-          API_URL,
+          API_URL_BOOKS,
           {
             headers: { "X-API-Key": API_KEY },
           }
@@ -112,10 +112,38 @@ const BookSpecifications = () => {
         setLoading(false);
       }
     };
-
     if (bookName) fetchBook();
     else setLoading(false);
   }, [bookName]);
+
+  const favoriteBook = async () => {
+    const idUser = localStorage.getItem("idUser");
+  
+    if (!book || !idUser) {
+      alert("Erro: usuário ou livro não encontrado");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/user/favorite`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": API_KEY
+        },
+        body: JSON.stringify({
+          idUser: idUser,
+          idBook: book.id
+        })
+      });
+
+      console.log(response.text());
+    } catch (error) {
+      console.error("Erro ao favoritar:", error);
+      alert("Erro de conexão com o servidor!");
+    }
+  };
+  
 
   if (loading)
     return (
@@ -137,7 +165,6 @@ const BookSpecifications = () => {
       </div>
     );
 
-    // Função para renderizar as estrelas baseadas na avaliação
     const renderStars = (rating: number) => {
         return [...Array(5)].map((_, index) => {
             const ratingValue = index + 1;
@@ -155,37 +182,86 @@ const BookSpecifications = () => {
         });
     };
 
-  return (
-        <>
-            <Header />
-            <main className="book-specifications-main flex justify-center items-center flex-col w-[100dvw] h-auto" style={{margin: "20px"}}>
-                <div className="bg-white h-auto w-[90dvw] text-black rounded-2xl shadow-2xl flex justify-center items-center flex-col" style={{padding: "15px"}}>
-                    <img src={book.arquivo.src} alt={book.arquivo.alt} className="h-50 shadow-2xl" />
-                    <h1 className="text-4xl text-center">{book.titulo}</h1>
-                    <div className="avaliation-starts-book">
-                        {renderStars(book.avaliacao)}
-                    </div>
-                    <RouteButton path={`/perfilAutor/${book.autorPath}`} label={`${book.autor}`} classe="font-bold text-2xl cursor-pointer hover:scale-105" />
-                    <h1 className="sm:text-2xl">Quantidade de Páginas: {book.pags}</h1>
-                </div>
-
-                <div className="bg-white h-auto w-[90dvw] text-black rounded-2xl shadow-2xl flex justify-center items-center flex-col text-justify sm:text-[20px]" style={{padding: "15px", marginTop: "30px"}}>
-                    <h1>{book.descricao}</h1>
-                </div>
-
-                <button className="primary-button w-[80dvw] text-2xl">Leia Agora</button>
-                <button onClick={toggleModal} className="primary-button w-[80dvw] text-2xl">Avaliar o Livro</button>
-                <Footer />
-                <div className="h-[10dvh]"></div>
-            </main>
-
-            {modalAssessment && (
-              <ModalAssessment
-                setModalAssessment={setModalAssessment}
+    return (
+      <>
+        <Header />
+        <main className="min-h-screen flex flex-col justify-center items-center py-10 px-6">
+          <section className="bg-white w-[90dvw] h-auto rounded-2xl shadow-2xl flex flex-col justify-center items-center lg:flex-row relative overflow-hidden" style={{padding: "50px 50px 50px 50px", marginTop: "50px"}}>
+            <div className="lg:w-[35%] flex justify-center items-center p-8">
+              <img
+                src={book.arquivo.src}
+                alt={book.arquivo.alt}
+                className="rounded-lg shadow-xl w-[250px] lg:w-[300px]"
               />
-            )}
-        </>
+            </div>
+
+            <div className="flex flex-col inset-y-0 left-0 items-center w-[40dvw]">
+              {/* Título e estrelas */}
+              <div className="max-sm:w-[70dvw]">
+                <div className="text-center">
+                  <h1 className="text-4xl font-bold text-black lg:text-left mb-3">
+                    {book.titulo}
+                  </h1>
+                </div>
+                <div className="flex justify-center lg:justify-start items-center" style={{marginBottom: "20px", marginTop: "20px"}}>
+                  {renderStars(book.avaliacao)}
+                  <span className="ml-2 text-black font-semibold text-lg">
+                    {book.avaliacao.toFixed(1)}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center border-t border-b border-gray-300"  style={{paddingBlock: "16px", marginBottom: "24px"}}>
+                  <div>
+                    <p className="font-semibold text-2xl text-gray-700">Nº de páginas: {book.pags}</p>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-justify text-[17px] leading-relaxed text-gray-800 max-sm:w-60">
+                {book.descricao}
+              </p>
+            </div>
+    
+            {/* Botões laterais */}
+            <div className="flex justify-center items-center">
+              <div className="hidden lg:flex h-[35dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl" style={{marginLeft: "7dvw", padding: "20px"}}>
+                <button className="primary-button">
+                  Leia Agora
+                </button>
+                <button className="primary-button" onClick={toggleModal}>
+                  Avaliar
+                </button>
+                <button className="primary-button" onClick={favoriteBook}>
+                  Favoritos
+                </button>
+              </div>
+            </div>
+          </section>
+    
+          {/* Botões embaixo (para telas menores, até notebook) */}
+          <div className="sm:hidden flex h-[35dvh] w-[80dvw]  lg:w-[20dvw] flex-col gap-4 right-6 top-1/3 lg:shadow-2xl">
+            <button className="primary-button">
+              Leia Agora
+            </button>
+            <button className="primary-button" onClick={toggleModal}>
+              Avaliar
+            </button>
+            <button className="primary-button" onClick={favoriteBook}>
+              Favoritos
+            </button>
+          </div>
+
+          {modalAssessment && (
+            <ModalAssessment
+              setModalAssessment={setModalAssessment}
+            />
+          )}
+
+
+          <Footer />
+          <div className="h-[6dvh]"></div>
+        </main>
+      </>
     );
-};
+  };
 
 export default BookSpecifications;

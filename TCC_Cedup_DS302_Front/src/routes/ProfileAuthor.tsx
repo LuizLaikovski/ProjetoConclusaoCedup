@@ -12,22 +12,18 @@ interface ApiImage {
     src?: string;
     alt?: string;
 }
-
 interface ApiAuthorObj {
     id: string;
     name: string;
-    yearBorn?: Date | null;
-    yearDeath?: Date | null;
+    yearBorn?: string | null;
+    yearDeath?: string | null;
     description?: string | null;
     path?: string | null;
-    // outros campos que o backend tiver...
 }
-
 interface AuthorsImagesItem {
     author: ApiAuthorObj;
     images: ApiImage[];
     }
-
 interface ApiItem {
     book: {
         id: string;
@@ -42,7 +38,6 @@ interface ApiItem {
     imagesBook?: ApiImage[];
     authorsImages?: AuthorsImagesItem[];
 }
-
 interface BookForUI {
     id: string;
     titulo: string;
@@ -51,7 +46,6 @@ interface BookForUI {
     avaliacao?: number;
     authors?: string[]; // ids
 }
-
 const normalize = (s?: string) =>
     (s ?? "")
         .normalize?.("NFD")
@@ -62,7 +56,7 @@ const normalize = (s?: string) =>
 
 const ProfileAutor = () => {
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL_BOOKS;
     const { authorName } = useParams<{ authorName: string }>();
 
     const [author, setAuthor] = useState<ApiAuthorObj | null>(null);
@@ -74,6 +68,7 @@ const ProfileAutor = () => {
         const fetchAuthorData = async () => {
             setLoading(true);
             setError(null);
+            
             try {
                 if (!authorName) {
                     setError("Nenhum autor especificado na URL");
@@ -139,16 +134,14 @@ const ProfileAutor = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authorName]);
 
-    const ageAuthor = (yearBirth?: Date, yearDeath?: Date): number | null => {
+    const ageAuthor = (yearBirth?: string | Date, yearDeath?: string | Date): number | null => {
         if (!yearBirth) return null;
-
-        const birthYear = yearBirth.getFullYear();
-        const referenceYear = yearDeath ? yearDeath.getFullYear() : new Date().getFullYear();
-
+      
+        const birthYear = new Date(yearBirth).getFullYear();
+        const referenceYear = yearDeath ? new Date(yearDeath).getFullYear() : new Date().getFullYear();
+      
         return referenceYear - birthYear;
     };
-
-
 
     if (loading) {
         return (
@@ -197,13 +190,20 @@ const ProfileAutor = () => {
                         <FontAwesomeIcon icon={faUserCircle} size="6x" color="#003631" className="ml-4 mr-6" style={{marginLeft: "20px"}} />
                         <div style={{marginLeft: "20px"}}>
                             <h1 className="text-2xl font-semibold">{author.name}</h1>
-                            <p className="text-[14px]">Data de Nascimento:{" "}{author.yearBorn ? author.yearBorn.getFullYear() : "não informada"}</p>
+                            <p className="text-[14px]">
+                                Data de Nascimento:{" "}
+                                {author.yearBorn ? new Date(author.yearBorn).getFullYear() : "não informada"}
+                            </p>
+
                                 {!author.yearDeath && author.yearBorn && (
                                     <p className="text-[14px]">Idade: {ageAuthor(author.yearBorn)} anos</p>
                                 )}
                                 {author.yearDeath && (
-                                    <p className="text-[14px]">Data de Falecimento: {author.yearDeath.getFullYear()}</p>
+                                    <p className="text-[14px]">
+                                        Data de Falecimento: {new Date(author.yearDeath).getFullYear()}
+                                    </p>
                                 )}
+
 
                         </div>
 

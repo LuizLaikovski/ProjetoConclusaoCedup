@@ -23,7 +23,7 @@ interface CarouselProps {
 
 const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL_BOOKS;
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -48,21 +48,19 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         }
 
         const data = await response.json();
-        console.log(JSON.stringify(data, null, 2)); // debug
-        
 
         if (Array.isArray(data)) {
-        const mappedBooks: Book[] = data.map((item) => ({
-          id: item.book?.id ?? crypto.randomUUID(),
-          titulo: item.book?.title ?? "Sem título",
-          arquivo: {
-            // 🔹 Garante que o caminho da imagem esteja correto
-            src: item.book.archive.src,
-            alt: item.book?.archive?.alt ?? item.book?.title ?? "Capa",
-          },
-          path: item.book?.path ?? "#",
-          avaliacao: item.book?.rating ?? 0,
-        }));
+          const mappedBooks: Book[] = data.map((item) => ({
+            id: item.book?.id ?? crypto.randomUUID(),
+            titulo: item.book?.title ?? "Sem título",
+            arquivo: {
+              // 🔹 Garante que o caminho da imagem esteja correto
+              src: item.book.archive.src,
+              alt: item.book?.archive?.alt ?? item.book?.title ?? "Capa",
+            },
+            path: item.book?.path ?? "#",
+            avaliacao: item.book?.rating ?? 0,
+          }));
 
         setBooks(mappedBooks);
       } else {
@@ -127,7 +125,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         {/* Carrossel */}
         <div
           ref={carouselRef}
-          className="flex h-[45dvh] overflow-x-auto scrollbar-hide space-x-4 py-4 px-2"
+          className="flex overflow-x-auto scrollbar-hide space-x-4 py-4 px-2"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {books.slice(minBooks, maxBooks).map((book) => (
@@ -137,7 +135,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
               style={{ scrollSnapAlign: 'start', padding: "10px" }}
             >
               <RouteButton
-                img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
+                img={<BookImage src={book.arquivo.src} alt={book.titulo} classe='w-[136px]' />}
                 path={`/catalogo/livro/${book.path}`}
               />
             </div>

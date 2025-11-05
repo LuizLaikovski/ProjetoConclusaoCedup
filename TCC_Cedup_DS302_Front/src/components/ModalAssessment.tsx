@@ -11,13 +11,14 @@ const ModalAssessment = ({ setModalAssessment }: ModalAssessmentProp) => {
     const [hover, setHover] = useState<number>(0);
 
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL_USER;
 
     const handleRatingClick = async (value: number) => {
         setRating(value);
-
+        console.log(value);
+        
         try {
-            const response = await fetch(`${API_URL}`, {
+            const response = await fetch(`${API_URL}favorite`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,13 +45,7 @@ const ModalAssessment = ({ setModalAssessment }: ModalAssessmentProp) => {
                 <h2>Avalie sua experiência</h2>
 
                 <div
-                    className="stars-container"
-                    style={{
-                        display: "flex",
-                        gap: "10px",
-                        justifyContent: "center",
-                        margin: "20px 0",
-                    }}
+                    className="stars-container flex gap-2.5 justify-center mt-5"
                 >
                     {[1, 2, 3, 4, 5].map((value) => (
                         <span

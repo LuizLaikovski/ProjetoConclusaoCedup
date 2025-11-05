@@ -13,6 +13,10 @@
     --white: rgba(255, 255, 255, 0.87);
 }
 
+.testB {
+    border: red solid 1px;
+}
+
 * {
     margin: 0 0 0 0;
     padding: 0 0 0 0;

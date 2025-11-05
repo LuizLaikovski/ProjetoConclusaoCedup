@@ -1,178 +1,135 @@
-import './css/Register.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react';
-import Checkbox from '../components/Checkbox';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
+import "./css/Register.css";
 
 const Register = () => {
-
-    const [cpf, setCpf] = useState('');
     const [formData, setFormData] = useState({
         nomeCompleto: '',
         email: '',
         password: '',
-        cpf: '',
-        telefone: '',
-        rememberMe: false
     });
-    
-    const [showData, setShowData] = useState(false);
 
-    const saveToDB = async (data: any) => {
+    const API_KEY = import.meta.env.VITE_API_KEY;
+    const API_URL = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
+
+    const saveToDB = async (data: typeof formData) => {
         try {
-            const resposnse =  await fetch('./UsersTest.json');
-            const db = await resposnse.json();
+            const bodyData = {
+                name: data.nomeCompleto,
+                email: data.email,
+                password: data.password,
+            };
 
-            db.users.push(data);
+            const response = await fetch(`${API_URL}/user`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-API-Key": API_KEY
+                },
+                body: JSON.stringify(bodyData)
+            });
 
-            const jsonData = JSON.stringify(data, null, 2);
-            console.log(jsonData); // Aqui você pode salvar o JSON em um arquivo ou enviar para um servidor
+            if (!response.ok) throw new Error("Erro ao enviar dados");
+            const result = await response.json();
+
+            if (result.id) {
+                localStorage.setItem("idUser", result.id);
+                localStorage.setItem("nameUser", result.name);
+                localStorage.setItem("emailUser", result.email)
+            }
+
+            navigate("/home");
         } catch (error) {
-            console.error('Erro ao converter dados para JSON:', error);
+            alert("Erro ao cadastrar usuário!");
+            console.error('Erro ao salvar usuário:', error);
         }
     };
 
-
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setShowData(true);
-
-        saveToDB(formData);
-    }
-
-    const handleChange = (e: any) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        await saveToDB(formData);
     };
 
-    const formatCPF = (e: any) => {
-        // Remove tudo que não for dígito
-        let value = e.target.value.replace(/\D/g, '');
-        
-        // Limita a 11 caracteres (tamanho do CPF)
-        if (value.length > 11) {
-            value = value.substring(0, 11);
-        }
-        
-        // Aplica a formatação do CPF (XXX.XXX.XXX-XX)
-        if (value.length > 3 && value.length <= 6) {
-            value = value.replace(/(\d{3})(\d{0,3})/, '$1.$2');
-        } else if (value.length > 6 && value.length <= 9) {
-            value = value.replace(/(\d{3})(\d{3})(\d{0,3})/, '$1.$2.$3');
-        } else if (value.length > 9) {
-            value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
-        }
-        
-        setCpf(value);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
-
-
-    formData.cpf = cpf;
-
 
     return (
-        <>
-            <section id="register">
-                <div className="box-register">
-                    <FontAwesomeIcon icon={faCircleUser} size="4x" />
-                </div>
-                <div className="container-register">
-                    <form className="register-form" onSubmit={handleSubmit}>
-                        <h1 className=''>Cadastro</h1>     
+        <section
+            id="register"
+            className="flex justify-center items-center relative min-h-screen"
+        >
 
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                id="nomeCompleto"
-                                name="nomeCompleto"
-                                value={formData.nomeCompleto}
-                                className="h-[5dvh] w-[20dvw] placeholder-gray-400 text-black"
-                                placeholder="Digite seu nome completo"
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+            <div className="box-register">
+                <FontAwesomeIcon icon={faCircleUser} size="4x" className="text-secondary-clear" />
+            </div>
 
-                        <div className="form-group">
-                            <input 
-                                type="email" 
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                className="h-[5dvh] w-[20dvw] placeholder-gray-400 text-black"
-                                placeholder="Digite seu Email" 
-                                onChange={handleChange}
-                                required 
-                            />
-                        </div>
-                        
-                        <div className="form-group">
-                            <input 
-                                type="password"
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                className="h-[5dvh] w-[20dvw]  placeholder-gray-400 text-black"
-                                placeholder="Digite sua Senha"   // ••••••••
-                                onChange={handleChange}
-                                required 
-                            />
-                        </div>
+            <div className="container-register absolute z-10 w-[90vw] sm:w-[30vw] h-auto min-h-[55vh] rounded-3xl shadow-xl flex flex-col justify-center items-center p-8">
+                
+                <form
+                    className="flex flex-col justify-center items-center w-full"
+                    onSubmit={handleSubmit}
+                >
+                    <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-center text-primary">Cadastro</h1>
+                    <div className="w-full flex justify-center"
+                    style={{margin: "24px"}}>
+                        <input
+                            type="text"
+                            id="nomeCompleto"
+                            name="nomeCompleto"
+                            value={formData.nomeCompleto}
+                            className="border-2 border-transparent w-[80%] h-[5vh] px-3 bg-gray-100 rounded-lg outline-none transition-all duration-300 text-black focus:border-secondary focus:bg-white focus:shadow-[0_0_0_5px_rgba(255,230,153,0.2)]"
+                            style={{padding: "15px"}}
+                            placeholder="Digite seu nome completo"
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="w-full flex justify-center"
+                    style={{marginBottom: "24px"}}>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            className="border-2 border-transparent w-[80%] h-[5vh] px-3 bg-gray-100 rounded-lg outline-none transition-all duration-300 text-black focus:border-secondary focus:bg-white focus:shadow-[0_0_0_5px_rgba(255,230,153,0.2)]"
+                            style={{padding: "15px"}}
+                            placeholder="Digite seu email"
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="w-full flex justify-center"
+                    style={{marginBottom: "24px"}}>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            className="border-2 border-transparent w-[80%] h-[5vh] px-3 bg-gray-100 rounded-lg outline-none transition-all duration-300 text-black focus:border-secondary focus:bg-white focus:shadow-[0_0_0_5px_rgba(255,230,153,0.2)]"
+                            style={{padding: "15px"}}
+                            placeholder="Digite sua senha"
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="register-button"
+                    >
+                        Confirmar
+                    </button>
+                </form>
+            </div>
 
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                id="cpf"
-                                name="cpf"
-                                value={formData.cpf}
-                                className="h-[5dvh] w-[20dvw]  placeholder-gray-400 text-black"
-                                placeholder="Digite seu CPF"
-                                onChange={formatCPF}
-                                inputMode="numeric" // Teclado numérico em dispositivos móveis
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <input 
-                                type="tel"
-                                id="telefone"
-                                name="telefone"
-                                value={formData.telefone}
-                                className="h-[5dvh] w-[20dvw]  placeholder-gray-400 text-black"
-                                placeholder='Telefone(Opcional)'
-                                onChange={handleChange}
-                            />
-                        </div>
-            
-                        <div className="form-group-small-box">
-                            <Checkbox checked={formData.rememberMe} onChange={handleChange} />
-                            <label htmlFor="rememberMe">Lembrar-me</label>
-                        </div>
-
-                        <button type="submit" className="register-button">Confirmar</button>
-                    </form>
-
-                    {showData && (
-                        <div className="data-display">
-                            <h2>Dados do Formulário</h2>
-                            <p><strong>Nome Completo:</strong> {formData.nomeCompleto}</p>
-                            <p><strong>Email:</strong> {formData.email}</p>
-                            <p><strong>Senha:</strong> {formData.password}</p>
-                            <p><strong>CPF:</strong> {formData.cpf}</p>
-                            <p><strong>Telefone:</strong> {formData.telefone}</p>
-                            <p><strong>Lembrar-me:</strong> {formData.rememberMe ? 'Sim' : 'Não'}</p>
-                        </div>
-                    )}
-                </div>
-                <Footer />
-            </section>
-        </>
+            <Footer />
+        </section>
     );
 };
 
-export default Register
+export default Register;
