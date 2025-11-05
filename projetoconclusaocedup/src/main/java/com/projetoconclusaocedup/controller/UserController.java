@@ -63,7 +63,9 @@ public class UserController {
     public ResponseEntity<?> favorite(@RequestBody IdsDTO idsDTO){
         try {
             userService.favorite(idsDTO.getIdBook(), idsDTO.getIdUser());
-            return ResponseEntity.ok("foi meu patrão");
+
+String msg = "foi meu patrão";
+            return ResponseEntity.ok(msg);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
