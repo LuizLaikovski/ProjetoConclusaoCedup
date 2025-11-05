@@ -22,7 +22,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(String email, String password){
         try {
             return ResponseEntity.ok(userService.login(email, password));
