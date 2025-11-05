@@ -53,7 +53,7 @@ const BookSpecifications = () => {
   const [modalAssessment, setModalAssessment] = useState(false);
 
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL_FAVORITE;
   const API_URL_BOOKS = import.meta.env.VITE_API_URL_BOOKS;
 
   const toggleModal = () => {
@@ -125,7 +125,7 @@ const BookSpecifications = () => {
     }
 
     try {
-      const response = await fetch(`${API_URL}/user/favorite`, {
+      const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

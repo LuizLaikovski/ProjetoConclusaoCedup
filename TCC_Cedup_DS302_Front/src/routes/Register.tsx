@@ -13,7 +13,7 @@ const Register = () => {
     });
 
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL_USER;
     const navigate = useNavigate();
 
     const saveToDB = async (data: typeof formData) => {
@@ -24,7 +24,7 @@ const Register = () => {
                 password: data.password,
             };
 
-            const response = await fetch(`${API_URL}/user`, {
+            const response = await fetch(`${API_URL}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const Register = () => {
     return (
         <section
             id="register"
-            className="flex justify-center items-center relative min-h-screen"
+            className="flex justify-center items-center relative min-h-screen text-white"
         >
 
             <div className="box-register">
