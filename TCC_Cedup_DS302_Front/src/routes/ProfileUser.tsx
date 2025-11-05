@@ -89,22 +89,42 @@ const ProfileUser = () => {
                     <h1 className="text-5xl" style={{ marginLeft: "20px" }}>Favoritos</h1>
                     <div className="border-y-green-900 border-2 w-[100dvw]"></div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 p-4" style={{ marginTop: "20px" }}>
-                        {books.slice(0, 16).map((book) => (
-                            <div key={book.id}>
-                                {book.arquivo ? (
-                                    <RouteButton
-                                        path={`/catalogo/livro/${book.path}`}
-                                        img={<BookImage src={book.arquivo.src} alt={book.title} style={{ height: "100px" }} />}
-                                    />
-                                ) : (
-                                    <div className="text-gray-500 text-center p-4 border rounded-lg">
-                                        Sem imagem
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 p-4 mt-6 " style={{marginTop: "24px"}}>
+                        {books && books.length > 0 ? (
+                            books.map((book) => (
+                                <div key={book.id} className="flex flex-col items-center">
+                                    {book.arquivo ? (
+                                        <RouteButton
+                                            path={`/catalogo/livro/${book.path}`}
+                                            img={
+                                                <BookImage
+                                                    src={book.arquivo.src}
+                                                    alt={book.title}
+                                                    style={{
+                                                        width: "150px",
+                                                        height: "220px",
+                                                        objectFit: "cover",
+                                                        borderRadius: "10px",
+                                                        boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+                                                    }}
+                                                />
+                                            }
+                                        />
+                                    ) : (
+                                        <div className="w-[150px] h-[220px] flex items-center justify-center text-gray-500 border rounded-lg shadow-sm">
+                                            Sem imagem
+                                        </div>
+                                    )}
+                                    <RouteButton classe="cursor-pointer" path={`/catalogo/livro/${book.path}`} label={<h2 className="text-center text-sm mt-2 font-medium">{book.title}</h2>}/>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-600 col-span-full text-center text-lg mt-4">
+                                Nenhum livro favoritado ainda.
+                            </p>
+                        )}
                     </div>
+
 
                     <div className="h-[10dvh]"></div>
                 </div>
