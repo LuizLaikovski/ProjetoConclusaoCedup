@@ -1,5 +1,6 @@
 package com.projetoconclusaocedup.service;
 
+import com.projetoconclusaocedup.config.PasswordEncoder;
 import com.projetoconclusaocedup.dto.BookSearchDTO;
 import com.projetoconclusaocedup.model.Book;
 import com.projetoconclusaocedup.model.Image;
@@ -18,39 +19,61 @@ public class UserService {
     private final UserRepository userRepository;
     private final BookService bookService;
     private final ImageService imageService;
+    private PasswordEncoder passwordEncoder;
 
-    public User create(User user){
+    public User register(User user){
         try {
-            if(user.getName() != null && !user.getName().trim().isBlank()){
-                user.setName(user.getName().trim());
-            }
-            if(user.getEmail() != null && !user.getEmail().trim().isBlank()){
-                user.setEmail(user.getEmail().trim());
-            }
-            if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
-                user.setPassword(user.getPassword().trim());
-            }
-            if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
-                user.setBooksFavorited(user.getBooksFavorited());
-            }
+            User existingUser = findByEmail(user.getEmail());
 
-            return userRepository.save(user);
+            if(existingUser != null){
+                if(user.getName() != null && !user.getName().trim().isBlank()){
+                    user.setName(user.getName().trim());
+                }
+                if(user.getEmail() != null && !user.getEmail().trim().isBlank()){
+                    user.setEmail(user.getEmail().trim());
+                }
+                if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
+                    String encryptedPassword = passwordEncoder.encrypt(user.getPassword());
+                    user.setPassword(encryptedPassword);
+                }
+                if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
+                    user.setBooksFavorited(user.getBooksFavorited());
+                }
+
+                return userRepository.save(user);
+            } else {
+                throw new RuntimeException();
+            }
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public List<User> getAll(){
+    public Boolean login(String email, String password){
         try {
-            return userRepository.findAll();
+            User user = userRepository.findByEmail(email);
+
+            if (user == null) {
+                return false;
+            }
+
+            return passwordEncoder.verify(password, user.getPassword());
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public User get(String id){
+    public User find(String id){
         try {
             return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id: "+id+" não encontrado"));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public User findByEmail(String email){
+        try {
+            return userRepository.findByEmail(email);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +102,9 @@ public class UserService {
                 newUser.setPassword(user.getPassword().trim());
             }
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
-                newUser.setBooksFavorited(user.getBooksFavorited());
+                for(BookSearchDTO bookSearchDTO : user.getBooksFavorited()){
+                    newUser.getBooksFavorited().add(bookSearchDTO);
+                }
             }
 
             return userRepository.save(newUser);
@@ -91,7 +116,7 @@ public class UserService {
     public void favorite(String idBook, String idUser){
         try {
             Book book = bookService.get(idBook);
-            User user = get(idUser);
+            User user = find(idUser);
             List<Image> images = new ArrayList<>();
 
             for(String idImage : book.getImages()){

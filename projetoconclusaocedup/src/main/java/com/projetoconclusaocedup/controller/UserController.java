@@ -14,27 +14,27 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping()
-    public ResponseEntity<?> create(@RequestBody User user){
+    public ResponseEntity<?> register(@RequestBody User user){
         try {
-            return ResponseEntity.ok(userService.create(user));
+            return ResponseEntity.ok(userService.register(user));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<?> getAll() {
+    @GetMapping("/login")
+    public ResponseEntity<?> login(String email, String password){
         try {
-            return ResponseEntity.ok(userService.getAll());
+            return ResponseEntity.ok(userService.login(email, password));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/one/u={id}")
-    public ResponseEntity<?> getOne(@PathVariable String id) {
+    public ResponseEntity<?> findOne(@PathVariable String id) {
         try {
-            return ResponseEntity.ok(userService.get(id));
+            return ResponseEntity.ok(userService.find(id));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
