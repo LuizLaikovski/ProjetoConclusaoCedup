@@ -60,7 +60,7 @@ const ModalEditUser = ({setModal}: ModalEditUserProp) => {
 
     const deleteUser = async () => {
         try {
-            const response = await fetch(`${API_URL}delete/${id}`, {
+            const response = await fetch(`${API_URL}/u=${id}`, {
                 method: "DELETE",
                 headers: {
                     "X-API-Key": API_KEY
@@ -74,6 +74,7 @@ const ModalEditUser = ({setModal}: ModalEditUserProp) => {
             alert("DEU RED: "+ error);
         } finally {
             setModal(false);
+            location.reload()
         }
     }
 

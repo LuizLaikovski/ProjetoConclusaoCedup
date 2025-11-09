@@ -42,6 +42,16 @@ const Header = () => {
     }
   };
 
+  const checkedLogin = () => {
+    const user = localStorage.getItem("idUser");
+
+    if (!user) {
+      navigate("/login")
+    } else {
+      navigate("/perfil")
+    }
+  }
+
   // Atualiza o valor do input sem pesquisar automaticamente
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchBook({ book: e.target.value });
@@ -76,10 +86,10 @@ const Header = () => {
               </Link>
             </li>
             <li className='flex justify-center items-center'>
-              <Link to="/perfil">
+              <button onClick={checkedLogin}>
                 <FontAwesomeIcon icon={faUser} />
                 <span className='text-[20px]'>Perfil</span>
-              </Link>
+              </button>
             </li>
           </ul>
         </nav>
@@ -99,7 +109,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/perfil" onClick={toggleAside}>
+                  <Link to="" onClick={checkedLogin}>
                     <FontAwesomeIcon icon={faUser} />
                     <span>Perfil</span>
                   </Link>

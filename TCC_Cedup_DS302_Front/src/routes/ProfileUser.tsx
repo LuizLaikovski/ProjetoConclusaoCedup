@@ -61,7 +61,6 @@ const ProfileUser = () => {
                 }
 
                 setBooks(data.booksFavorited);
-                console.log(data.booksFavorited);
             } catch (error) {
                 console.error("Erro ao carregar os livros do back:", error);
             }
@@ -74,11 +73,11 @@ const ProfileUser = () => {
         <>
             <Header />
             <div className="flex justify-center items-center flex-col">
-                <div className="ignore-margin w-[90dvw] h-[20dvh] flex items-center bg-white rounded-3xl shadow-2xl" style={{ margin: "20px" }}>
+                <div className="ignore-margin w-[90dvw] h-[25dvh] flex items-center bg-white rounded-3xl shadow-2xl" style={{ margin: "20px" }}>
                     <FontAwesomeIcon icon={faUserCircle} style={{ marginLeft: "20px" }} size="5x" color="#003631" />
                     <div className="mr-10 text-black">
-                        <h1 className="text-3xl" style={{ marginLeft: "20px" }}>{user?.name}</h1>
-                        <h2 style={{ marginLeft: "20px" }}>Email: {user?.email}</h2>
+                        <h1 className="text-2xl" style={{ marginLeft: "20px" }}>{user?.name}</h1>
+                        <h2 className="text-[13px]" style={{ marginLeft: "20px" }}>Email: {user?.email}</h2>
                         <button style={{ marginLeft: "20px", marginTop: "5px" }} className="primary-button" onClick={handleModal}>
                             Editar Perfil
                         </button>

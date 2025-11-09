@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './css/footer.css';  
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faHouse, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHouse, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
+import ModalFavorites from './ModalFavorites';
 
 const Footer = () => {
 
     const [showModal, setShowModal] = useState(false); // Estado para controlar a visibilidade do modal
     const modalRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -27,6 +29,16 @@ const Footer = () => {
         setShowModal(!showModal);
     };
 
+    const handleProfileClick = () => {
+        const user = localStorage.getItem("idUser");
+
+        if (!user) {
+            navigate("/login")
+        } else {
+            navigate("/perfil")
+        }
+    }
+
     return (
         <>
             <footer className="footer fixed bottom-0 left-0 w-full h-[10dvh] z-50">
@@ -35,40 +47,19 @@ const Footer = () => {
                         <FontAwesomeIcon icon={faHouse} color='white' size='2x' />
                     </Link>
                     <button className='button-for-favorites-header' onClick={toggleModal}>
-                        <FontAwesomeIcon icon={faHeart} size='2x'/>
+                        <FontAwesomeIcon icon={faHeart} color='white' size='2x'/>
                     </button>
-                    <Link to="/perfil" className="footer-link">
+                    <button onClick={handleProfileClick} className="footer-link">
                         <FontAwesomeIcon icon={faUser} color='white' size='2x' />
-                    </Link>
+                    </button>
                 </div>
             </footer> 
 
-
-            {/* Modal de Favoritos */}
-            {showModal && (
-                <div className="modal-overlay" ref={modalRef}>
-                    <div className="modal-content">
-                        <div className="modal-header">
-                        <h2>Seus Favoritos</h2>
-                        <button className="close-button" onClick={toggleModal}>
-                            <FontAwesomeIcon icon={faTimes} />
-                        </button>
-                        </div>
-                        <div className="modal-body">
-                        {/* Conteúdo dos favoritos vai aqui */}
-                        <p>Lista de livros favoritos aparecerá aqui</p>
-                        {/* Exemplo de item de favorito */}
-                        <div className="favorite-item">
-                            <span>Nome do Livro Favorito</span>
-                            <button className="remove-favorite">Remover</button>
-                        </div>
-                        </div>
-                        <div className="modal-footer">
-                        <button className="close-modal-button" onClick={toggleModal}>Fechar</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {showModal && 
+                <ModalFavorites
+                    setOpen={setShowModal}
+                />
+            }
         </>
     );
 };
