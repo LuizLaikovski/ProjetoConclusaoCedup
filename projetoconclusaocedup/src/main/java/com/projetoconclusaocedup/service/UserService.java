@@ -38,8 +38,8 @@ public class UserService {
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
                 user.setBooksFavorited(user.getBooksFavorited());
             }
-            
-            if (existingUser == null){
+
+            if (existingUser != null){
                 String msg = "bah guri";
                 throw new RuntimeException(msg);
             }
