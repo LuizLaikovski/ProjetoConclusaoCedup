@@ -25,24 +25,24 @@ public class UserService {
         try {
             User existingUser = findByEmail(user.getEmail());
 
-            if(existingUser != null){
-                if(user.getName() != null && !user.getName().trim().isBlank()){
-                    user.setName(user.getName().trim());
-                }
-                if(user.getEmail() != null && !user.getEmail().trim().isBlank()){
-                    user.setEmail(user.getEmail().trim());
-                }
-                if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
-                    String encryptedPassword = passwordEncoder.encrypt(user.getPassword());
-                    user.setPassword(encryptedPassword);
-                }
-                if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
-                    user.setBooksFavorited(user.getBooksFavorited());
-                }
-
+            if(user.getName() != null && !user.getName().trim().isBlank()){
+                user.setName(user.getName().trim());
+            }
+            if(user.getEmail() != null && !user.getEmail().trim().isBlank()){
+                user.setEmail(user.getEmail().trim());
+            }
+            if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
+                String encryptedPassword = passwordEncoder.encrypt(user.getPassword());
+                user.setPassword(encryptedPassword);
+            }
+            if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
+                user.setBooksFavorited(user.getBooksFavorited());
+            }
+            if(existingUser.getEmail().equals(user.getEmail())){
                 return userRepository.save(user);
-            } else {
-                throw new RuntimeException();
+            } else{
+                String msg = "bah guri";
+                throw new RuntimeException(msg);
             }
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
@@ -66,6 +66,14 @@ public class UserService {
     public User find(String id){
         try {
             return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id: "+id+" não encontrado"));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<User> findAll(){
+        try {
+            return userRepository.findAll();
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
