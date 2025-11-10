@@ -38,12 +38,13 @@ public class UserService {
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
                 user.setBooksFavorited(user.getBooksFavorited());
             }
-            if(existingUser != null){
-                return userRepository.save(user);
-            } else{
+            
+            if (existingUser == null){
                 String msg = "bah guri";
                 throw new RuntimeException(msg);
             }
+
+            return userRepository.save(user);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
@@ -147,11 +148,7 @@ public class UserService {
             Book book = bookService.find(idBook);
             User user = find(idUser);
 
-            for(BookSearchDTO bookSearchDTO : user.getBooksFavorited()){
-                if(book.getPath().equals(bookSearchDTO.getPath())){
-                    user.getBooksFavorited().remove(bookSearchDTO);
-                }
-            }
+            user.getBooksFavorited().removeIf(bookSearchDTO -> book.getPath().equals(bookSearchDTO.getPath()));
 
             update(idUser, user);
         } catch (RuntimeException e) {
