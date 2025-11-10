@@ -102,9 +102,7 @@ public class UserService {
                 newUser.setPassword(user.getPassword().trim());
             }
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
-                for(BookSearchDTO bookSearchDTO : user.getBooksFavorited()){
-                    newUser.getBooksFavorited().add(bookSearchDTO);
-                }
+                newUser.setBooksFavorited(user.getBooksFavorited());
             }
 
             return userRepository.save(newUser);
@@ -115,12 +113,12 @@ public class UserService {
 
     public void favorite(String idBook, String idUser){
         try {
-            Book book = bookService.get(idBook);
+            Book book = bookService.find(idBook);
             User user = find(idUser);
             List<Image> images = new ArrayList<>();
 
             for(String idImage : book.getImages()){
-                images.add(imageService.get(idImage));
+                images.add(imageService.find(idImage));
             }
 
             BookSearchDTO bookSearchDTO = new BookSearchDTO(book.getPath(), book.getTitle(), images);
@@ -128,11 +126,26 @@ public class UserService {
             List<BookSearchDTO> bookSearchDTOS = new ArrayList<>();
             bookSearchDTOS.add(bookSearchDTO);
 
-
             user.setBooksFavorited(bookSearchDTOS);
 
             update(user.getId(), user);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public void unfavorite(String idBook, String idUser){
+        try {
+            Book book = bookService.find(idBook);
+            User user = find(idUser);
+
+            for(BookSearchDTO bookSearchDTO : user.getBooksFavorited()){
+                if(book.getPath().equals(bookSearchDTO.getPath())){
+                    user.getBooksFavorited().remove(bookSearchDTO);
+                }
+            }
+
+            update(idUser, user);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

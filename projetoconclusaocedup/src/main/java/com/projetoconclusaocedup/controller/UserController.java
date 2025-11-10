@@ -65,7 +65,19 @@ public class UserController {
         try {
             userService.favorite(idsDTO.getIdBook(), idsDTO.getIdUser());
 
-String msg = "foi meu patrão";
+            String msg = "foi meu patrão";
+            return ResponseEntity.ok(msg);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/unfavorite")
+    public ResponseEntity<?> unfavorite(@RequestBody IdsDTO idsDTO){
+        try {
+            userService.unfavorite(idsDTO.getIdBook(), idsDTO.getIdUser());
+
+            String msg = "foi meu patrão";
             return ResponseEntity.ok(msg);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

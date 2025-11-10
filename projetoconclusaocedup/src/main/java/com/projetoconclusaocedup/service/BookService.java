@@ -58,7 +58,7 @@ public class BookService {
         }
     }
 
-    public Book get(String id){
+    public Book find(String id){
         try {
             return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {

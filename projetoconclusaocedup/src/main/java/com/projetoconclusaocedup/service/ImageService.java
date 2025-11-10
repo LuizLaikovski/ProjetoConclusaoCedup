@@ -56,7 +56,7 @@ public class ImageService {
         }
     }
 
-    public Image get(String id){
+    public Image find(String id){
         try {
             return imageRepository.findById(id).orElseThrow(() -> new RuntimeException("Imagem de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
