@@ -38,7 +38,7 @@ public class UserService {
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
                 user.setBooksFavorited(user.getBooksFavorited());
             }
-            if(existingUser.getEmail().equals(user.getEmail())){
+            if(existingUser != null){
                 return userRepository.save(user);
             } else{
                 String msg = "bah guri";
