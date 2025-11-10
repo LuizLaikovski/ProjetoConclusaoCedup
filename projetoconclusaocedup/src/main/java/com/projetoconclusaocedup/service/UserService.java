@@ -50,15 +50,19 @@ public class UserService {
         }
     }
 
-    public Boolean login(String email, String password){
+    public User login(String email, String password){
         try {
             User user = userRepository.findByEmail(email);
 
             if (user == null) {
-                return false;
+                String msg = "usuário não existe";
+                throw new RuntimeException(msg);
             }
-
-            return passwordEncoder.verify(password, user.getPassword());
+            if(!passwordEncoder.verify(password, user.getPassword())){
+                String msg = "senha incorreta";
+                throw new RuntimeException(msg);
+            }
+            return user;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
