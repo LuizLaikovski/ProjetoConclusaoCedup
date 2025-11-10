@@ -33,7 +33,7 @@ public class BookSearchController {
                     List<Image> images = new ArrayList<>();
 
                     for(String idImage : book.getImages()){
-                        images.add(imageService.get(idImage));
+                        images.add(imageService.find(idImage));
                     }
 
                     bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), images));
@@ -57,7 +57,7 @@ public class BookSearchController {
                     List<Image> images = new ArrayList<>();
 
                     for(String idImage : book.getImages()){
-                        images.add(imageService.get(idImage));
+                        images.add(imageService.find(idImage));
                     }
 
                     bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), images));

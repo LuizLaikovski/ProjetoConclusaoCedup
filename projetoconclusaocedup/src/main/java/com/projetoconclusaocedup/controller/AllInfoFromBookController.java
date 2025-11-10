@@ -107,7 +107,7 @@ public class AllInfoFromBookController {
 
                 for(String idImage : book.getImages()){
                     if(idImage != null && !idImage.trim().isBlank()){
-                        bookImages.add(imageService.get(idImage));
+                        bookImages.add(imageService.find(idImage));
                     }
                 }
 
@@ -118,7 +118,7 @@ public class AllInfoFromBookController {
 
                         for(String idImage : author.getImages()){
                             if(idImage != null && !idImage.trim().isBlank()){
-                                authorImages.add(imageService.get(idImage));
+                                authorImages.add(imageService.find(idImage));
                             }
                         }
 
@@ -138,7 +138,7 @@ public class AllInfoFromBookController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteById(@PathVariable String id){
         try {
-            Book book = bookService.get(id);
+            Book book = bookService.find(id);
 
             bookService.deleteById(book.getId());
 

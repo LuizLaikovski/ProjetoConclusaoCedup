@@ -35,17 +35,17 @@ public class InfoAuthorController {
 
             if(author.getBooks() != null && !author.getBooks().isEmpty()){
                 for(String idBook : author.getBooks()){
-                    books.add(bookService.get(idBook));
+                    books.add(bookService.find(idBook));
                 }
                 for(Book book : books){
                     for(String idImage : book.getImages()){
-                        imagesBook.add(imageService.get(idImage));
+                        imagesBook.add(imageService.find(idImage));
                     }
                 }
             }
             if(author.getImages() != null && !author.getImages().isEmpty()){
                 for(String idImages : author.getImages()){
-                    imagesAuthor.add(imageService.get(idImages));
+                    imagesAuthor.add(imageService.find(idImages));
                 }
             }
 
