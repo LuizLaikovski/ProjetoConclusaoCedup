@@ -30,13 +30,9 @@ public class BookSearchController {
 
             if(books != null && !books.isEmpty()){
                 for(Book book : books){
-                    List<Image> images = new ArrayList<>();
+                    Image image = imageService.find(book.getImage());
 
-                    for(String idImage : book.getImages()){
-                        images.add(imageService.find(idImage));
-                    }
-
-                    bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), images));
+                    bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), image));
                 }
             }
 
@@ -54,13 +50,9 @@ public class BookSearchController {
 
             if(books != null && !books.isEmpty()){
                 for(Book book : books){
-                    List<Image> images = new ArrayList<>();
+                    Image image = imageService.find(book.getImage());
 
-                    for(String idImage : book.getImages()){
-                        images.add(imageService.find(idImage));
-                    }
-
-                    bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), images));
+                    bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), image));
                 }
             }
 

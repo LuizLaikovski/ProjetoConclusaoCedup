@@ -30,26 +30,22 @@ public class InfoAuthorController {
         try {
             Author author = authorService.getByPath(path);
             List<Book> books = new ArrayList<>();
-            List<Image> imagesBook = new ArrayList<>();
-            List<Image> imagesAuthor = new ArrayList<>();
+            Image imageBook = null;
+            Image imageAuthor = null;
 
             if(author.getBooks() != null && !author.getBooks().isEmpty()){
                 for(String idBook : author.getBooks()){
                     books.add(bookService.find(idBook));
                 }
                 for(Book book : books){
-                    for(String idImage : book.getImages()){
-                        imagesBook.add(imageService.find(idImage));
-                    }
+                    imageBook = imageService.find(book.getImage());
                 }
             }
-            if(author.getImages() != null && !author.getImages().isEmpty()){
-                for(String idImages : author.getImages()){
-                    imagesAuthor.add(imageService.find(idImages));
-                }
+            if(author.getImage() != null && !author.getImage().trim().isBlank()){
+                imageAuthor = imageService.find(author.getImage());
             }
 
-            AuthorBooksDTO authorBooksDTO = new AuthorBooksDTO(author, books, imagesBook, imagesAuthor);
+            AuthorBooksDTO authorBooksDTO = new AuthorBooksDTO(author, books, imageBook, imageAuthor);
 
             return ResponseEntity.ok(authorBooksDTO);
         } catch (RuntimeException e) {

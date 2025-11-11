@@ -48,7 +48,7 @@ public class ImageService {
         }
     }
 
-    public List<Image> getAll(){
+    public List<Image> findAll(){
         try {
             return imageRepository.findAll();
         } catch (RuntimeException e) {

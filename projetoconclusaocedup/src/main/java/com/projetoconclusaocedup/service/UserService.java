@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -103,22 +102,27 @@ public class UserService {
     @Transactional
     public User update(String id, User user){
         try {
-            User newUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id:"+id+" não encontrado!"));
+            User userUpdated = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id:"+id+" não encontrado!"));
 
             if (user.getName() != null && !user.getName().trim().isBlank()){
-                newUser.setName(user.getName().trim());
+                userUpdated.setName(user.getName().trim());
             }
             if(user.getEmail() != null && !user.getEmail().trim().isBlank()){
-                newUser.setEmail(user.getEmail().trim());
+                userUpdated.setEmail(user.getEmail().trim());
             }
             if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
-                newUser.setPassword(user.getPassword().trim());
+                String encryptedPassword = passwordEncoder.encrypt(user.getPassword());
+                userUpdated.setPassword(encryptedPassword);
             }
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
-                newUser.setBooksFavorited(user.getBooksFavorited());
+                for(BookSearchDTO bookSearchDTO : userUpdated.getBooksFavorited()){
+                    user.getBooksFavorited().add(bookSearchDTO);
+                }
+
+                userUpdated.setBooksFavorited(user.getBooksFavorited());
             }
 
-            return userRepository.save(newUser);
+            return userRepository.save(userUpdated);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
@@ -128,31 +132,30 @@ public class UserService {
         try {
             Book book = bookService.find(idBook);
             User user = find(idUser);
-            List<Image> images = new ArrayList<>();
+            Image image = imageService.find(book.getImage());
 
-            for(String idImage : book.getImages()){
-                images.add(imageService.find(idImage));
-            }
+            BookSearchDTO bookSearchDTO = new BookSearchDTO(book.getPath(), book.getTitle(), image);
 
-            BookSearchDTO bookSearchDTO = new BookSearchDTO(book.getPath(), book.getTitle(), images);
+            user.getBooksFavorited().add(bookSearchDTO);
 
-            List<BookSearchDTO> bookSearchDTOS = new ArrayList<>();
-            bookSearchDTOS.add(bookSearchDTO);
-
-            user.setBooksFavorited(bookSearchDTOS);
-
-            update(user.getId(), user);
+            update(idUser, user);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void unfavorite(String idBook, String idUser){
+    public void unfavorite(BookSearchDTO bookUnfavorited, String idUser){
         try {
-            Book book = bookService.find(idBook);
             User user = find(idUser);
+            List<BookSearchDTO> favorites = user.getBooksFavorited();
 
-            user.getBooksFavorited().removeIf(bookSearchDTO -> book.getPath().equals(bookSearchDTO.getPath()));
+            for(BookSearchDTO bookSearch : favorites){
+                if(bookUnfavorited.getPath().equals(bookSearch.getPath())){
+                    favorites.remove(bookUnfavorited);
+                }
+            }
+
+            user.setBooksFavorited(favorites);
 
             update(idUser, user);
         } catch (RuntimeException e) {

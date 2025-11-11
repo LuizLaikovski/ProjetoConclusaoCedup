@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthorImagesDTO {
+public class AuthorImageDTO {
     private Author author;
-    private List<Image> images = new ArrayList<>();
+    private Image image;
 }

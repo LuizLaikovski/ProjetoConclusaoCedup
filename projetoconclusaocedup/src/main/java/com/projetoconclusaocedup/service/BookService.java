@@ -37,8 +37,8 @@ public class BookService {
             if(book.getAuthors() != null && !book.getAuthors().isEmpty()){
                 book.setAuthors(book.getAuthors());
             }
-            if(book.getImages() != null && !book.getImages().isEmpty()){
-                book.setImages(book.getImages());
+            if(book.getImage() != null && !book.getImage().trim().isBlank()){
+                book.setImage(book.getImage());
             }
             if(book.getArchive() != null){
                 book.setArchive(book.getArchive());
@@ -110,8 +110,8 @@ public class BookService {
             if(book.getAuthors() != null && !book.getAuthors().isEmpty()){
                 bookUpdated.setAuthors(book.getAuthors());
             }
-            if(book.getImages() != null && !book.getImages().isEmpty()){
-                bookUpdated.setImages(book.getImages());
+            if(book.getImage() != null && !book.getImage().trim().isBlank()){
+                bookUpdated.setImage(book.getImage());
             }
             if(book.getArchive() != null){
                 bookUpdated.setArchive(book.getArchive());

@@ -32,8 +32,8 @@ public class AuthorService {
             if(author.getBooks() != null && !author.getBooks().isEmpty()){
                 author.setBooks(author.getBooks());
             }
-            if(author.getImages() != null && !author.getImages().isEmpty()){
-                author.setImages(author.getImages());
+            if(author.getImage() != null && !author.getImage().isEmpty()){
+                author.setImage(author.getImage());
             }
 
             return authorRepository.save(author);
@@ -61,8 +61,8 @@ public class AuthorService {
                 if(author.getBooks() != null && !author.getBooks().isEmpty()){
                     author.setBooks(author.getBooks());
                 }
-                if(author.getImages() != null && !author.getImages().isEmpty()){
-                    author.setImages(author.getImages());
+                if(author.getImage() != null && !author.getImage().trim().isBlank()){
+                    author.setImage(author.getImage());
                 }
 
                 newAuthors.add(author);
@@ -126,8 +126,8 @@ public class AuthorService {
             if(author.getBooks() != null && !author.getBooks().isEmpty()){
                 newAuthor.setBooks(author.getBooks());
             }
-            if(author.getImages() != null && !author.getImages().isEmpty()){
-                newAuthor.setImages(author.getImages());
+            if(author.getImage() != null && !author.getImage().trim().isBlank()){
+                newAuthor.setImage(author.getImage());
             }
 
             return authorRepository.save(author);

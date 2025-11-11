@@ -14,5 +14,5 @@ import java.util.List;
 public class BookSearchDTO {
     private String path;
     private String title;
-    private List<Image> images = new ArrayList<>();
+    private Image image;
 }

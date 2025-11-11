@@ -1,7 +1,8 @@
 package com.projetoconclusaocedup.controller;
 
-import com.projetoconclusaocedup.dto.IdsDTO;
+import com.projetoconclusaocedup.dto.FavoriteDTO;
 import com.projetoconclusaocedup.dto.LoginDTO;
+import com.projetoconclusaocedup.dto.UnfavoriteDTO;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.service.UserService;
 import lombok.AllArgsConstructor;
@@ -54,7 +55,8 @@ public class UserController {
     public ResponseEntity<?> deleteById(@PathVariable String id){
         try {
             userService.deleteById(id);
-            return ResponseEntity.ok("Objeto de id: "+id+" deletado com sucesso");
+            String msg = "Objeto de id: "+id+" deletado com sucesso";
+            return ResponseEntity.ok(msg);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -70,9 +72,9 @@ public class UserController {
     }
 
     @PostMapping("/favorite")
-    public ResponseEntity<?> favorite(@RequestBody IdsDTO idsDTO){
+    public ResponseEntity<?> favorite(@RequestBody FavoriteDTO favoriteDTO){
         try {
-            userService.favorite(idsDTO.getIdBook(), idsDTO.getIdUser());
+            userService.favorite(favoriteDTO.getIdBook(), favoriteDTO.getIdUser());
 
             String msg = "foi meu patrão";
             return ResponseEntity.ok(msg);
@@ -82,9 +84,9 @@ public class UserController {
     }
 
     @PostMapping("/unfavorite")
-    public ResponseEntity<?> unfavorite(@RequestBody IdsDTO idsDTO){
+    public ResponseEntity<?> unfavorite(@RequestBody UnfavoriteDTO unfavoriteDTO){
         try {
-            userService.unfavorite(idsDTO.getIdBook(), idsDTO.getIdUser());
+            userService.unfavorite(unfavoriteDTO.getBookRemoved(), unfavoriteDTO.getIdUser());
 
             String msg = "foi meu patrão";
             return ResponseEntity.ok(msg);
