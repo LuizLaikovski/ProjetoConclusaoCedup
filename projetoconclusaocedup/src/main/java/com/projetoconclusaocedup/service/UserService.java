@@ -130,7 +130,7 @@ public class UserService {
 
     public void favorite(String idBook, String idUser){
         try {
-            Book book = bookService.find(idBook);
+            Book book = bookService.get(idBook);
             User user = find(idUser);
             Image image = imageService.find(book.getImage());
 

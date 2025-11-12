@@ -2,6 +2,8 @@ package com.projetoconclusaocedup.service;
 
 import com.projetoconclusaocedup.dto.AuthorImageDTO;
 import com.projetoconclusaocedup.dto.BookAuthorsDTO;
+import com.projetoconclusaocedup.dto.BookSearchDTO;
+import com.projetoconclusaocedup.model.Author;
 import com.projetoconclusaocedup.model.Image;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -89,15 +91,26 @@ public class BookService {
         }
     }
 
-    public List<Book> getAll(){
+    public List<BookSearchDTO> getAll(){
         try {
-            return bookRepository.findAll();
+            List<Book> books = bookRepository.findAll();
+            List<BookSearchDTO> bookSearchDTOS = new ArrayList<>();
+
+            if(!books.isEmpty()){
+                for(Book book : books){
+                    Image image = imageService.find(book.getImage());
+
+                    bookSearchDTOS.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), image));
+                }
+            }
+
+            return bookSearchDTOS;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Book find(String id){
+    public Book get(String id){
         try {
             return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
@@ -105,9 +118,39 @@ public class BookService {
         }
     }
 
-    public List<Book> findByTitle(String query){
+    public List<BookSearchDTO> findAllByPath(String query){
         try {
-            return bookRepository.searchByTitle(query);
+            List<Book> books = bookRepository.searchByPath(query);
+            List<BookSearchDTO> bookSearchDTOS = new ArrayList<>();
+
+            if(books != null && !books.isEmpty()){
+                for(Book book : books){
+                    Image image = imageService.find(book.getImage());
+
+                    bookSearchDTOS.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), image));
+                }
+            }
+
+            return bookSearchDTOS;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public BookAuthorsDTO getByPath(String query){
+        try {
+            Book book = bookRepository.getByPath(query);
+            Image image = imageService.find(book.getImage());
+            List<AuthorImageDTO> authors = new ArrayList<>();
+
+            for(String idAuthor : book.getAuthors()){
+                Author author = authorService.get(idAuthor);
+                Image imageAuthor = imageService.find(author.getImage());
+                AuthorImageDTO authorImage = new AuthorImageDTO(author, imageAuthor);
+                authors.add(authorImage);
+            }
+
+            return new BookAuthorsDTO(book, image, authors);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

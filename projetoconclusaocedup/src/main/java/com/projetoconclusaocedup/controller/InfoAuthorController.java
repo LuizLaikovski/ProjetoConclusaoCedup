@@ -35,7 +35,7 @@ public class InfoAuthorController {
 
             if(author.getBooks() != null && !author.getBooks().isEmpty()){
                 for(String idBook : author.getBooks()){
-                    books.add(bookService.find(idBook));
+                    books.add(bookService.get(idBook));
                 }
                 for(Book book : books){
                     imageBook = imageService.find(book.getImage());
