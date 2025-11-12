@@ -28,9 +28,6 @@ const Register = () => {
                 booksFavorited: []
             };
     
-            console.log("📤 Enviando dados:", bodyData);
-            console.log("📡 Endpoint:", API_URL);
-    
             const response = await fetch(API_URL, {
                 method: "POST",
                 headers: {
@@ -40,18 +37,17 @@ const Register = () => {
                 body: JSON.stringify(bodyData)
             });
     
-            console.log("📥 Status da resposta:", response.status);
             const resultText = await response.text();
-            console.log("📥 Corpo da resposta:", resultText);
     
             if (!response.ok) {
                 throw new Error(`Erro ao cadastrar usuário — código ${response.status}`);
             }
     
             const result = JSON.parse(resultText);
+            
             if (result.id) {
                 localStorage.setItem("user", JSON.stringify(result));
-                navigate("/login");
+                navigate("/home");
             }
     
         } catch (error) {

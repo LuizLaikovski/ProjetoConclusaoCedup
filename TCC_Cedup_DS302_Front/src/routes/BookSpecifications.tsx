@@ -44,6 +44,24 @@ interface Book {
   avaliacao: number;
   path: string;
 }
+interface FavoriteBook {
+  path: string;
+  title: string;
+  images: {
+    id: string;
+    src: string;
+    alt: string;
+  }[];
+}
+
+interface UserData {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  booksFavorited: FavoriteBook[];
+}
+
 
 const BookSpecifications = () => {
   const { bookName } = useParams<{ bookName: string }>();
@@ -51,9 +69,12 @@ const BookSpecifications = () => {
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
   const [modalAssessment, setModalAssessment] = useState(false);
+  const [isFavorited, setIsFavorite] = useState(false);
 
   const API_KEY = import.meta.env.VITE_API_KEY;
   const API_URL = import.meta.env.VITE_API_URL_FAVORITE;
+  const API_URL_UNIQUE = import.meta.env.VITE_API_URL_USER_UNIQUE;
+  const API_URL_UN = import.meta.env.VITE_API_URL_UNFAVORITE;
   const API_URL_BOOKS = import.meta.env.VITE_API_URL_BOOKS;
 
   const toggleModal = () => {
@@ -112,8 +133,43 @@ const BookSpecifications = () => {
         setLoading(false);
       }
     };
-    if (bookName) fetchBook();
-    else setLoading(false);
+
+    const checkedBook = async () => {
+      const idUser = localStorage.getItem("idUser");
+
+      if (!book || !idUser) return;
+
+      console.log(`${API_URL_UNIQUE}=${idUser}`);
+      
+
+      try {
+        const response = await fetch(`${API_URL_UNIQUE}=${idUser}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": API_KEY
+          }
+        })
+
+        if (!response.ok) throw new Error("Erro ao buscar usuario")
+        
+          const data: UserData = await response.json();
+
+        const isBookFavorited = data.booksFavorited?.some(
+          (favBook) => favBook.path === book.path
+        );
+  
+        setIsFavorite(isBookFavorited);
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (bookName) {
+      fetchBook();
+      checkedBook();
+    } else setLoading(false);
   }, [bookName]);
 
   const favoriteBook = async () => {
@@ -124,25 +180,51 @@ const BookSpecifications = () => {
       return;
     }
 
+    const dataJson = {
+      idBook: book.id,
+      idUser: JSON.parse(idUser || '""')
+    }
     try {
-      const response = await fetch(`${API_URL}`, {
+      await fetch(`${API_URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "X-API-Key": API_KEY
         },
-        body: JSON.stringify({
-          idUser: idUser,
-          idBook: book.id
-        })
+        body: JSON.stringify(dataJson)
       });
-
-      console.log(response.text());
     } catch (error) {
       console.error("Erro ao favoritar:", error);
       alert("Erro de conexão com o servidor!");
     }
   };
+
+  const unFavoriteBook = async () => {
+    const idUser = localStorage.getItem("idUser");
+  
+    if (!book || !idUser) {
+      alert("Erro: usuário ou livro não encontrado");
+      return;
+    }
+
+    const dataJsonUn = {
+      idBook: book.id,
+      idUser: JSON.parse(idUser || '""')
+    }
+
+    try {
+      await fetch(API_URL_UN, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": API_KEY
+        },
+        body: JSON.stringify(dataJsonUn)
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
   
 
   if (loading)
@@ -196,12 +278,12 @@ const BookSpecifications = () => {
             </div>
 
             <div className="flex flex-col inset-y-0 left-0 items-center w-[40dvw]">
-              {/* Título e estrelas */}
               <div className="max-sm:w-[70dvw]">
                 <div className="text-center">
                   <h1 className="text-4xl font-bold text-black lg:text-left mb-3">
                     {book.titulo}
                   </h1>
+                  <p>{book.id}</p>
                 </div>
                 <div className="flex justify-center lg:justify-start items-center" style={{marginBottom: "20px", marginTop: "20px"}}>
                   {renderStars(book.avaliacao)}
@@ -230,9 +312,13 @@ const BookSpecifications = () => {
                 <button className="primary-button" onClick={toggleModal}>
                   Avaliar
                 </button>
-                <button className="primary-button" onClick={favoriteBook}>
-                  Favoritos
+                <button
+                  className={isFavorited ? "secondary-button" : "primary-button"}
+                  onClick={isFavorited ? unFavoriteBook : favoriteBook}
+                >
+                  {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
                 </button>
+
               </div>
             </div>
           </section>
@@ -245,10 +331,15 @@ const BookSpecifications = () => {
             <button className="primary-button" onClick={toggleModal}>
               Avaliar
             </button>
-            <button className="primary-button" onClick={favoriteBook}>
-              Favoritos
+            <button
+              className={isFavorited ? "secondary-button" : "primary-button"}
+              onClick={isFavorited ? unFavoriteBook : favoriteBook}
+            >
+              {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
             </button>
+
           </div>
+          <div className="sm:hidden h-[5dvh]"></div>
 
           {modalAssessment && (
             <ModalAssessment

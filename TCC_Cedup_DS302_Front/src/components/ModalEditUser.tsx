@@ -1,6 +1,7 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface ModalEditUserProp {
     setModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,11 +16,12 @@ const ModalEditUser = ({setModal}: ModalEditUserProp) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const idUser = localStorage.getItem("idUser");
-        setId(idUser ?? "");
-    });
+        setId(idUser ? JSON.parse(idUser): '');
+    }, []);
 
     const editUser = async () => {
         try {
@@ -30,7 +32,7 @@ const ModalEditUser = ({setModal}: ModalEditUserProp) => {
                 password,
             };
 
-            const response = await fetch(`${API_URL}${bodyData.id}`, {
+            const response = await fetch(`${API_URL}/${bodyData.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,8 +50,6 @@ const ModalEditUser = ({setModal}: ModalEditUserProp) => {
                 localStorage.setItem("nameUser", data.name);
                 localStorage.setItem("emailUser", data.email)
             }
-
-            console.log(data);
         } catch (error) {
             console.error("DEU PAU",  error);          
         } finally {
@@ -59,22 +59,20 @@ const ModalEditUser = ({setModal}: ModalEditUserProp) => {
     }
 
     const deleteUser = async () => {
+        console.log(`${API_URL}/u=${id}`);
         try {
-            const response = await fetch(`${API_URL}/u=${id}`, {
+            await fetch(`${API_URL}/u=${id}`, {
                 method: "DELETE",
                 headers: {
                     "X-API-Key": API_KEY
                 }
             })
-
-            const data = (await response).json()
-            console.log(data); 
             localStorage.clear();           
         } catch (error) {
             alert("DEU RED: "+ error);
         } finally {
             setModal(false);
-            location.reload()
+            navigate("/home");
         }
     }
 

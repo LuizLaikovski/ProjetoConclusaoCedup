@@ -18,7 +18,7 @@ const Login = () => {
         rememberMe: false
     });
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL_USER;
     const navigate = useNavigate();
 
     const handleChange = (
@@ -31,9 +31,50 @@ const Login = () => {
         }));
     };
 
-    const Login = (e: FormEvent<HTMLFormElement>) => {
+    const Login = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Dados do formulário:', formData);
+
+        const bodyData = {
+            email: formData.email.trim(),
+            password: formData.password.trim()
+        }       
+
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-API-Key": API_KEY
+                },
+                body: JSON.stringify(bodyData)
+            });
+
+            const data = await response.json();
+            console.log(data);
+            
+            
+            if (response.ok) {
+                const dataUser = {
+                    id: data.id,
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    booksFavorited: data.booksFavorited || []
+                }
+                
+                localStorage.setItem("idUser", JSON.stringify(dataUser.id))
+                localStorage.setItem("nameUser", JSON.stringify(dataUser.name))
+                localStorage.setItem("emailUser", JSON.stringify(dataUser.email))
+                localStorage.setItem("booksFavorited", JSON.stringify(dataUser.booksFavorited.path))
+
+                navigate("/home");
+            } else {
+                alert("Email ou senha incorretos")
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
     };
 
     return (
@@ -51,7 +92,7 @@ const Login = () => {
                                 type="email" 
                                 id="email" 
                                 name="email"
-                                className="h-[7dvh] w-[70dvw] lg:w-[20dvw] transition placeholder-gray-400 bg-white rounded-xl text-black"
+                                className="h-[7dvh] w-[100%] lg:w-[20dvw] transition placeholder-gray-400 bg-white rounded-xl text-black"
                                 style={{padding: "10px"}}
                                 placeholder="Digite seu Email" 
                                 required
@@ -65,7 +106,7 @@ const Login = () => {
                                 type="password" 
                                 id="password" 
                                 name="password"
-                                className="bg-white rounded-xl h-[7dvh] w-[70dvw] lg:w-[20dvw] placeholder-gray-400 text-black"
+                                className="bg-white rounded-xl h-[7dvh] w-[100%] lg:w-[20dvw] placeholder-gray-400 text-black"
                                 style={{padding: "10px"}}
                                 placeholder="Digite sua Senha"
                                 required

@@ -1,8 +1,9 @@
 import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faHeart, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import ModalFavorites from './ModalFavorites';
 
 const Header = () => {
   const [searchBook, setSearchBook] = useState({
@@ -11,6 +12,7 @@ const Header = () => {
 
   const [showAside, setShowAside] = useState(false);
   const asideRef = useRef<HTMLDivElement>(null);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +31,10 @@ const Header = () => {
   const toggleAside = () => {
     setShowAside(!showAside);
   };
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+};
 
   // 🔍 MÉTODO que pesquisa apenas ao clicar no botão ou pressionar Enter
   const handleSubmit = (e: React.FormEvent) => {
@@ -86,6 +92,12 @@ const Header = () => {
               </Link>
             </li>
             <li className='flex justify-center items-center'>
+              <button className='button-for-favorites-header' onClick={toggleModal}>
+                <FontAwesomeIcon icon={faHeart} size='lg' className='sm:hidden' />
+                <span className='text-[20px]'>Favoritos</span>
+              </button>
+            </li>
+            <li className='flex justify-center items-center'>
               <button onClick={checkedLogin}>
                 <FontAwesomeIcon icon={faUser} />
                 <span className='text-[20px]'>Perfil</span>
@@ -117,6 +129,10 @@ const Header = () => {
               </ul>
             </nav>
           </aside>
+        )}
+
+        {showModal && (
+          <ModalFavorites setOpen={setShowModal} />
         )}
       </div>
     </header>

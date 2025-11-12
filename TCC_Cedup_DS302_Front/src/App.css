@@ -55,7 +55,7 @@ input[type='checkbox'] {
     font-weight: 700;
     border-radius: 5px;
     padding: 0.5rem 1rem;
-    border: none;
+    border: 2px solid var(--primary-clear);
     cursor: pointer;
     transition: 0.3s ease-in-out;
     margin: 20px 0 0 0;
@@ -67,6 +67,26 @@ input[type='checkbox'] {
     color: var(--primary-clear);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+.secondary-button {
+    background-color: var(--white);
+    color: var(--primary-clear);
+    font-family: "Pragati Narrow", sans-serif;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    border: 2px var(--primary-clear) solid;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    margin: 20px 0 0 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.secondary-button:hover {
+    background-color: var(--primary-clear);
+    color: white;
+}
+
 
 .input-checkbox {
     box-shadow: none;
