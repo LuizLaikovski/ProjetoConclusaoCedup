@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookSearchDTO {
+    private String id;
     private String path;
     private String title;
     private Image image;

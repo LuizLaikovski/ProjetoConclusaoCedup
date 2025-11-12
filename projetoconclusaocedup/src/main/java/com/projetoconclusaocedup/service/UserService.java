@@ -134,7 +134,7 @@ public class UserService {
             User user = find(idUser);
             Image image = imageService.find(book.getImage());
 
-            BookSearchDTO bookSearchDTO = new BookSearchDTO(book.getPath(), book.getTitle(), image);
+            BookSearchDTO bookSearchDTO = new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), image);
 
             user.getBooksFavorited().add(bookSearchDTO);
 

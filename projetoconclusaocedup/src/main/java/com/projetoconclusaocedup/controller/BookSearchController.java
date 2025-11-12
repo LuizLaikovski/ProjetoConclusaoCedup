@@ -32,7 +32,7 @@ public class BookSearchController {
                 for(Book book : books){
                     Image image = imageService.find(book.getImage());
 
-                    bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), image));
+                    bookSearchDTOS.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), image));
                 }
             }
 
@@ -52,7 +52,7 @@ public class BookSearchController {
                 for(Book book : books){
                     Image image = imageService.find(book.getImage());
 
-                    bookSearchDTOS.add(new BookSearchDTO(book.getPath(), book.getTitle(), image));
+                    bookSearchDTOS.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), image));
                 }
             }
 

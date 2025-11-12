@@ -1,5 +1,8 @@
 package com.projetoconclusaocedup.service;
 
+import com.projetoconclusaocedup.dto.AuthorImageDTO;
+import com.projetoconclusaocedup.dto.BookAuthorsDTO;
+import com.projetoconclusaocedup.model.Image;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,12 +10,15 @@ import com.projetoconclusaocedup.model.Book;
 import com.projetoconclusaocedup.repository.BookRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
+    private ImageService imageService;
+    private AuthorService authorService;
 
     public Book create(Book book){
         try {
@@ -45,6 +51,39 @@ public class BookService {
             }
 
             return bookRepository.save(book);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<BookAuthorsDTO> createAll(List<BookAuthorsDTO> bookAuthors){
+        try {
+            List<BookAuthorsDTO> newBookAuthorsDTOS = new ArrayList<>();
+            for(BookAuthorsDTO bookAuthorsDTO : bookAuthors){
+                Book newBook = create(bookAuthorsDTO.getBook());
+                Image newBookImage = imageService.create(bookAuthorsDTO.getImageBook());
+                List<AuthorImageDTO> newAuthorImages = bookAuthorsDTO.getAuthorsImage();
+
+                newBook.setImage(newBookImage.getId());
+
+                for(AuthorImageDTO authorImagesDTO : newAuthorImages){
+                    authorService.create(authorImagesDTO.getAuthor());
+                    Image image = imageService.create(authorImagesDTO.getImage());
+                    newBook.getAuthors().add(authorImagesDTO.getAuthor().getId());
+                    authorImagesDTO.getAuthor().getBooks().add(newBook.getId());
+                    authorImagesDTO.getAuthor().setImage(image.getId());
+                }
+
+                update(newBook.getId(), newBook);
+
+                for(AuthorImageDTO authorImageDTO : newAuthorImages){
+                    authorService.update(authorImageDTO.getAuthor().getId(), authorImageDTO.getAuthor());
+                }
+
+                newBookAuthorsDTOS.add(new BookAuthorsDTO(newBook, newBookImage, newAuthorImages));
+            }
+
+            return newBookAuthorsDTOS;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
