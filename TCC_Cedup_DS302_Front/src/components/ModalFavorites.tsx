@@ -41,7 +41,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
 
                 console.log(`${API_URL}=${idUser}`);
                 
-                const response = await fetch(`${API_URL}=${idUser}`, {
+                const response = await fetch(`${API_URL}=${JSON.parse(idUser)}`, {
                     method: "GET",
                     headers: {
                         "X-API-Key": API_KEY,
@@ -62,7 +62,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
 
             } catch (error) {
                 console.log("Erro:", error);
-                setError("Erro ao carregar livros favoritos!!!");
+                setError("Erro ao carregar livros favoritos: " + error);
             } finally {
                 setLoading(false);
             }
@@ -130,7 +130,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                                     <div key={book.id} className="favorite-item">
                                         <div className="book-content">
                                             <div className="book-info">
-                                                <RouteButton path={`/catalogo/livro/${book.path}`} label={<h3 className="book-title">{book.title}, {book.avaliacao}</h3>} />
+                                                <RouteButton path={`/catalogo/livro/${book.path}`} label={<h3 className="book-title">{book.title}</h3>} />
                                             </div>
                                         </div>
                                         <button 

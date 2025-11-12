@@ -20,6 +20,7 @@ const Login = () => {
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_USER;
     const navigate = useNavigate();
+    const [error, setError] = useState<string | null>(null);
 
     const handleChange = (
         e: ChangeEvent<HTMLInputElement>
@@ -32,6 +33,7 @@ const Login = () => {
     };
 
     const Login = async (e: FormEvent<HTMLFormElement>) => {
+        setError(null);
         e.preventDefault();
 
         const bodyData = {
@@ -48,6 +50,11 @@ const Login = () => {
                 },
                 body: JSON.stringify(bodyData)
             });
+
+            if (!response.ok) {
+                throw new Error("Erro na requisição");
+                setError("Erro na requisição");
+            }
 
             const data = await response.json();
             console.log(data);
@@ -114,6 +121,8 @@ const Login = () => {
                                 onChange={handleChange}
                             />
                         </div>
+
+                        {error && <p className="error-message text-red-500">{error}</p>}
                         
                         <button type="submit" className="login-button w-[20dvw] ">Confirmar</button>
                         <Link to="/cadastro" className='link-return underline'>Ainda não possuo uma conta</Link>

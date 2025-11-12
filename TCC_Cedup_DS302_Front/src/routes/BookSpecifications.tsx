@@ -95,9 +95,11 @@ const BookSpecifications = () => {
         const res = await fetch(
           API_URL_BOOKS,
           {
+            method: "GET",
             headers: { "X-API-Key": API_KEY },
           }
         );
+
         if (!res.ok) throw new Error("Erro ao carregar os livros");
 
         const data: BookAPIItem[] = await res.json();

@@ -5,13 +5,13 @@ import type { CSSProperties } from '@mui/material';
 
 interface Book {
   id: string;
-  titulo: string;
-  arquivo: {
+  title: string;
+  path: string;
+  image: {
+    id: string;
     src: string;
     alt: string;
   };
-  path: string;
-  avaliacao: number;
 }
 
 interface CarouselProps {
@@ -28,6 +28,11 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
   const [loading, setLoading] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [showControls, setShowControls] = useState(false);
+
+  const formatPath = (path: string) => {
+    if (!path) return "";
+    return path.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
+  }
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -50,23 +55,27 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         const data = await response.json();
 
         if (Array.isArray(data)) {
-          const mappedBooks: Book[] = data.map((item) => ({
-            id: item.book?.id ?? crypto.randomUUID(),
-            titulo: item.book?.title ?? "Sem título",
-            arquivo: {
-              // 🔹 Garante que o caminho da imagem esteja correto
-              src: item.book.archive.src,
-              alt: item.book?.archive?.alt ?? item.book?.title ?? "Capa",
-            },
-            path: item.book?.path ?? "#",
-            avaliacao: item.book?.rating ?? 0,
-          }));
-
-        setBooks(mappedBooks);
-      } else {
-        console.warn("Formato inesperado da resposta:", data);
-        setBooks([]);
-      }
+          const mappedBooks: Book[] = data
+            .filter(item => item && item.path) // garante que path exista
+            .map(item => {
+              const { id, path, title, image, archive } = item;
+              return {
+                id: id ?? crypto.randomUUID(),
+                path,
+                title: title ?? "Sem título",
+                image: {
+                  id: image?.id ?? "",
+                  src: `/images/${formatPath(path)}.jpeg`,
+                  alt: archive?.alt ?? title ?? "Capa",
+                },
+              };
+            });
+          setBooks(mappedBooks);
+        } else {
+          console.warn("Formato inesperado da resposta:", data);
+          setBooks([]);
+        }
+        
 
       } catch (error) {
         console.error("Erro ao buscar capas:", error);
@@ -135,7 +144,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
               style={{ scrollSnapAlign: 'start', padding: "10px" }}
             >
               <RouteButton
-                img={<BookImage src={book.arquivo.src} alt={book.titulo} classe='w-[136px]' />}
+                img={<BookImage src={book.image.src} alt={book.image.src} classe='w-[136px]' />}
                 path={`/catalogo/livro/${book.path}`}
               />
             </div>
@@ -145,7 +154,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         {/* Botão direito */}
         <button
           onClick={scrollRight}
-          className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-opacity-70 rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute text-white right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-opacity-70 rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
           style={{ backgroundColor: 'var(--primary-clear)' }}
           aria-label="Scroll right"
         >

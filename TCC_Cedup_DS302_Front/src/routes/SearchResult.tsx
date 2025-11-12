@@ -19,7 +19,7 @@ interface Book {
 const SearchResult = () => {
     const { bookName } = useParams<{ bookName: string }>(); // <-- Captura o termo da URL
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL_QUERY;
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -29,13 +29,14 @@ const SearchResult = () => {
             setLoading(true);
 
             try {
-                const response = await fetch(API_URL, {
+                const response = await fetch(`${API_URL}=${bookName}`, {
                     method: "GET",
                     headers: {
                         "X-API-Key": API_KEY,
                         "Content-Type": "application/json",
                     },
                 });
+                
                 if (!response.ok) {
                     throw new Error("Erro ao carregar livros: " + response.status);
                 }

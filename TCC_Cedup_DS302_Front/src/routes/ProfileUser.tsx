@@ -10,13 +10,13 @@ import ModalLogOut from "../components/ModalLogOut";
 
 interface Book {
     id: number;
+    path: string;
     title: string;
-    arquivo?: { // 👈 agora opcional
+    image?: {
+        id: string;
         src: string;
         alt: string;
     };
-    path: string;
-    avaliacao: number;
 }
 
 interface User {
@@ -36,6 +36,11 @@ const ProfileUser = () => {
     const API_URL = import.meta.env.VITE_API_URL_USER_UNIQUE;
 
     const handleModal = () => setModal(!modal);
+
+    const formatPath = (path: string) => {
+        if (!path) return "";
+        return path.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
+    }
 
     const logOutAccountModal = () => {
         setModalLogOut(!modalLogOut)
@@ -67,10 +72,23 @@ const ProfileUser = () => {
                     name: JSON.parse(nameUser),
                     email: JSON.parse(emailUser),
                     booksFavorited: data.booksFavorited || [],
-                }; 
+                };
+
+                const books = data.booksFavorited.map((book: Book) => {
+                    return {
+                        id: book.id,
+                        path: book.path,
+                        title: book.title,
+                        image: {
+                            id: book.image?.id || "",
+                            src: `/images/${formatPath(book.path)}.jpeg`,
+                            alt: book.image?.alt || "",
+                        }
+                    };
+                });
 
                 setUser(updatedUser);
-                setBooks(data.booksFavorited || []);
+                setBooks(books);
             } catch (error) {
                 console.error("Erro ao carregar os livros do back:", error);
             }
@@ -83,17 +101,19 @@ const ProfileUser = () => {
         <>
             <Header />
             <div className="flex justify-center items-center flex-col">
-                <div className="ignore-margin w-[96dvw] h-[25dvh] flex items-center bg-white rounded-3xl shadow-2xl" style={{ margin: "20px" }}>
+                <div className="ignore-margin w-[96dvw] h-[32dvh] flex items-center bg-white rounded-3xl shadow-2xl" style={{ margin: "20px" }}>
                     <FontAwesomeIcon icon={faUserCircle} style={{ marginLeft: "20px" }} size="5x" color="#003631" />
                     <div className="mr-10 w-[70dvw] text-black">
                         <h1 className="text-2xl" style={{ marginLeft: "20px" }}>{user?.name}</h1>
                         <h2 className="text-[13px]" style={{ marginLeft: "20px" }}>Email: {user?.email}</h2>
-                        <button style={{ marginLeft: "20px", marginTop: "5px" }} className="primary-button" onClick={handleModal}>
+                        <div className="overflow-hidden flex flex-col h-[20dvh] w-[70dvw]" style={{padding: "0 0 0 0"}}>
+                            <button style={{ margin: "20px 15px 0 20px" }} className="primary-button" onClick={handleModal}>
                             Editar Perfil
-                        </button>
-                        <button className="secondary-button" style={{marginLeft: "10px"}} onClick={logOutAccountModal}>
-                            Sair da Conta
-                        </button>
+                            </button>
+                            <button style={{ margin: "10px 15px 0 20px"}} className="secondary-button" onClick={logOutAccountModal}>
+                                Sair da Conta
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -105,12 +125,12 @@ const ProfileUser = () => {
                         {books && books.length > 0 ? (
                             books.map((book) => (
                                 <div key={book.id} className="flex flex-col items-center">
-                                    {book.arquivo ? (
+                                    {book.image ? (
                                         <RouteButton
                                             path={`/catalogo/livro/${book.path}`}
                                             img={
                                                 <BookImage
-                                                    src={book.arquivo.src}
+                                                    src={book.image?.src || ""}
                                                     alt={book.title}
                                                     style={{
                                                         width: "150px",
@@ -127,7 +147,6 @@ const ProfileUser = () => {
                                             Sem imagem
                                         </div>
                                     )}
-                                    <RouteButton classe="cursor-pointer" path={`/catalogo/livro/${book.path}`} label={<h2 className="text-center text-sm mt-2 font-medium">{book.title}</h2>}/>
                                 </div>
                             ))
                         ) : (
