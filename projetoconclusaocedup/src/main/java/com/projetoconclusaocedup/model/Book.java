@@ -20,7 +20,8 @@ public class Book {
     private String title;
     private String path;
     private Integer numPages;
-    private Double rating;
+    private List<Double> grades = new ArrayList<>();
+    private String rating;
     private LocalDate yearPublished;
     private String description;
     private List<String> authors = new ArrayList<>();

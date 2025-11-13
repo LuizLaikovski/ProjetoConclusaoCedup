@@ -30,9 +30,6 @@ public class BookService {
             if(book.getPath() != null && !book.getPath().trim().isBlank()){
                 book.setPath(book.getPath().trim());
             }
-            if(book.getRating() != null && (book.getRating() >= 5 || book.getRating() >= 0)){
-                book.setRating(book.getRating());
-            }
             if(book.getNumPages() != null && book.getNumPages() > 0){
                 book.setNumPages(book.getNumPages());
             }
@@ -177,7 +174,10 @@ public class BookService {
             if(book.getPath() != null && !book.getPath().trim().isBlank()){
                 bookUpdated.setPath(book.getPath().trim());
             }
-            if(book.getRating() != null && (book.getRating() >= 5 || book.getRating() >= 0)){
+            if(book.getGrades() != null){
+                bookUpdated.setGrades(book.getGrades());
+            }
+            if(book.getRating() != null){
                 bookUpdated.setRating(book.getRating());
             }
             if(book.getNumPages() != null && book.getNumPages() > 0){
@@ -200,6 +200,29 @@ public class BookService {
             }
 
             return bookRepository.save(bookUpdated);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Book rating(String idBook, Double grade){
+        try {
+            Book book = get(idBook);
+
+            if(grade != null && (grade <= 5 || grade >= 0)){
+                book.getGrades().add(grade);
+                Double sumGrades = 0.0;
+
+                for(Double grades : book.getGrades()){
+                    sumGrades += grades;
+                }
+
+                double bookRating = sumGrades / book.getGrades().size();
+
+                book.setRating(String.format("%.2f", bookRating).replace(",", "."));
+            }
+
+            return update(book.getId(), book);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

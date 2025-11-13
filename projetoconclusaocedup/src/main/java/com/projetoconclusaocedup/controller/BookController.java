@@ -1,6 +1,7 @@
 package com.projetoconclusaocedup.controller;
 
 import com.projetoconclusaocedup.dto.BookAuthorsDTO;
+import com.projetoconclusaocedup.dto.RateBookDTO;
 import com.projetoconclusaocedup.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,15 @@ public class BookController {
     public ResponseEntity<?> getOne(@PathVariable String query){
         try {
             return ResponseEntity.ok(bookService.getByPath(query));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/rate")
+    public ResponseEntity<?> rateBook(@RequestBody RateBookDTO rateBookDTO){
+        try {
+            return ResponseEntity.ok(bookService.rating(rateBookDTO.getIdBook(), rateBookDTO.getGrade()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
