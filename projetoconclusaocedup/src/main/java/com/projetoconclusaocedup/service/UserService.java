@@ -3,7 +3,6 @@ package com.projetoconclusaocedup.service;
 import com.projetoconclusaocedup.config.PasswordEncoder;
 import com.projetoconclusaocedup.dto.BookSearchDTO;
 import com.projetoconclusaocedup.model.Book;
-import com.projetoconclusaocedup.model.Image;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -67,7 +66,7 @@ public class UserService {
         }
     }
 
-    public User find(String id){
+    public User get(String id){
         try {
             return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
@@ -102,62 +101,66 @@ public class UserService {
     @Transactional
     public User update(String id, User user){
         try {
-            User userUpdated = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id:"+id+" não encontrado!"));
+            User userExisting = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id:"+id+" não encontrado!"));
 
             if (user.getName() != null && !user.getName().trim().isBlank()){
-                userUpdated.setName(user.getName().trim());
+                userExisting.setName(user.getName().trim());
             }
             if(user.getEmail() != null && !user.getEmail().trim().isBlank()){
-                userUpdated.setEmail(user.getEmail().trim());
+                userExisting.setEmail(user.getEmail().trim());
             }
             if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
                 String encryptedPassword = passwordEncoder.encrypt(user.getPassword());
-                userUpdated.setPassword(encryptedPassword);
+                userExisting.setPassword(encryptedPassword);
             }
-            if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
-                for(BookSearchDTO bookSearchDTO : userUpdated.getBooksFavorited()){
-                    user.getBooksFavorited().add(bookSearchDTO);
-                }
-
-                userUpdated.setBooksFavorited(user.getBooksFavorited());
+            if(user.getBooksFavorited() != null){
+                userExisting.setBooksFavorited(user.getBooksFavorited());
             }
 
-            return userRepository.save(userUpdated);
+            return userRepository.save(userExisting);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void favorite(String idBook, String idUser){
+    public User favorite(String idBook, String idUser){
         try {
             Book book = bookService.get(idBook);
-            User user = find(idUser);
-            Image image = imageService.find(book.getImage());
+            User user = get(idUser);
+            boolean bookInList = false;
 
-            BookSearchDTO bookSearchDTO = new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), image);
+            for(BookSearchDTO bookFavorited : user.getBooksFavorited()){
+                if(book.getPath().equals(bookFavorited.getPath())){
+                    bookInList = true;
+                    break;
+                }
+            }
 
-            user.getBooksFavorited().add(bookSearchDTO);
+            if(!bookInList){
+                BookSearchDTO bookWillFavorite = new BookSearchDTO(
+                        book.getId(), book.getPath(),
+                        book.getTitle(), imageService.find(book.getImage())
+                );
 
-            update(idUser, user);
+                user.getBooksFavorited().add(bookWillFavorite);
+            }
+
+            return update(user.getId(), user);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void unfavorite(BookSearchDTO bookUnfavorited, String idUser){
+    public User unfavorite(String idBook, String idUser){
         try {
-            User user = find(idUser);
-            List<BookSearchDTO> favorites = user.getBooksFavorited();
+            Book book = bookService.get(idBook);
+            User user = get(idUser);
 
-            for(BookSearchDTO bookSearch : favorites){
-                if(bookUnfavorited.getPath().equals(bookSearch.getPath())){
-                    favorites.remove(bookUnfavorited);
-                }
-            }
+            user.getBooksFavorited().removeIf(bookFavorited ->
+                    book.getPath().equals(bookFavorited.getPath())
+            );
 
-            user.setBooksFavorited(favorites);
-
-            update(idUser, user);
+            return update(user.getId(), user);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

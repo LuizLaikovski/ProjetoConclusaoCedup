@@ -2,7 +2,6 @@ package com.projetoconclusaocedup.controller;
 
 import com.projetoconclusaocedup.dto.FavoriteDTO;
 import com.projetoconclusaocedup.dto.LoginDTO;
-import com.projetoconclusaocedup.dto.UnfavoriteDTO;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.service.UserService;
 import lombok.AllArgsConstructor;
@@ -36,7 +35,7 @@ public class UserController {
     @GetMapping("/one/u={id}")
     public ResponseEntity<?> findOne(@PathVariable String id) {
         try {
-            return ResponseEntity.ok(userService.find(id));
+            return ResponseEntity.ok(userService.get(id));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -74,22 +73,18 @@ public class UserController {
     @PostMapping("/favorite")
     public ResponseEntity<?> favorite(@RequestBody FavoriteDTO favoriteDTO){
         try {
-            userService.favorite(favoriteDTO.getIdBook(), favoriteDTO.getIdUser());
-
-            String msg = "foi meu patrão";
-            return ResponseEntity.ok(msg);
+//            String msg = "foi meu patrão";
+            return ResponseEntity.ok(userService.favorite(favoriteDTO.getIdBook(), favoriteDTO.getIdUser()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/unfavorite")
-    public ResponseEntity<?> unfavorite(@RequestBody UnfavoriteDTO unfavoriteDTO){
+    public ResponseEntity<?> unfavorite(@RequestBody FavoriteDTO unfavoriteDTO){
         try {
-            userService.unfavorite(unfavoriteDTO.getBookRemoved(), unfavoriteDTO.getIdUser());
-
-            String msg = "foi meu patrão";
-            return ResponseEntity.ok(msg);
+//            String msg = "foi meu patrão";
+            return ResponseEntity.ok(userService.unfavorite(unfavoriteDTO.getIdBook(), unfavoriteDTO.getIdUser()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
