@@ -6,29 +6,7 @@ import "./css/BooksSpecification.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import ModalAssessment from "../components/ModalAssessment";
-
-interface BookAPIItem {
-  book: {
-    id: string;
-    title: string;
-    archive: {
-      src: string;
-      alt: string;
-    };
-    authors: string[];
-    numPages?: number;
-    rating?: number;
-    description?: string;
-  };
-  authorsImages: {
-    author: {
-      id: string;
-      name: string;
-      path: string;
-    };
-    images: { src: string; alt: string }[];
-  }[];
-}
+import RouteButton from "../components/RouteButton";
 
 interface Book {
   id: string;
@@ -75,7 +53,7 @@ const BookSpecifications = () => {
   const API_URL = import.meta.env.VITE_API_URL_FAVORITE;
   const API_URL_UNIQUE = import.meta.env.VITE_API_URL_USER_UNIQUE;
   const API_URL_UN = import.meta.env.VITE_API_URL_UNFAVORITE;
-  const API_URL_BOOKS = import.meta.env.VITE_API_URL_BOOKS;
+  const API_URL_BOOKS = import.meta.env.VITE_API_URL_BOOK;
 
   const toggleModal = () => {
     setModalAssessment(!modalAssessment);
@@ -89,46 +67,75 @@ const BookSpecifications = () => {
       .replace(/\s+/g, "-")
       .toLowerCase();
 
+  const formatPath = (path: string) => {
+    if (!path) return "";
+    return path.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
+  }
+
   useEffect(() => {
-    const fetchBook = async () => {
+    const loadData = async () => {
       try {
-        const res = await fetch(
-          API_URL_BOOKS,
-          {
-            method: "GET",
-            headers: { "X-API-Key": API_KEY },
+        const checkedBook = async (bookData: Book) => {
+          const idUser = localStorage.getItem("idUser");
+          if (!bookData || !idUser) return;
+
+          try {
+            const response = await fetch(`${API_URL_UNIQUE}=${JSON.parse(idUser)}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "X-API-Key": API_KEY,
+              },
+            });
+
+            console.log(response.status);
+            
+
+            if (!response.ok) throw new Error("Erro ao buscar usuario");
+
+            const data: UserData = await response.json();
+
+            const isBookFavorited = data.booksFavorited?.some(
+              (favBook) => favBook.path === bookData.path
+            );
+
+            setIsFavorite(isBookFavorited);
+          } catch (error) {
+            console.error(error);
           }
-        );
+        };
+        // 1. Carrega o livro
+        const res = await fetch(`${API_URL_BOOKS}${bookName}`, {
+          method: "GET",
+          headers: { "X-API-Key": API_KEY },
+        });
 
         if (!res.ok) throw new Error("Erro ao carregar os livros");
 
-        const data: BookAPIItem[] = await res.json();
+        const rawData = await res.json();
 
-        // Mapeia os livros e pega o nome do autor correto
-        const mappedBooks: Book[] = data
-          .filter((item) => item.book.archive?.src)
-          .map((item) => ({
-            id: item.book.id,
-            titulo: item.book.title,
-            autor:
-              item.authorsImages?.[0]?.author?.name || "Autor desconhecido",
-            autorPath: item.authorsImages?.[0]?.author.name.toLowerCase().replace(/\s+/g, "-"),
-            pags: item.book.numPages || 0,
-            descricao: item.book.description || "Sem descrição disponível",
-            arquivo: {
-              src: item.book.archive.src,
-              alt: item.book.archive.alt || item.book.title,
-            },
-            avaliacao: item.book.rating || 0,
-            path: normalize(item.book.title),
-          }));
+        const item = rawData;
 
-        // Procura o livro pela URL
-        const foundBook = mappedBooks.find(
-          (b) => normalize(b.path) === normalize(bookName || "")
-        );
+        const mappedBook: Book = {
+          id: item.book.id,
+          titulo: item.book.title,
+          autor: item.authorsImage?.[0]?.author?.name || "Autor desconhecido",
+          autorPath: item.authorsImage?.[0]?.author?.name
+            ?.toLowerCase()
+            .replace(/\s+/g, "-"),
+          pags: item.book.numPages || 0,
+          descricao: item.book.description || "Sem descrição disponível",
+          arquivo: {
+            src: formatPath(item.book.archive.src) ? item.book.archive.src : "/images/sem-imagem.jpeg",
+            alt: item.imageBook.alt || item.book.title,
+          },
+          avaliacao: item.book.rating ?? 0,
+          path: normalize(item.book.title),
+        };
 
-        setBook(foundBook || null);
+
+        setBook(mappedBook);
+        await checkedBook(mappedBook);
       } catch (err) {
         console.error(err);
       } finally {
@@ -136,47 +143,14 @@ const BookSpecifications = () => {
       }
     };
 
-    const checkedBook = async () => {
-      const idUser = localStorage.getItem("idUser");
-
-      if (!book || !idUser) return;
-
-      console.log(`${API_URL_UNIQUE}=${idUser}`);
-      
-
-      try {
-        const response = await fetch(`${API_URL_UNIQUE}=${idUser}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": API_KEY
-          }
-        })
-
-        if (!response.ok) throw new Error("Erro ao buscar usuario")
-        
-          const data: UserData = await response.json();
-
-        const isBookFavorited = data.booksFavorited?.some(
-          (favBook) => favBook.path === book.path
-        );
-  
-        setIsFavorite(isBookFavorited);
-
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    if (bookName) {
-      fetchBook();
-      checkedBook();
-    } else setLoading(false);
+    if (bookName) loadData();
+    else setLoading(false);
   }, [bookName]);
+
 
   const favoriteBook = async () => {
     const idUser = localStorage.getItem("idUser");
-  
+
     if (!book || !idUser) {
       alert("Erro: usuário ou livro não encontrado");
       return;
@@ -203,7 +177,7 @@ const BookSpecifications = () => {
 
   const unFavoriteBook = async () => {
     const idUser = localStorage.getItem("idUser");
-  
+
     if (!book || !idUser) {
       alert("Erro: usuário ou livro não encontrado");
       return;
@@ -227,13 +201,13 @@ const BookSpecifications = () => {
       console.error(error);
     }
   }
-  
+
 
   if (loading)
     return (
-        <div className="preloader">
-            <div className="loader h-[75px] w-[75px]"></div>
-        </div>
+      <div className="preloader">
+        <div className="loader h-[75px] w-[75px]"></div>
+      </div>
     );
 
   if (!book)
@@ -249,112 +223,119 @@ const BookSpecifications = () => {
       </div>
     );
 
-    const renderStars = (rating: number) => {
-        return [...Array(5)].map((_, index) => {
-            const ratingValue = index + 1;
-            return (
-                <FontAwesomeIcon 
-                    key={index}
-                    icon={faStar}
-                    className="star-icon"
-                    style={{
-                        color: ratingValue <= rating ? "#ffc107" : "#e4e5e9",
-                        height: "25px"
-                    }}
-                />
-            );
-        });
-    };
+  const renderStars = (rating: number) => {
+    return [...Array(5)].map((_, index) => {
+      const ratingValue = index + 1;
+      return (
+        <FontAwesomeIcon
+          key={index}
+          icon={faStar}
+          className="star-icon"
+          style={{
+            color: ratingValue <= rating ? "#ffc107" : "#e4e5e9",
+            height: "25px"
+          }}
+        />
+      );
+    });
+  };
 
-    return (
-      <>
-        <Header />
-        <main className="min-h-screen flex flex-col justify-center items-center py-10 px-6">
-          <section className="bg-white w-[90dvw] h-auto rounded-2xl shadow-2xl flex flex-col justify-center items-center lg:flex-row relative overflow-hidden" style={{padding: "50px 50px 50px 50px", marginTop: "50px"}}>
-            <div className="lg:w-[35%] flex justify-center items-center p-8">
+  return (
+    <>
+      <Header />
+      <main className="min-h-screen flex flex-col justify-center items-center py-10 px-6">
+        <section className="bg-white w-[90dvw] h-auto rounded-2xl shadow-2xl flex flex-col justify-center items-center lg:flex-row relative overflow-hidden" style={{ padding: "50px 50px 50px 50px", marginTop: "50px" }}>
+          <div className="lg:w-[35%] flex justify-center items-center p-8">
+            {book?.arquivo?.src ? (
               <img
                 src={book.arquivo.src}
                 alt={book.arquivo.alt}
                 className="rounded-lg shadow-xl w-[250px] lg:w-[300px]"
               />
-            </div>
-
-            <div className="flex flex-col inset-y-0 left-0 items-center w-[40dvw]">
-              <div className="max-sm:w-[70dvw]">
-                <div className="text-center">
-                  <h1 className="text-4xl font-bold text-black lg:text-left mb-3">
-                    {book.titulo}
-                  </h1>
-                  <p>{book.id}</p>
-                </div>
-                <div className="flex justify-center lg:justify-start items-center" style={{marginBottom: "20px", marginTop: "20px"}}>
-                  {renderStars(book.avaliacao)}
-                  <span className="ml-2 text-black font-semibold text-lg">
-                    {book.avaliacao.toFixed(1)}
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center border-t border-b border-gray-300"  style={{paddingBlock: "16px", marginBottom: "24px"}}>
-                  <div>
-                    <p className="font-semibold text-2xl text-gray-700">Nº de páginas: {book.pags}</p>
-                  </div>
-                </div>
+            ) : (
+              <div className="w-[250px] h-[350px] bg-gray-200 rounded-lg flex items-center justify-center">
+                <p>Sem imagem</p>
               </div>
-
-              <p className="text-justify text-[17px] leading-relaxed text-gray-800 max-sm:w-60">
-                {book.descricao}
-              </p>
-            </div>
-    
-            {/* Botões laterais */}
-            <div className="flex justify-center items-center">
-              <div className="hidden lg:flex h-[35dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl" style={{marginLeft: "7dvw", padding: "20px"}}>
-                <button className="primary-button">
-                  Leia Agora
-                </button>
-                <button className="primary-button" onClick={toggleModal}>
-                  Avaliar
-                </button>
-                <button
-                  className={isFavorited ? "secondary-button" : "primary-button"}
-                  onClick={isFavorited ? unFavoriteBook : favoriteBook}
-                >
-                  {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
-                </button>
-
-              </div>
-            </div>
-          </section>
-    
-          {/* Botões embaixo (para telas menores, até notebook) */}
-          <div className="sm:hidden flex h-[35dvh] w-[80dvw]  lg:w-[20dvw] flex-col gap-4 right-6 top-1/3 lg:shadow-2xl">
-            <button className="primary-button">
-              Leia Agora
-            </button>
-            <button className="primary-button" onClick={toggleModal}>
-              Avaliar
-            </button>
-            <button
-              className={isFavorited ? "secondary-button" : "primary-button"}
-              onClick={isFavorited ? unFavoriteBook : favoriteBook}
-            >
-              {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
-            </button>
+            )}
 
           </div>
-          <div className="sm:hidden h-[5dvh]"></div>
 
-          {modalAssessment && (
-            <ModalAssessment
-              setModalAssessment={setModalAssessment}
-            />
-          )}
+          <div className="flex flex-col inset-y-0 left-0 items-center w-[40dvw]">
+            <div className="max-sm:w-[70dvw]">
+              <div className="text-center">
+                <h1 className="text-4xl font-bold text-black lg:text-left mb-3">
+                  {book.titulo}
+                </h1>
+                <RouteButton path={`/perfilAutor/${book.autorPath}`} classe="text-[20px] cursor-pointer" label={<h1>{book.autor}</h1>} />
+              </div>
+              <div className="flex justify-center lg:justify-start items-center" style={{ marginBottom: "20px", marginTop: "20px" }}>
+                {renderStars(book.avaliacao)}
+                <span className="ml-2 text-black font-semibold text-lg">
+                  {book.avaliacao.toFixed(1)}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center border-t border-b border-gray-300" style={{ paddingBlock: "16px", marginBottom: "24px" }}>
+                <div>
+                  <p className="font-semibold text-2xl text-gray-700">Nº de páginas: {book.pags}</p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-justify text-[17px] leading-relaxed text-gray-800 max-sm:w-60">
+              {book.descricao}
+            </p>
+          </div>
+
+          {/* Botões laterais */}
+          <div className="flex justify-center items-center">
+            <div className="hidden lg:flex h-[35dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl" style={{ marginLeft: "7dvw", padding: "20px" }}>
+              <button className="primary-button">
+                Leia Agora
+              </button>
+              <button className="primary-button" onClick={toggleModal}>
+                Avaliar
+              </button>
+              <button
+                className={isFavorited ? "secondary-button" : "primary-button"}
+                onClick={isFavorited ? unFavoriteBook : favoriteBook}
+              >
+                {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
+              </button>
+
+            </div>
+          </div>
+        </section>
+
+        {/* Botões embaixo (para telas menores, até notebook) */}
+        <div className="sm:hidden flex h-[35dvh] w-[80dvw]  lg:w-[20dvw] flex-col gap-4 right-6 top-1/3 lg:shadow-2xl">
+          <button className="primary-button">
+            Leia Agora
+          </button>
+          <button className="primary-button" onClick={toggleModal}>
+            Avaliar
+          </button>
+          <button
+            className={isFavorited ? "secondary-button" : "primary-button"}
+            onClick={isFavorited ? unFavoriteBook : favoriteBook}
+          >
+            {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
+          </button>
+
+        </div>
+        <div className="sm:hidden h-[5dvh]"></div>
+
+        {modalAssessment && (
+          <ModalAssessment
+            setModalAssessment={setModalAssessment}
+          />
+        )}
 
 
-          <Footer />
-          <div className="h-[6dvh]"></div>
-        </main>
-      </>
-    );
-  };
+        <Footer />
+        <div className="h-[6dvh]"></div>
+      </main>
+    </>
+  );
+};
 
 export default BookSpecifications;

@@ -23,7 +23,7 @@ interface CarouselProps {
 
 const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const API_URL = import.meta.env.VITE_API_URL_BOOKS;
+  const API_URL = import.meta.env.VITE_API_URL_CATALOG;
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -49,7 +49,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         );
 
         if (!response.ok) {
-          throw new Error("Erro ao carregar livros: " + response.status);
+          throw new Error("Erro ao carregar livros: " + response.statusText);
         }
 
         const data = await response.json();

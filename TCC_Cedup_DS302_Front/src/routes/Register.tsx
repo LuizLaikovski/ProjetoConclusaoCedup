@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react';
 import Footer from '../components/Footer';
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ const Register = () => {
 
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [successMessage, setSuccessMessage] = useState<string>('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_USER;
@@ -113,9 +114,9 @@ const Register = () => {
                         />
                     </div>
 
-                    <div className="w-full flex justify-center mb-6">
+                    <div className="relative">
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             id="password"
                             name="password"
                             value={formData.password}
@@ -125,6 +126,15 @@ const Register = () => {
                             onChange={handleChange}
                             required
                         />
+
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-5 top-1/4 transform-translate-y-1/2 text-gray-500 hover:text-gray-700 eyesPassword"
+                            aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                        >
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        </button>
                     </div>
 
                     {errorMessage && (

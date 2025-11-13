@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import RouteButton from "./RouteButton";
 
 interface Book {
-    id: number;
+    id: string;
     title: string;
     arquivo?: {
         src: string;
@@ -22,25 +22,25 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    
+
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_USER_UNIQUE;
-    const idUser = localStorage.getItem("idUser");
+    const API_URL_UNFAVORITE = import.meta.env.VITE_API_URL_UNFAVORITE;
+    const idUser = JSON.parse(localStorage.getItem("idUser") || "null");
 
     useEffect(() => {
         const loadFavoritesBook = async () => {
             try {
                 setLoading(true);
                 setError(null);
-                
+
                 if (!idUser) {
                     setError("Usuário não identificado");
                     setLoading(false);
                     return;
                 }
 
-                console.log(`${API_URL}=${idUser}`);
-                
+
                 const response = await fetch(`${API_URL}=${JSON.parse(idUser)}`, {
                     method: "GET",
                     headers: {
@@ -52,7 +52,6 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                 if (!response.ok) throw new Error("Erro na requisição: " + response.status);
 
                 const data = await response.json();
-                console.log("Dados recebidos:", data);
 
                 if (data && Array.isArray(data.booksFavorited)) {
                     setBooks(data.booksFavorited);
@@ -61,7 +60,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                 }
 
             } catch (error) {
-                console.log("Erro:", error);
+                console.error("Erro:", error);
                 setError("Erro ao carregar livros favoritos: " + error);
             } finally {
                 setLoading(false);
@@ -75,24 +74,34 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
         setOpen(false);
     }
 
-    const handleRemoveFavorite = async (bookId: number) => {
+    const handleRemoveFavorite = async (bookId: string) => {
         try {
-            // Aqui você pode implementar a lógica para remover dos favoritos
-            console.log("Removendo livro ID:", bookId);
-            
-            // Atualiza o estado localmente
-            setBooks(prevBooks => prevBooks.filter(book => book.id !== bookId));
-            
-            // Se tiver uma API para remover favoritos:
-            // await fetch(`${API_URL_REMOVE_FAVORITE}`, {
-            //     method: "DELETE",
-            //     headers: {
-            //         "X-API-Key": API_KEY,
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify({ userId: idUser, bookId })
-            // });
-            
+            console.log("JSON enviado ao BD", JSON.stringify({ idUser: idUser, idBook: bookId }));
+
+            const response = await fetch(`${API_URL_UNFAVORITE}`, {
+                method: "POST",
+                headers: {
+                    "X-API-Key": API_KEY,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ idUser: idUser, idBook: bookId }),
+            });
+
+            if (response.ok) {
+                const text = await response.text();
+                const data = text ? JSON.parse(text) : null;
+
+                console.log("Resposta da API:", data);
+            } else {
+                console.error("Erro da API:", response.status);
+            }
+
+
+            const data = await response.json();
+            console.log(data);
+
+
+
         } catch (error) {
             console.error("Erro ao remover favorito:", error);
         }
@@ -108,7 +117,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                             <FontAwesomeIcon icon={faTimes} />
                         </button>
                     </div>
-                    
+
                     <div className="modal-body">
                         {loading ? (
                             <div className="loading-state">
@@ -130,10 +139,10 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                                     <div key={book.id} className="favorite-item">
                                         <div className="book-content">
                                             <div className="book-info">
-                                                <RouteButton path={`/catalogo/livro/${book.path}`} label={<h3 className="book-title">{book.title}</h3>} />
+                                                <RouteButton path={`/catalogo/livro/${book.path}`} label={<h3 className="book-title text-black">{book.title}</h3>} />
                                             </div>
                                         </div>
-                                        <button 
+                                        <button
                                             className="remove-favorite"
                                             onClick={() => handleRemoveFavorite(book.id)}
                                             title="Remover dos favoritos"
@@ -145,14 +154,14 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                             </div>
                         )}
                     </div>
-                    
-                    <div className="flex justify-center items-center" style={{marginBottom: "20px"}}>
+
+                    <div className="flex justify-center items-center" style={{ marginBottom: "20px" }}>
                         <div className="favorites-count">
                             {!loading && !error && (
                                 <span>{books.length} {books.length === 1 ? 'livro' : 'livros'} favorito(s)</span>
                             )}
                         </div>
-                        <button className="close-modal-button" onClick={closeModal} style={{marginLeft: "20px"}}>
+                        <button className="close-modal-button" onClick={closeModal} style={{ marginLeft: "20px" }}>
                             Fechar
                         </button>
                     </div>
