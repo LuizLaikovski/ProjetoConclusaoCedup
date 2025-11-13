@@ -38,7 +38,7 @@ public class AuthorService {
 
             return authorRepository.save(author);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class AuthorService {
 
             return authorRepository.saveAll(newAuthors);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class AuthorService {
         try {
             return authorRepository.findAll();
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ public class AuthorService {
         try {
             return authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Autor de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -94,7 +94,7 @@ public class AuthorService {
         try {
             return authorRepository.getByPath(path);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ public class AuthorService {
         try {
             authorRepository.deleteById(id);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -132,7 +132,7 @@ public class AuthorService {
 
             return authorRepository.save(author);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

@@ -44,7 +44,7 @@ public class UserService {
 
             return userRepository.save(user);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ public class UserService {
             }
             return user;
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class UserService {
         try {
             return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class UserService {
         try {
             return userRepository.findAll();
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ public class UserService {
         try {
             return userRepository.findByEmail(email);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -94,7 +94,7 @@ public class UserService {
         try {
             userRepository.deleteById(id);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -119,7 +119,7 @@ public class UserService {
 
             return userRepository.save(userExisting);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -147,7 +147,7 @@ public class UserService {
 
             return update(user.getId(), user);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -162,7 +162,7 @@ public class UserService {
 
             return update(user.getId(), user);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

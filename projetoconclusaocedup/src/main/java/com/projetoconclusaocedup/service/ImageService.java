@@ -25,7 +25,7 @@ public class ImageService {
 
             return imageRepository.save(image);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
     public List<Image> createAll(List<Image> images){
@@ -44,7 +44,7 @@ public class ImageService {
 
             return imageRepository.saveAll(newImages);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -52,7 +52,7 @@ public class ImageService {
         try {
             return imageRepository.findAll();
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -60,7 +60,7 @@ public class ImageService {
         try {
             return imageRepository.findById(id).orElseThrow(() -> new RuntimeException("Imagem de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ public class ImageService {
         try {
             imageRepository.deleteById(id);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ public class ImageService {
 
             return imageRepository.save(image);
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
