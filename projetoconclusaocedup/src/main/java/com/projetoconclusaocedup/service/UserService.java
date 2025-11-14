@@ -23,6 +23,11 @@ public class UserService {
         try {
             User existingUser = findByEmail(user.getEmail());
 
+            if (existingUser != null){
+                String msg = "bah guri";
+                throw new RuntimeException(msg);
+            }
+
             if(user.getName() != null && !user.getName().trim().isBlank()){
                 user.setName(user.getName().trim());
             }
@@ -35,11 +40,6 @@ public class UserService {
             }
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
                 user.setBooksFavorited(user.getBooksFavorited());
-            }
-
-            if (existingUser != null){
-                String msg = "bah guri";
-                throw new RuntimeException(msg);
             }
 
             return userRepository.save(user);
