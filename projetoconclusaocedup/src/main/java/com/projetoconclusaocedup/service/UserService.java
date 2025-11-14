@@ -24,7 +24,7 @@ public class UserService {
             User existingUser = findByEmail(user.getEmail());
 
             if (existingUser != null){
-                String msg = "bah guri";
+                String msg = "usuário com este email já existe";
                 throw new RuntimeException(msg);
             }
 
