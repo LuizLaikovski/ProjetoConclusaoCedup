@@ -31,7 +31,6 @@ interface FavoriteBook {
     alt: string;
   }[];
 }
-
 interface UserData {
   id: string;
   name: string;
@@ -88,9 +87,6 @@ const BookSpecifications = () => {
               },
             });
 
-            console.log(response.status);
-            
-
             if (!response.ok) throw new Error("Erro ao buscar usuario");
 
             const data: UserData = await response.json();
@@ -104,7 +100,7 @@ const BookSpecifications = () => {
             console.error(error);
           }
         };
-        // 1. Carrega o livro
+
         const res = await fetch(`${API_URL_BOOKS}${bookName}`, {
           method: "GET",
           headers: { "X-API-Key": API_KEY },
@@ -126,7 +122,7 @@ const BookSpecifications = () => {
           pags: item.book.numPages || 0,
           descricao: item.book.description || "Sem descrição disponível",
           arquivo: {
-            src: formatPath(item.book.archive.src) ? item.book.archive.src : "/images/sem-imagem.jpeg",
+            src: `/images/${formatPath(item.book.path)}.jpeg`,
             alt: item.imageBook.alt || item.book.title,
           },
           avaliacao: item.book.rating ?? 0,
@@ -160,6 +156,7 @@ const BookSpecifications = () => {
       idBook: book.id,
       idUser: JSON.parse(idUser || '""')
     }
+
     try {
       await fetch(`${API_URL}`, {
         method: "POST",
@@ -172,6 +169,8 @@ const BookSpecifications = () => {
     } catch (error) {
       console.error("Erro ao favoritar:", error);
       alert("Erro de conexão com o servidor!");
+    } finally {
+      location.reload();
     }
   };
 
@@ -249,7 +248,7 @@ const BookSpecifications = () => {
             {book?.arquivo?.src ? (
               <img
                 src={book.arquivo.src}
-                alt={book.arquivo.alt}
+                alt={book.arquivo.src}
                 className="rounded-lg shadow-xl w-[250px] lg:w-[300px]"
               />
             ) : (
@@ -271,7 +270,7 @@ const BookSpecifications = () => {
               <div className="flex justify-center lg:justify-start items-center" style={{ marginBottom: "20px", marginTop: "20px" }}>
                 {renderStars(book.avaliacao)}
                 <span className="ml-2 text-black font-semibold text-lg">
-                  {book.avaliacao.toFixed(1)}
+                  {Number(book.avaliacao).toFixed(1)}
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center border-t border-b border-gray-300" style={{ paddingBlock: "16px", marginBottom: "24px" }}>
@@ -289,9 +288,9 @@ const BookSpecifications = () => {
           {/* Botões laterais */}
           <div className="flex justify-center items-center">
             <div className="hidden lg:flex h-[35dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl" style={{ marginLeft: "7dvw", padding: "20px" }}>
-              <button className="primary-button">
+              <a className="primary-button">
                 Leia Agora
-              </button>
+              </a>
               <button className="primary-button" onClick={toggleModal}>
                 Avaliar
               </button>
@@ -308,9 +307,9 @@ const BookSpecifications = () => {
 
         {/* Botões embaixo (para telas menores, até notebook) */}
         <div className="sm:hidden flex h-[35dvh] w-[80dvw]  lg:w-[20dvw] flex-col gap-4 right-6 top-1/3 lg:shadow-2xl">
-          <button className="primary-button">
+          <a className="primary-button text-center">
             Leia Agora
-          </button>
+          </a>
           <button className="primary-button" onClick={toggleModal}>
             Avaliar
           </button>

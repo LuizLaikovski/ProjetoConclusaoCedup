@@ -36,14 +36,13 @@ const Header = () => {
     setShowModal(!showModal);
 };
 
-  // 🔍 MÉTODO que pesquisa apenas ao clicar no botão ou pressionar Enter
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const searchTerm = searchBook.book.trim();
 
     if (searchTerm) {
-      const encodedSearchTerm = encodeURIComponent(searchTerm);
+      const encodedSearchTerm = searchTerm.replace(/\s+/g, "-").toLowerCase();
       navigate(`/search/${encodedSearchTerm}`);
     }
   };

@@ -41,7 +41,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                 }
 
 
-                const response = await fetch(`${API_URL}=${JSON.parse(idUser)}`, {
+                const response = await fetch(`${API_URL}=${idUser}`, {
                     method: "GET",
                     headers: {
                         "X-API-Key": API_KEY,
@@ -76,8 +76,6 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
 
     const handleRemoveFavorite = async (bookId: string) => {
         try {
-            console.log("JSON enviado ao BD", JSON.stringify({ idUser: idUser, idBook: bookId }));
-
             const response = await fetch(`${API_URL_UNFAVORITE}`, {
                 method: "POST",
                 headers: {
@@ -95,15 +93,10 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
             } else {
                 console.error("Erro da API:", response.status);
             }
-
-
-            const data = await response.json();
-            console.log(data);
-
-
-
         } catch (error) {
             console.error("Erro ao remover favorito:", error);
+        } finally {
+            setOpen(false);
         }
     }
 
@@ -139,7 +132,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                                     <div key={book.id} className="favorite-item">
                                         <div className="book-content">
                                             <div className="book-info">
-                                                <RouteButton path={`/catalogo/livro/${book.path}`} label={<h3 className="book-title text-black">{book.title}</h3>} />
+                                                <RouteButton classe="cursor-pointer" path={`/catalogo/livro/${book.path}`} label={<h3 className="book-title text-black">{book.title}</h3>} />
                                             </div>
                                         </div>
                                         <button

@@ -19,17 +19,21 @@ interface Book {
     };
 }
 
-interface User {
-    id: string;
-    name: string;
-    email: string;
-    password?: string;
-    booksFavorited?: Book[];
-}
+
+const safeParse = (value: string | null) => {
+    try {
+        return JSON.parse(value ?? "");
+    } catch {
+        return value; // Se não for JSON, retorna o valor puro mesmo
+    }
+};
+
+
 
 const ProfileUser = () => {
     const [books, setBooks] = useState<Book[]>([]);
-    const [user, setUser] = useState<User| null>(null);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [modal, setModal] = useState(false);
     const [modalLogOut, setModalLogOut] = useState(false);
     const API_KEY = import.meta.env.VITE_API_KEY;
@@ -45,20 +49,26 @@ const ProfileUser = () => {
     const logOutAccountModal = () => {
         setModalLogOut(!modalLogOut)
     }
-
+    
     useEffect(() => {
         const idUser = localStorage.getItem("idUser");
         const nameUser = localStorage.getItem("nameUser");
         const emailUser = localStorage.getItem("emailUser");
+
 
         if (!idUser || !nameUser || !emailUser) {
             console.warn("❌ Dados do usuário não encontrados no localStorage");
             return;
         }
 
+        const updateProfile = () => {
+            setName(localStorage.getItem("nameUser") || '');
+            setEmail(localStorage.getItem("emailUser") || '');
+        }
+
         const fetchDataUser = async () => {
             try {
-                const response = await fetch(`${API_URL}=${JSON.parse(idUser)}`, {
+                const response = await fetch(`${API_URL}=${safeParse(idUser)}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -66,13 +76,6 @@ const ProfileUser = () => {
                     },
                 });
                 const data = await response.json();
-
-                const updatedUser = {
-                    id: JSON.parse(idUser),
-                    name: JSON.parse(nameUser),
-                    email: JSON.parse(emailUser),
-                    booksFavorited: data.booksFavorited || [],
-                };
 
                 const books = data.booksFavorited.map((book: Book) => {
                     return {
@@ -86,16 +89,19 @@ const ProfileUser = () => {
                         }
                     };
                 });
-
-                setUser(updatedUser);
                 setBooks(books);
             } catch (error) {
                 console.error("Erro ao carregar os livros do back:", error);
             }
         };
 
+        window.addEventListener("storage", updateProfile);
+        updateProfile();
+
+        return () => window.removeEventListener("storage", updateProfile);
+
         fetchDataUser();
-    });
+    }, []);
 
     return (
         <>
@@ -104,8 +110,8 @@ const ProfileUser = () => {
                 <div className="ignore-margin w-[96dvw] h-[32dvh] flex items-center bg-white rounded-3xl shadow-2xl" style={{ margin: "20px" }}>
                     <FontAwesomeIcon icon={faUserCircle} style={{ marginLeft: "20px" }} size="5x" color="#003631" />
                     <div className="mr-10 w-[70dvw] text-black">
-                        <h1 className="text-2xl" style={{ marginLeft: "20px" }}>{user?.name}</h1>
-                        <h2 className="text-[13px]" style={{ marginLeft: "20px" }}>Email: {user?.email}</h2>
+                        <h1 className="text-2xl" style={{ marginLeft: "20px" }}>{name}</h1>
+                        <h2 className="text-[13px]" style={{ marginLeft: "20px" }}>Email: {email}</h2>
                         <div className="overflow-hidden flex flex-col h-[20dvh] w-[70dvw]" style={{padding: "0 0 0 0"}}>
                             <button style={{ margin: "20px 15px 0 20px" }} className="primary-button" onClick={handleModal}>
                             Editar Perfil

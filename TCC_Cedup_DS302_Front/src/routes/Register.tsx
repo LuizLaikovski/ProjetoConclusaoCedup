@@ -47,7 +47,9 @@ const Register = () => {
             const result = JSON.parse(resultText);
             
             if (result.id) {
-                localStorage.setItem("user", JSON.stringify(result));
+                localStorage.setItem("idUser", JSON.stringify(result.id));
+                localStorage.setItem("nameUser", JSON.stringify(result.name));
+                localStorage.setItem("emailUser", JSON.stringify(result.email));
                 navigate("/home");
             }
     
