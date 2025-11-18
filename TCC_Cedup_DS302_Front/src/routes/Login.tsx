@@ -41,6 +41,7 @@ const Login = () => {
             email: formData.email.trim(),
             password: formData.password.trim()
         };
+        
 
         try {
             const response = await fetch(`${API_URL}/login`, {
@@ -49,7 +50,10 @@ const Login = () => {
                     "Content-Type": "application/json",
                     "X-API-Key": API_KEY
                 },
-                body: JSON.stringify(bodyData)
+                body: JSON.stringify({
+                    email: bodyData.email,
+                    password: bodyData.password
+                })
             });
 
             const raw = await response.text();
@@ -75,6 +79,7 @@ const Login = () => {
                 setError(message);
                 return;
             }
+
             const dataUser = {
                 id: data.id,
                 name: data.name,
@@ -82,15 +87,15 @@ const Login = () => {
                 booksFavorited: data.booksFavorited || []
             };
 
-            localStorage.setItem("idUser", JSON.stringify(dataUser.id));
-            localStorage.setItem("nameUser", JSON.stringify(dataUser.name));
-            localStorage.setItem("emailUser", JSON.stringify(dataUser.email));
+            localStorage.setItem("idUser", dataUser.id);
+            localStorage.setItem("nameUser", dataUser.name);
+            localStorage.setItem("emailUser", dataUser.email);
             localStorage.setItem("booksFavorited", JSON.stringify(dataUser.booksFavorited));
 
             navigate("/home");
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
             setError(error instanceof Error ? error.message : "Erro inesperado");
         }
     };
@@ -98,13 +103,14 @@ const Login = () => {
 
 
 
+
     return (
         <>
             <section id="login" className='flex justify-center items-center relative min-h-[100dvh]'>
-                <div className="box flex justify-center items-center z-50 h-[17vh] w-[17vh] rounded-[50%]">
+                <div className="box flex justify-center items-center z-50 h-[17vh] w-[17vh] rounded-[50%]" data-aos="zoom-in-down">
                     <FontAwesomeIcon icon={faCircleUser} size="5x" color='white' />
                 </div>
-                <div className="container-login absolute z-10 w-[30vw] h-[64vh] rounded-2xl">
+                <div className="container-login absolute z-10 w-[30vw] h-[64vh] rounded-2xl" data-aos="zoom-in-up">
                     <form className="login-form flex justify-center text-white items-center flex-col" onSubmit={Login}>
                         <h1>Login</h1>
 

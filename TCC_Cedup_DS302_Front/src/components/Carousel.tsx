@@ -140,6 +140,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
           {books.slice(minBooks, maxBooks).map((book) => (
             <div
               key={book.id}
+              data-aos="zoom-in-right"
               className="shrink-0 w-auto rounded-2xl overflow-hidden transition-transform hover:scale-105 hover:z-10"
               style={{ scrollSnapAlign: 'start', padding: "10px" }}
             >

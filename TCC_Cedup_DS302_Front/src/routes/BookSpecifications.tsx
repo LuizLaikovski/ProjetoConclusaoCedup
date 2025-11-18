@@ -73,13 +73,14 @@ const BookSpecifications = () => {
 
   useEffect(() => {
     const loadData = async () => {
+
       try {
         const checkedBook = async (bookData: Book) => {
           const idUser = localStorage.getItem("idUser");
           if (!bookData || !idUser) return;
 
           try {
-            const response = await fetch(`${API_URL_UNIQUE}=${JSON.parse(idUser)}`, {
+            const response = await fetch(`${API_URL_UNIQUE}=${idUser}`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -147,6 +148,7 @@ const BookSpecifications = () => {
   const favoriteBook = async () => {
     const idUser = localStorage.getItem("idUser");
 
+
     if (!book || !idUser) {
       alert("Erro: usuário ou livro não encontrado");
       return;
@@ -154,7 +156,7 @@ const BookSpecifications = () => {
 
     const dataJson = {
       idBook: book.id,
-      idUser: JSON.parse(idUser || '""')
+      idUser: idUser
     }
 
     try {
@@ -177,6 +179,7 @@ const BookSpecifications = () => {
   const unFavoriteBook = async () => {
     const idUser = localStorage.getItem("idUser");
 
+
     if (!book || !idUser) {
       alert("Erro: usuário ou livro não encontrado");
       return;
@@ -184,7 +187,7 @@ const BookSpecifications = () => {
 
     const dataJsonUn = {
       idBook: book.id,
-      idUser: JSON.parse(idUser || '""')
+      idUser: idUser
     }
 
     try {
@@ -198,6 +201,8 @@ const BookSpecifications = () => {
       })
     } catch (error) {
       console.error(error);
+    } finally {
+      location.reload();
     }
   }
 
@@ -243,7 +248,7 @@ const BookSpecifications = () => {
     <>
       <Header />
       <main className="min-h-screen flex flex-col justify-center items-center py-10 px-6">
-        <section className="bg-white w-[90dvw] h-auto rounded-2xl shadow-2xl flex flex-col justify-center items-center lg:flex-row relative overflow-hidden" style={{ padding: "50px 50px 50px 50px", marginTop: "50px" }}>
+        <section className="bg-white w-[90dvw] h-auto rounded-2xl shadow-2xl flex flex-col justify-center items-center lg:flex-row relative overflow-hidden" style={{ padding: "50px 50px 50px 50px", marginTop: "50px" }} data-aos="flip-up">
           <div className="lg:w-[35%] flex justify-center items-center p-8">
             {book?.arquivo?.src ? (
               <img
@@ -261,12 +266,18 @@ const BookSpecifications = () => {
 
           <div className="flex flex-col inset-y-0 left-0 items-center w-[40dvw]">
             <div className="max-sm:w-[70dvw]">
-              <div className="text-center">
-                <h1 className="text-4xl font-bold text-black lg:text-left mb-3">
+              <div className="flex flex-col items-center lg:items-start">
+                <h1 className="text-4xl text-center font-bold text-black lg:text-left mb-3">
                   {book.titulo}
                 </h1>
-                <RouteButton path={`/perfilAutor/${book.autorPath}`} classe="text-[20px] cursor-pointer" label={<h1>{book.autor}</h1>} />
+
+                <RouteButton
+                  path={`/perfilAutor/${book.autorPath}`}
+                  classe="text-[20px] cursor-pointer"
+                  label={<h1>{book.autor}</h1>}
+                />
               </div>
+
               <div className="flex justify-center lg:justify-start items-center" style={{ marginBottom: "20px", marginTop: "20px" }}>
                 {renderStars(book.avaliacao)}
                 <span className="ml-2 text-black font-semibold text-lg">
@@ -280,15 +291,15 @@ const BookSpecifications = () => {
               </div>
             </div>
 
-            <p className="text-justify text-[17px] leading-relaxed text-gray-800 max-sm:w-60">
+            <p className="text-justify text-[17px] leading-relaxed text-gray-800 max-sm:w-60" data-aos="fade-up">
               {book.descricao}
             </p>
           </div>
 
           {/* Botões laterais */}
           <div className="flex justify-center items-center">
-            <div className="hidden lg:flex h-[35dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl" style={{ marginLeft: "7dvw", padding: "20px" }}>
-              <a className="primary-button">
+            <div className="hidden lg:flex h-[40dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl" style={{ marginLeft: "7dvw", padding: "20px" }} data-aos="fade-up">
+              <a className="primary-button text-center">
                 Leia Agora
               </a>
               <button className="primary-button" onClick={toggleModal}>
@@ -307,15 +318,16 @@ const BookSpecifications = () => {
 
         {/* Botões embaixo (para telas menores, até notebook) */}
         <div className="sm:hidden flex h-[35dvh] w-[80dvw]  lg:w-[20dvw] flex-col gap-4 right-6 top-1/3 lg:shadow-2xl">
-          <a className="primary-button text-center">
+          <a className="primary-button text-center" data-aos="fade-up">
             Leia Agora
           </a>
-          <button className="primary-button" onClick={toggleModal}>
+          <button className="primary-button" onClick={toggleModal} data-aos="fade-up">
             Avaliar
           </button>
           <button
             className={isFavorited ? "secondary-button" : "primary-button"}
             onClick={isFavorited ? unFavoriteBook : favoriteBook}
+            data-aos="fade-up"
           >
             {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
           </button>
@@ -326,6 +338,7 @@ const BookSpecifications = () => {
         {modalAssessment && (
           <ModalAssessment
             setModalAssessment={setModalAssessment}
+            idBook={book.id}
           />
         )}
 

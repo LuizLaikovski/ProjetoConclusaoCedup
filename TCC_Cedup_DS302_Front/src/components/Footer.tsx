@@ -41,7 +41,7 @@ const Footer = () => {
 
     return (
         <>
-            <footer className="footer fixed bottom-0 left-0 w-full h-[10dvh] z-50">
+            <footer className="footer min-[900px]:hidden fixed bottom-0 left-0 w-full h-[10dvh] z-50">
                 <div className="footer-content flex justify-around items-center" style={{height: '10dvh'}}>
                     <Link to="/" className='link-to-home-header'>
                         <FontAwesomeIcon icon={faHouse} color='white' size='2x' />

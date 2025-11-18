@@ -35,15 +35,6 @@ input::placeholder {
     font-family: "Pragati Narrow", sans-serif;
 }
 
-button::placeholder {
-    font-family: "Pragati Narrow", sans-serif;
-}
-
-input[type='checkbox'] {
-    border: red 5px solid;
-    box-shadow: none;
-}
-
 .none {
     display: none;
 }
@@ -85,13 +76,4 @@ input[type='checkbox'] {
 .secondary-button:hover {
     background-color: var(--primary-clear);
     color: white;
-}
-
-
-.input-checkbox {
-    box-shadow: none;
-}
-
-.input-checkbox:hover, :focus {
-    box-shadow: none;
 }

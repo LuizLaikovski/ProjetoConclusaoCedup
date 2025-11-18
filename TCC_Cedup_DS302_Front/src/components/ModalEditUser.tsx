@@ -11,7 +11,7 @@ const safeParse = (value: string | null) => {
     try {
         return JSON.parse(value ?? "");
     } catch {
-        return value; // Se não for JSON, retorna o valor puro mesmo
+        return value;
     }
 };
 
@@ -31,16 +31,17 @@ const ModalEditUser = ({ setModal }: ModalEditUserProp) => {
             setName(localStorage.getItem("nameUser") || '');
             setEmail(localStorage.getItem("emailUser") || '');
         };
-        
+
         window.addEventListener("storage", update);
         update();
-        
+
         return () => window.removeEventListener("storage", update);
     }, []);
-    
+
+    const idUser = localStorage.getItem("idUser");
+
     const editUser = async () => {
         try {
-            const idUser = localStorage.getItem("idUser");
 
             const bodyData = {
                 name,
@@ -54,13 +55,13 @@ const ModalEditUser = ({ setModal }: ModalEditUserProp) => {
                     "Content-Type": "application/json",
                     "X-API-Key": API_KEY
                 },
-                body: JSON.stringify(bodyData)
+                body: JSON.stringify(bodyData),
             })
 
             if (!response.ok) throw new Error("Erro ao enviar dados");
 
             const data = await response.json()
-            
+
 
             if (data.id) {
                 localStorage.setItem("idUser", JSON.stringify(data.id));
@@ -77,9 +78,8 @@ const ModalEditUser = ({ setModal }: ModalEditUserProp) => {
     }
 
     const deleteUser = async () => {
-        console.log(`${API_URL}/u=${id}`);
         try {
-            await fetch(`${API_URL}/u=${id}`, {
+            await fetch(`${API_URL}/u=${safeParse(idUser)}`, {
                 method: "DELETE",
                 headers: {
                     "X-API-Key": API_KEY
@@ -102,6 +102,7 @@ const ModalEditUser = ({ setModal }: ModalEditUserProp) => {
         <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={closeModal}>
             <div
                 className="modal-content bg-white rounded-2xl shadow-xl w-[90vw] sm:w-[400px] p-6 relative"
+                data-aos="zoom-in"
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="modal-header flex justify-between items-center mb-4">

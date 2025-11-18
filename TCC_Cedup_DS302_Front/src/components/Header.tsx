@@ -63,7 +63,7 @@ const Header = () => {
   };
 
   return (
-    <header className='header w-[100dvw]'>
+    <header className='header w-[100dvw]' data-aos="fade-down">
       <div className='align-header'>
         <Link to="/" className='logo-link'></Link>
 

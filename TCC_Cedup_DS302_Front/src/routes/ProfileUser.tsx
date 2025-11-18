@@ -75,6 +75,9 @@ const ProfileUser = () => {
                         "X-API-Key": API_KEY,
                     },
                 });
+
+                if (!response.ok) throw new Error("Erro interno")
+
                 const data = await response.json();
 
                 const books = data.booksFavorited.map((book: Book) => {
@@ -94,20 +97,20 @@ const ProfileUser = () => {
                 console.error("Erro ao carregar os livros do back:", error);
             }
         };
-
+        fetchDataUser();
+        
         window.addEventListener("storage", updateProfile);
         updateProfile();
 
         return () => window.removeEventListener("storage", updateProfile);
 
-        fetchDataUser();
     }, []);
 
     return (
         <>
             <Header />
-            <div className="flex justify-center items-center flex-col">
-                <div className="ignore-margin w-[96dvw] h-[32dvh] flex items-center bg-white rounded-3xl shadow-2xl" style={{ margin: "20px" }}>
+            <div className="flex justify-center items-center flex-col ">
+                <div className="ignore-margin w-[96dvw] h-[32dvh] flex items-center bg-white rounded-3xl shadow-2xl" data-aos="zoom-in-down" style={{ margin: "20px" }}>
                     <FontAwesomeIcon icon={faUserCircle} style={{ marginLeft: "20px" }} size="5x" color="#003631" />
                     <div className="mr-10 w-[70dvw] text-black">
                         <h1 className="text-2xl" style={{ marginLeft: "20px" }}>{name}</h1>
@@ -130,9 +133,10 @@ const ProfileUser = () => {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 p-4 mt-6 " style={{marginTop: "24px"}}>
                         {books && books.length > 0 ? (
                             books.map((book) => (
-                                <div key={book.id} className="flex flex-col items-center">
+                                <div key={book.id} data-aos="zoom-in-up" className="flex flex-col items-center">
                                     {book.image ? (
                                         <RouteButton
+                                            classe="cursor-pointer"
                                             path={`/catalogo/livro/${book.path}`}
                                             img={
                                                 <BookImage
@@ -163,7 +167,7 @@ const ProfileUser = () => {
                     </div>
 
 
-                    <div className="h-[10dvh]"></div>
+                    <div className="h-[13dvh]"></div>
                 </div>
             </div>
 

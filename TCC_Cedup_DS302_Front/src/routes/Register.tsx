@@ -76,11 +76,11 @@ const Register = () => {
             id="register"
             className="flex justify-center items-center relative min-h-screen text-white"
         >
-            <div className="box-register">
+            <div className="box-register" data-aos="zoom-in-down">
                 <FontAwesomeIcon icon={faCircleUser} size="4x" className="text-secondary-clear" />
             </div>
 
-            <div className="container-register absolute z-10 w-[90vw] sm:w-[30vw] h-auto min-h-[55vh] rounded-3xl shadow-xl flex flex-col justify-center items-center p-8">
+            <div className="container-register absolute z-10 w-[90vw] sm:w-[30vw] h-auto min-h-[55vh] rounded-3xl shadow-xl flex flex-col justify-center items-center p-8" data-aos="zoom-in-up">
                 
                 <form
                     className="flex flex-col justify-center items-center w-full h-[74dvh]"

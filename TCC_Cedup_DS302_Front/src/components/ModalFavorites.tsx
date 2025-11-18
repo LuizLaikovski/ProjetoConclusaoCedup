@@ -26,7 +26,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_USER_UNIQUE;
     const API_URL_UNFAVORITE = import.meta.env.VITE_API_URL_UNFAVORITE;
-    const idUser = JSON.parse(localStorage.getItem("idUser") || "null");
+    const idUser = localStorage.getItem("idUser");
 
     useEffect(() => {
         const loadFavoritesBook = async () => {
@@ -85,14 +85,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                 body: JSON.stringify({ idUser: idUser, idBook: bookId }),
             });
 
-            if (response.ok) {
-                const text = await response.text();
-                const data = text ? JSON.parse(text) : null;
-
-                console.log("Resposta da API:", data);
-            } else {
-                console.error("Erro da API:", response.status);
-            }
+            if (!response.ok) throw new Error("Erro na requisição");
         } catch (error) {
             console.error("Erro ao remover favorito:", error);
         } finally {
@@ -103,7 +96,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
     return (
         <>
             <div className="modal-overlay" onClick={closeModal}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-content" data-aos="zoom-in-up" onClick={(e) => e.stopPropagation()}>
                     <div className="modal-header">
                         <h2>Seus Livros Favoritos</h2>
                         <button className="close-button" onClick={closeModal}>
