@@ -24,7 +24,7 @@ public class UserService {
             User existingUser = findByEmail(user.getEmail());
 
             if (existingUser != null){
-                String msg = "usuário com este email já existe";
+                String msg = "Já existe um usuário com este email.";
                 throw new RuntimeException(msg);
             }
 
@@ -57,7 +57,7 @@ public class UserService {
                 throw new RuntimeException(msg);
             }
             if(passwordEncoder.verify(password.trim(), user.getPassword().trim())){
-                String msg = "senha incorreta";
+                String msg = "Senha/Email incorreta.";
                 throw new RuntimeException(msg);
             }
             return user;
