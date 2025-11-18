@@ -35,7 +35,7 @@ public class UserService {
                 user.setEmail(user.getEmail().trim());
             }
             if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
-                String encryptedPassword = passwordEncoder.encrypt(user.getPassword());
+                String encryptedPassword = passwordEncoder.encrypt(user.getPassword().trim());
                 user.setPassword(encryptedPassword);
             }
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
@@ -110,7 +110,7 @@ public class UserService {
                 userExisting.setEmail(user.getEmail().trim());
             }
             if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
-                String encryptedPassword = passwordEncoder.encrypt(user.getPassword());
+                String encryptedPassword = passwordEncoder.encrypt(user.getPassword().trim());
                 userExisting.setPassword(encryptedPassword);
             }
             if(user.getBooksFavorited() != null){
