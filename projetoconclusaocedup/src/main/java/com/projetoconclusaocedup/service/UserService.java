@@ -56,7 +56,7 @@ public class UserService {
                 String msg = "usuário não existe";
                 throw new RuntimeException(msg);
             }
-            if(passwordEncoder.verify(password, user.getPassword())){
+            if(passwordEncoder.verify(password.trim(), user.getPassword().trim())){
                 String msg = "senha incorreta";
                 throw new RuntimeException(msg);
             }
