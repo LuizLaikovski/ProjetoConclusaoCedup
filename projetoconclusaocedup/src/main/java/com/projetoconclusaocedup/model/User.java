@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "Users")
@@ -19,5 +20,5 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private List<BookSearchDTO> booksFavorited;
+    private List<BookSearchDTO> booksFavorited = new ArrayList<>();
 }

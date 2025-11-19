@@ -73,7 +73,6 @@ public class UserController {
     @PostMapping("/favorite")
     public ResponseEntity<?> favorite(@RequestBody FavoriteDTO favoriteDTO){
         try {
-//            String msg = "foi meu patrão";
             return ResponseEntity.ok(userService.favorite(favoriteDTO.getIdBook(), favoriteDTO.getIdUser()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -83,7 +82,6 @@ public class UserController {
     @PostMapping("/unfavorite")
     public ResponseEntity<?> unfavorite(@RequestBody FavoriteDTO unfavoriteDTO){
         try {
-//            String msg = "foi meu patrão";
             return ResponseEntity.ok(userService.unfavorite(unfavoriteDTO.getIdBook(), unfavoriteDTO.getIdUser()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

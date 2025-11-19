@@ -53,11 +53,11 @@ public class UserService {
             User user = userRepository.findByEmail(email);
 
             if (user == null) {
-                String msg = "usuário não existe";
+                String msg = "Usuário com este email não existe";
                 throw new RuntimeException(msg);
             }
-            if(passwordEncoder.verify(password.trim(), user.getPassword().trim())){
-                String msg = "Senha/Email incorreta.";
+            if(!passwordEncoder.verify(password.trim(), user.getPassword().trim())){
+                String msg = "Senha incorreta.";
                 throw new RuntimeException(msg);
             }
             return user;
