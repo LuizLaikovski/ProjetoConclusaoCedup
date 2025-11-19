@@ -66,6 +66,14 @@ public class UserService {
         }
     }
 
+    public boolean exists(String email){
+        try {
+            return userRepository.findByEmail(email) != null;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public User get(String id){
         try {
             return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id: "+id+" não encontrado"));

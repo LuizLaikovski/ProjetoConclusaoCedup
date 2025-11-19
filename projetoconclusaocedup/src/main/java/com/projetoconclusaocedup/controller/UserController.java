@@ -41,6 +41,15 @@ public class UserController {
         }
     }
 
+    @PostMapping("/exists")
+    public ResponseEntity<?> exists(@RequestBody LoginDTO email) {
+        try {
+            return ResponseEntity.ok(userService.exists(email.getEmail()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/all")
     public ResponseEntity<?> finAll() {
         try {
