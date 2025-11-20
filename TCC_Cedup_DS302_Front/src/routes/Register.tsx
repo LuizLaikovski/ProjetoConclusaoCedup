@@ -5,30 +5,62 @@ import Footer from '../components/Footer';
 import { Link, useNavigate } from 'react-router-dom';
 import "./css/Register.css";
 
+function hasNumber(string: string): boolean {
+    return /\d/.test(string);
+}
+function hasSpecialCharacter(str: string): boolean {
+    return /[^a-zA-Z0-9]/.test(str);
+}
+function hasCapitalLetter(str: string): boolean {
+    return /[A-Z]/.test(str);
+}
+
 const Register = () => {
     const [formData, setFormData] = useState({
         nomeCompleto: '',
         email: '',
         password: '',
     });
-
     const [errorMessage, setErrorMessage] = useState<string>('');
-    const [successMessage, setSuccessMessage] = useState<string>('');
     const [showPassword, setShowPassword] = useState(false);
-
+    const [loading, setLoading] = useState(false);
+    const [button, setButton] = useState(true);
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_USER;
     const navigate = useNavigate();
 
     const saveToDB = async (data: typeof formData) => {
         try {
+            setLoading(true)
+            setButton(false);
             const bodyData = {
                 name: data.nomeCompleto.trim(),
                 email: data.email.trim(),
                 password: data.password,
                 booksFavorited: []
             };
-    
+
+            if (bodyData.password.length < 8) {
+                setErrorMessage('Sua senha deve conter pelo menos 8 digitos.');
+                setLoading(false);
+                return;
+            }
+            if (!hasNumber(bodyData.password)) {
+                setErrorMessage('Sua senha deve conter um numero.');
+                setLoading(false);
+                return;
+            }
+            if (!hasCapitalLetter(bodyData.password)) {
+                setErrorMessage('Sua senha deve conter pelo menos uma letra maiuscula.');
+                setLoading(false);
+                return;
+            }
+            if (!hasSpecialCharacter(bodyData.password)) {
+                setErrorMessage('Sua senhe deve conter um caractere especial.');
+                setLoading(false);
+                return;
+            }
+
             const response = await fetch(API_URL, {
                 method: "POST",
                 headers: {
@@ -37,32 +69,33 @@ const Register = () => {
                 },
                 body: JSON.stringify(bodyData)
             });
-    
+
             const resultText = await response.text();
-    
+
             if (!response.ok) {
-                throw new Error(`Erro ao cadastrar usuário — código ${response.status}`);
+                setLoading(false);
+                setErrorMessage(resultText);
+                setButton(true);
             }
-    
+
             const result = JSON.parse(resultText);
-            
+
             if (result.id) {
-                localStorage.setItem("idUser", JSON.stringify(result.id));
-                localStorage.setItem("nameUser", JSON.stringify(result.name));
-                localStorage.setItem("emailUser", JSON.stringify(result.email));
+                localStorage.setItem("idUser", result.id);
+                localStorage.setItem("nameUser", result.name);
+                localStorage.setItem("emailUser", result.email);
                 navigate("/home");
             }
-    
+
         } catch (error) {
             console.error("🚨 Erro ao salvar usuário:", error);
         }
     };
-    
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrorMessage('');
-        setSuccessMessage('');
         await saveToDB(formData);
     };
 
@@ -74,56 +107,117 @@ const Register = () => {
     return (
         <section
             id="register"
-            className="flex justify-center items-center relative min-h-screen text-white"
+            className="flex justify-center items-center relative text-white"
+            style={{
+                minHeight: "100dvh",
+                padding: "0",
+                margin: "0"
+            }}
         >
-            <div className="box-register" data-aos="zoom-in-down">
-                <FontAwesomeIcon icon={faCircleUser} size="4x" className="text-secondary-clear" />
+            <div
+                className="box bg-[var(--primary)] flex justify-center items-center z-50 rounded-[50%]"
+                style={{
+                    height: "14vh",
+                    width: "14vh",
+                    marginBottom: "73dvh"
+                }}
+                data-aos="zoom-in-down"
+            >
+                <FontAwesomeIcon icon={faCircleUser} size="4x" color="white" />
             </div>
 
-            <div className="container-register absolute z-10 w-[90vw] sm:w-[30vw] h-auto min-h-[55vh] rounded-3xl shadow-xl flex flex-col justify-center items-center p-8" data-aos="zoom-in-up">
-                
+            <div
+                className="container-register absolute z-10 rounded-3xl shadow-xl flex flex-col justify-center items-center"
+                data-aos="zoom-in-up"
+                style={{
+                    width: "90%",
+                    maxWidth: "450px",
+                    padding: "32px",
+                    minHeight: "55vh",
+                    background: "var(--tertiary)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
                 <form
-                    className="flex flex-col justify-center items-center w-full h-[74dvh]"
+                    className="flex flex-col justify-center items-center w-full"
                     onSubmit={handleSubmit}
+                    style={{
+                        minHeight: "60vh",
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center"
+                    }}
                 >
-                    <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-center text-primary">Cadastro</h1>
+                    <h1
+                        className="text-primary text-center"
+                        style={{
+                            marginBottom: "24px",
+                            fontSize: "clamp(2rem, 6vw, 3rem)",
+                            fontWeight: "700"
+                        }}
+                    >
+                        Cadastro
+                    </h1>
 
-                    <div className="w-full flex justify-center mb-6">
+                    <div className="w-full flex justify-center">
                         <input
                             type="text"
                             id="nomeCompleto"
                             name="nomeCompleto"
                             value={formData.nomeCompleto}
-                            className="h-[7dvh] w-[20dvw] transition placeholder-gray-400 bg-white rounded-xl text-black"
-                            style={{padding: "10px", marginBottom: "30px", marginTop: "30px"}}
+                            className="transition placeholder-gray-400 bg-white rounded-xl text-black w-full"
+                            style={{
+                                height: "7vh",
+                                minHeight: "45px",
+                                padding: "10px",
+                                marginBottom: "24px",
+                                fontSize: "clamp(0.9rem, 2.5vw, 1rem)"
+                            }}
                             placeholder="Digite seu nome completo"
                             onChange={handleChange}
                             required
                         />
                     </div>
 
-                    <div className="w-full flex justify-center mb-6">
+                    <div className="w-full flex justify-center">
                         <input
                             type="email"
                             id="email"
                             name="email"
                             value={formData.email}
-                            className="h-[7dvh] w-[20dvw] transition placeholder-gray-400 bg-white rounded-xl text-black"
-                            style={{padding: "10px", marginBottom: "30px"}}
+                            className="transition placeholder-gray-400 bg-white rounded-xl text-black w-full"
+                            style={{
+                                height: "7vh",
+                                minHeight: "45px",
+                                padding: "10px",
+                                marginBottom: "24px",
+                                fontSize: "clamp(0.9rem, 2.5vw, 1rem)"
+                            }}
                             placeholder="Digite seu email"
                             onChange={handleChange}
                             required
                         />
                     </div>
 
-                    <div className="relative">
+                    <div
+                        className="relative w-full flex justify-center"
+                        style={{ marginBottom: "24px" }}
+                    >
                         <input
                             type={showPassword ? "text" : "password"}
                             id="password"
                             name="password"
                             value={formData.password}
-                            className="h-[7dvh] w-[20dvw] transition placeholder-gray-400 bg-white rounded-xl text-black"
-                                style={{padding: "10px"}}
+                            className="transition placeholder-gray-400 bg-white rounded-xl text-black w-full"
+                            style={{
+                                height: "7vh",
+                                minHeight: "45px",
+                                padding: "10px",
+                                fontSize: "clamp(0.9rem, 2.5vw, 1rem)"
+                            }}
                             placeholder="Digite sua senha"
                             onChange={handleChange}
                             required
@@ -132,35 +226,74 @@ const Register = () => {
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-5 top-1/4 transform-translate-y-1/2 text-gray-500 hover:text-gray-700 eyesPassword"
+                            className="absolute text-gray-500 hover:text-gray-700 eyesPassword"
                             aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                            style={{
+                                right: "1rem",
+                                top: "50%",
+                                transform: "translateY(-50%)"
+                            }}
                         >
                             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                         </button>
                     </div>
 
                     {errorMessage && (
-                        <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
+                        <p
+                            className="text-red-500"
+                            style={{
+                                marginBottom: "10px",
+                                fontSize: "clamp(0.9rem, 2vw, 1rem)"
+                            }}
+                        >
+                            {errorMessage}
+                        </p>
                     )}
 
-                    {successMessage && (
-                        <p className="text-green-400 text-sm mt-2">{successMessage}</p>
+                    {loading && (
+                        <div
+                            className="loader"
+                            style={{
+                                height: "45px",
+                                width: "45px",
+                                marginTop: "10px"
+                            }}
+                        ></div>
                     )}
 
-                    <button
-                        type="submit"
-                        className="register-button mt-4"
-                    >
-                        Confirmar
-                    </button>
+                    {button && (
+                        <>
+                            <button
+                                type="submit"
+                                className="primary-button w-[90%]"
+                                style={{
+                                    padding: "12px 0",
+                                    marginTop: "10px",
+                                }}
+                            >
+                                Confirmar
+                            </button>
 
-                    <Link to="/home" className="text-[20px] underline" style={{margin: "20px"}}>Voltar a tela inicial</Link>
+                            <Link
+                                to="/home"
+                                className="underline"
+                                style={{
+                                    margin: "20px",
+                                    fontSize: "clamp(1rem, 3vw, 1.2rem)",
+                                    color: "var(--secondary)"
+                                }}
+                            >
+                                Voltar à tela inicial
+                            </Link>
+                        </>
+                    )}
                 </form>
             </div>
 
             <Footer />
         </section>
     );
+
 };
 
 export default Register;

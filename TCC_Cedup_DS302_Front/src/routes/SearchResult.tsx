@@ -87,7 +87,7 @@ const SearchResult = () => {
         };
 
         fetchBooks();
-    }, [bookName]);
+    }, []);
 
 
     if (loading) {
@@ -117,7 +117,7 @@ const SearchResult = () => {
                 {books.map((book) => (
                     <div
                         key={book.id}
-                        className="flex-shrink-0 w-auto rounded-2xl overflow-hidden transition-transform hover:scale-105 hover:z-10"
+                        className=" w-auto rounded-2xl overflow-hidden transition-transform hover:scale-105 hover:z-10"
                         style={{ scrollSnapAlign: "start", padding: "10px" }}
                     >
                         <RouteButton

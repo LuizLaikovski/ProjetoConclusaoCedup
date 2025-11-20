@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import ModalAssessment from "../components/ModalAssessment";
 import RouteButton from "../components/RouteButton";
+import ModalError from "../components/ModalError";
 
 interface Book {
   id: string;
@@ -46,16 +47,23 @@ const BookSpecifications = () => {
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
   const [modalAssessment, setModalAssessment] = useState(false);
+  const [modalError, setModalError] = useState(false);
+  const [error, setError] = useState('');
   const [isFavorited, setIsFavorite] = useState(false);
-
   const API_KEY = import.meta.env.VITE_API_KEY;
   const API_URL = import.meta.env.VITE_API_URL_FAVORITE;
   const API_URL_UNIQUE = import.meta.env.VITE_API_URL_USER_UNIQUE;
   const API_URL_UN = import.meta.env.VITE_API_URL_UNFAVORITE;
   const API_URL_BOOKS = import.meta.env.VITE_API_URL_BOOK;
+  const idUser = localStorage.getItem("idUser");
 
   const toggleModal = () => {
-    setModalAssessment(!modalAssessment);
+    if (!idUser) {
+      setError("Usuário não encontrado");
+      setModalError(true);
+    } else {
+      setModalAssessment(!modalAssessment);
+    }
   }
 
   // Normaliza strings para URL amigável
@@ -150,7 +158,8 @@ const BookSpecifications = () => {
 
 
     if (!book || !idUser) {
-      alert("Erro: usuário ou livro não encontrado");
+      setError("Usuário não encontrado");
+      setModalError(true);
       return;
     }
 
@@ -170,10 +179,11 @@ const BookSpecifications = () => {
       });
     } catch (error) {
       console.error("Erro ao favoritar:", error);
-      alert("Erro de conexão com o servidor!");
+      setError("Error ao favoritar");
+      setModalError(true);
     } finally {
       location.reload();
-    }
+    }''
   };
 
   const unFavoriteBook = async () => {
@@ -181,7 +191,8 @@ const BookSpecifications = () => {
 
 
     if (!book || !idUser) {
-      alert("Erro: usuário ou livro não encontrado");
+      setError("Usuário não encontrado");
+      setModalError(true);
       return;
     }
 
@@ -201,6 +212,8 @@ const BookSpecifications = () => {
       })
     } catch (error) {
       console.error(error);
+      setError("Error ao favoritar");
+      setModalError(true);
     } finally {
       location.reload();
     }
@@ -339,6 +352,13 @@ const BookSpecifications = () => {
           <ModalAssessment
             setModalAssessment={setModalAssessment}
             idBook={book.id}
+          />
+        )}
+
+        {modalError && (
+          <ModalError 
+            setModal={setModalError}
+            error={error}
           />
         )}
 

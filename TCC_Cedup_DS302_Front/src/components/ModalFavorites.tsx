@@ -35,7 +35,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                 setError(null);
 
                 if (!idUser) {
-                    setError("Usuário não identificado");
+                    setError("O login não foi efetuado!");
                     setLoading(false);
                     return;
                 }
@@ -107,14 +107,14 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                     <div className="modal-body">
                         {loading ? (
                             <div className="loading-state">
-                                <p>Carregando seus livros favoritos...</p>
+                                <p className="text-black">Carregando seus livros favoritos...</p>
                             </div>
                         ) : error ? (
                             <div className="error-state">
-                                <p>{error}</p>
+                                <p className="text-red-600">{error}</p>
                             </div>
                         ) : books.length === 0 ? (
-                            <div className="empty-state">
+                            <div className="empty-state text-black">
                                 <FontAwesomeIcon icon={faBook} className="empty-icon" />
                                 <p>Nenhum livro favorito encontrado</p>
                                 <span>Adicione livros aos favoritos para vê-los aqui!</span>
