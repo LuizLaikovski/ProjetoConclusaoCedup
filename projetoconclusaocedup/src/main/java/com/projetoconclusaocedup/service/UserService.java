@@ -2,6 +2,7 @@ package com.projetoconclusaocedup.service;
 
 import com.projetoconclusaocedup.config.PasswordEncoder;
 import com.projetoconclusaocedup.dto.BookSearchDTO;
+import com.projetoconclusaocedup.dto.LoginDTO;
 import com.projetoconclusaocedup.model.Book;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.repository.UserRepository;
@@ -21,7 +22,7 @@ public class UserService {
 
     public User register(User user){
         try {
-            User existingUser = findByEmail(user.getEmail());
+            User existingUser = exists(user.getEmail());
 
             if (existingUser != null){
                 String msg = "Já existe um usuário com este email.";
@@ -66,9 +67,23 @@ public class UserService {
         }
     }
 
-    public boolean exists(String email){
+    public User exists(String email){
         try {
-            return userRepository.findByEmail(email) != null;
+            return userRepository.findByEmail(email);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public User editPassword(LoginDTO newPassword){
+        try {
+            User user = exists(newPassword.getEmail());
+
+            if(newPassword.getPassword() != null && !newPassword.getPassword().trim().isBlank()){
+                user.setPassword(newPassword.getPassword());
+            }
+
+            return update(user.getId(), user);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -85,14 +100,6 @@ public class UserService {
     public List<User> findAll(){
         try {
             return userRepository.findAll();
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public User findByEmail(String email){
-        try {
-            return userRepository.findByEmail(email);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

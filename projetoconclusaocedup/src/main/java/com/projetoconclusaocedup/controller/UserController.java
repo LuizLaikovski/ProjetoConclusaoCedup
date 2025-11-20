@@ -50,6 +50,15 @@ public class UserController {
         }
     }
 
+    @PutMapping("/edit/password")
+    public ResponseEntity<?> editPassword(@RequestBody LoginDTO newPassword) {
+        try {
+            return ResponseEntity.ok(userService.editPassword(newPassword));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/all")
     public ResponseEntity<?> finAll() {
         try {
