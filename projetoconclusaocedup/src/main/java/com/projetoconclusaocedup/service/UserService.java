@@ -17,8 +17,8 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final BookService bookService;
-    private final ImageService imageService;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
 
     public User register(User user){
         try {
@@ -154,7 +154,7 @@ public class UserService {
             if(!bookInList){
                 BookSearchDTO bookWillFavorite = new BookSearchDTO(
                         book.getId(), book.getPath(),
-                        book.getTitle(), imageService.find(book.getImage())
+                        book.getTitle(), book.getImage()
                 );
 
                 user.getBooksFavorited().add(bookWillFavorite);

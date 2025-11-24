@@ -6,9 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.projetoconclusaocedup.model.Image;
 import com.projetoconclusaocedup.repository.ImageRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class ImageService {
@@ -24,41 +21,6 @@ public class ImageService {
             }
 
             return imageRepository.save(image);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-    public List<Image> createAll(List<Image> images){
-        try {
-            List<Image> newImages = new ArrayList<>();
-            for (Image image : images) {
-                if(image.getSrc() != null && !image.getSrc().trim().isBlank()){
-                    image.setSrc(image.getSrc().trim());
-                }
-                if(image.getAlt() != null && !image.getAlt().trim().isBlank()){
-                    image.setAlt(image.getAlt().trim());
-                }
-
-                newImages.add(image);
-            }
-
-            return imageRepository.saveAll(newImages);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public List<Image> findAll(){
-        try {
-            return imageRepository.findAll();
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public Image find(String id){
-        try {
-            return imageRepository.findById(id).orElseThrow(() -> new RuntimeException("Imagem de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

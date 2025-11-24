@@ -25,6 +25,6 @@ public class Book {
     private LocalDate yearPublished;
     private String description;
     private List<String> authors = new ArrayList<>();
-    private String image;
+    private Image image;
     private Archive archive;
 }

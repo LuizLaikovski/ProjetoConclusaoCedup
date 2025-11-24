@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class BookAuthorsDTO {
     private Book book;
-    private Image imageBook;
-    private List<AuthorImageDTO> authorsImage;
+    private List<Author> authors;
 }
 

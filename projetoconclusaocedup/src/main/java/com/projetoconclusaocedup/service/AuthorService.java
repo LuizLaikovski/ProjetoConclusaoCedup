@@ -1,5 +1,9 @@
 package com.projetoconclusaocedup.service;
 
+import com.projetoconclusaocedup.dto.AuthorBooksDTO;
+import com.projetoconclusaocedup.model.Book;
+import com.projetoconclusaocedup.model.Image;
+import com.projetoconclusaocedup.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AuthorService {
     private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
 
     public Author create(Author author){
         try {
@@ -31,9 +36,6 @@ public class AuthorService {
             }
             if(author.getBooks() != null && !author.getBooks().isEmpty()){
                 author.setBooks(author.getBooks());
-            }
-            if(author.getImage() != null && !author.getImage().isEmpty()){
-                author.setImage(author.getImage());
             }
 
             return authorRepository.save(author);
@@ -61,9 +63,6 @@ public class AuthorService {
                 if(author.getBooks() != null && !author.getBooks().isEmpty()){
                     author.setBooks(author.getBooks());
                 }
-                if(author.getImage() != null && !author.getImage().trim().isBlank()){
-                    author.setImage(author.getImage());
-                }
 
                 newAuthors.add(author);
             }
@@ -74,13 +73,13 @@ public class AuthorService {
         }
     }
 
-    public List<Author> getAll(){
-        try {
-            return authorRepository.findAll();
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
+//    public List<Author> getAll(){
+//        try {
+//            return authorRepository.findAll();
+//        } catch (RuntimeException e) {
+//            throw new RuntimeException(e.getMessage());
+//        }
+//    }
 
     public Author get(String id){
         try {
@@ -90,9 +89,22 @@ public class AuthorService {
         }
     }
 
-    public Author getByPath(String path){
+    public AuthorBooksDTO getByPath(String path){
         try {
-            return authorRepository.getByPath(path);
+            Author author = authorRepository.getByPath(path);
+            List<Book> books = new ArrayList<>();
+            Image imageBook = null;
+
+            if(author.getBooks() != null && !author.getBooks().isEmpty()){
+                for(String idBook : author.getBooks()){
+                    books.add(bookRepository.findById(idBook).orElseThrow(() -> new RuntimeException("Livro de id: "+idBook+" não encontrado")));
+                }
+                for(Book book : books){
+                    imageBook = book.getImage();
+                }
+            }
+
+            return new AuthorBooksDTO(author, books, imageBook);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -125,9 +137,6 @@ public class AuthorService {
             }
             if(author.getBooks() != null && !author.getBooks().isEmpty()){
                 newAuthor.setBooks(author.getBooks());
-            }
-            if(author.getImage() != null && !author.getImage().trim().isBlank()){
-                newAuthor.setImage(author.getImage());
             }
 
             return authorRepository.save(author);

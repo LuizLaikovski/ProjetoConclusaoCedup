@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookSearchController {
     private final BookService bookService;
 
+
     @GetMapping("/q={query}")
     public ResponseEntity<?> getSearch(@PathVariable String query){
         try {

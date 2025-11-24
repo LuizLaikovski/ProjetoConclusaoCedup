@@ -16,5 +16,4 @@ public class AuthorBooksDTO {
     private Author author;
     private List<Book> books;
     private Image imageBook;
-    private Image imageAuthor;
 }

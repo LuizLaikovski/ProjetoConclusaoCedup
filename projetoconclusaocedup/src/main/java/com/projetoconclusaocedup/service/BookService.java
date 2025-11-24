@@ -1,6 +1,5 @@
 package com.projetoconclusaocedup.service;
 
-import com.projetoconclusaocedup.dto.AuthorImageDTO;
 import com.projetoconclusaocedup.dto.BookAuthorsDTO;
 import com.projetoconclusaocedup.dto.BookSearchDTO;
 import com.projetoconclusaocedup.model.Author;
@@ -19,8 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
-    private ImageService imageService;
-    private AuthorService authorService;
+    private final ImageService imageService;
+    private final AuthorService authorService;
 
     public Book create(Book book){
         try {
@@ -42,7 +41,7 @@ public class BookService {
             if(book.getAuthors() != null && !book.getAuthors().isEmpty()){
                 book.setAuthors(book.getAuthors());
             }
-            if(book.getImage() != null && !book.getImage().trim().isBlank()){
+            if(book.getImage() != null){
                 book.setImage(book.getImage());
             }
             if(book.getArchive() != null){
@@ -55,31 +54,31 @@ public class BookService {
         }
     }
 
+    public BookAuthorsDTO createWithAuthors(BookAuthorsDTO bookAuthorsDTO){
+        Book newBook = create(bookAuthorsDTO.getBook());
+        Image newBookImage = imageService.create(bookAuthorsDTO.getBook().getImage());
+        List<Author> newAuthors = new ArrayList<>();
+
+        newBook.setImage(newBookImage);
+
+        for(Author author : bookAuthorsDTO.getAuthors()){
+            Author newAuthor = authorService.create(author);
+            newBook.getAuthors().add(newAuthor.getId());
+            newAuthor.getBooks().add(newBook.getId());
+            authorService.update(newAuthor.getId(), newAuthor);
+            newAuthors.add(newAuthor);
+        }
+
+        update(newBook.getId(), newBook);
+
+        return new BookAuthorsDTO(newBook, newAuthors);
+    }
+
     public List<BookAuthorsDTO> createAll(List<BookAuthorsDTO> bookAuthors){
         try {
             List<BookAuthorsDTO> newBookAuthorsDTOS = new ArrayList<>();
             for(BookAuthorsDTO bookAuthorsDTO : bookAuthors){
-                Book newBook = create(bookAuthorsDTO.getBook());
-                Image newBookImage = imageService.create(bookAuthorsDTO.getImageBook());
-                List<AuthorImageDTO> newAuthorImages = bookAuthorsDTO.getAuthorsImage();
-
-                newBook.setImage(newBookImage.getId());
-
-                for(AuthorImageDTO authorImagesDTO : newAuthorImages){
-                    authorService.create(authorImagesDTO.getAuthor());
-                    Image image = imageService.create(authorImagesDTO.getImage());
-                    newBook.getAuthors().add(authorImagesDTO.getAuthor().getId());
-                    authorImagesDTO.getAuthor().getBooks().add(newBook.getId());
-                    authorImagesDTO.getAuthor().setImage(image.getId());
-                }
-
-                update(newBook.getId(), newBook);
-
-                for(AuthorImageDTO authorImageDTO : newAuthorImages){
-                    authorService.update(authorImageDTO.getAuthor().getId(), authorImageDTO.getAuthor());
-                }
-
-                newBookAuthorsDTOS.add(new BookAuthorsDTO(newBook, newBookImage, newAuthorImages));
+                newBookAuthorsDTOS.add(createWithAuthors(bookAuthorsDTO));
             }
 
             return newBookAuthorsDTOS;
@@ -95,7 +94,7 @@ public class BookService {
 
             if(!books.isEmpty()){
                 for(Book book : books){
-                    Image image = imageService.find(book.getImage());
+                    Image image = book.getImage();
 
                     bookSearchDTOS.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), image));
                 }
@@ -122,7 +121,7 @@ public class BookService {
 
             if(books != null && !books.isEmpty()){
                 for(Book book : books){
-                    Image image = imageService.find(book.getImage());
+                    Image image = book.getImage();
 
                     bookSearchDTOS.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), image));
                 }
@@ -137,17 +136,14 @@ public class BookService {
     public BookAuthorsDTO getByPath(String query){
         try {
             Book book = bookRepository.getByPath(query);
-            Image image = imageService.find(book.getImage());
-            List<AuthorImageDTO> authors = new ArrayList<>();
+            List<Author> authors = new ArrayList<>();
 
             for(String idAuthor : book.getAuthors()){
                 Author author = authorService.get(idAuthor);
-                Image imageAuthor = imageService.find(author.getImage());
-                AuthorImageDTO authorImage = new AuthorImageDTO(author, imageAuthor);
-                authors.add(authorImage);
+                authors.add(author);
             }
 
-            return new BookAuthorsDTO(book, image, authors);
+            return new BookAuthorsDTO(book, authors);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -192,7 +188,7 @@ public class BookService {
             if(book.getAuthors() != null && !book.getAuthors().isEmpty()){
                 bookUpdated.setAuthors(book.getAuthors());
             }
-            if(book.getImage() != null && !book.getImage().trim().isBlank()){
+            if(book.getImage() != null){
                 bookUpdated.setImage(book.getImage());
             }
             if(book.getArchive() != null){
