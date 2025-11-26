@@ -39,8 +39,6 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
         }
 
         const data = await response.json();
-
-        console.log(data);
         
 
         if (Array.isArray(data)) {
@@ -95,7 +93,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
       onMouseLeave={() => setShowControls(false)}
     >
       <div className="carrousel relative h-[32.5dvh] overflow-hidden">
-        {/* Botão esquerdo */}
+        
         <button
           onClick={scrollLeft}
           className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black bg-opacity-70 text-white rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
@@ -105,7 +103,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
           <span className="text-2xl font-bold">&#8249;</span>
         </button>
 
-        {/* Carrossel */}
+        
         <div
           ref={carouselRef}
           className="flex overflow-x-auto scrollbar-hide space-x-4 py-4 px-2"

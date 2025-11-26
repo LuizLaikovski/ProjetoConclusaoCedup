@@ -10,14 +10,6 @@ import ModalLogOut from "../components/ModalLogOut";
 import { Book } from "../interfaces/BookInterfaces";
 
 
-const safeParse = (value: string | null) => {
-    try {
-        return JSON.parse(value ?? "");
-    } catch {
-        return value; // Se não for JSON, retorna o valor puro mesmo
-    }
-};
-
 const ProfileUser = () => {
     const [books, setBooks] = useState<Book[]>([]);
     const [name, setName] = useState('');
@@ -51,7 +43,7 @@ const ProfileUser = () => {
 
         const fetchDataUser = async () => {
             try {
-                const response = await fetch(`${API_URL}=${safeParse(idUser)}`, {
+                const response = await fetch(`${API_URL}=${idUser}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -62,8 +54,6 @@ const ProfileUser = () => {
                 if (!response.ok) throw new Error("Erro interno")
 
                 const data = await response.json();
-
-                console.log(data.booksFavorited);
 
 
                 const books = data.booksFavorited.map((book: Book) => {

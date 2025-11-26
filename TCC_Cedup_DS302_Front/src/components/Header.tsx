@@ -44,7 +44,7 @@ const Header = () => {
   };
 
   return (
-    <header className='bg-[var(--primary)] w-[100dvw] relative top-0 z-50 text-white max-md:flex max-md:justify-center max-md:items-center' data-aos="fade-down" style={{padding: "1rem"}}>
+    <header className='bg-[var(--primary)] w-screen relative top-0 z-50 text-white max-md:flex max-md:justify-center max-md:items-center' data-aos="fade-down" style={{padding: "1rem"}}>
       <div className='flex justify-between items-center' style={{margin: "0 auto"}}>
         <Link to="/" className='logo-link'></Link>
 

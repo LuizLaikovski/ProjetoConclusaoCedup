@@ -73,7 +73,6 @@ const ModalEditUser = ({ setModal }: ModalEditUserProp) => {
         } finally {
             setModal(false);
             window.dispatchEvent(new Event("storage"));
-            // location.reload();
         }
     }
 

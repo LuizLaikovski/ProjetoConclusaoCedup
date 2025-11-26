@@ -7,7 +7,7 @@ import ModalFavorites from './ModalFavorites';
 
 const Footer = () => {
 
-    const [showModal, setShowModal] = useState(false); // Estado para controlar a visibilidade do modal
+    const [showModal, setShowModal] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
 

@@ -97,7 +97,7 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
 
     const confirmCode = () => {
         if (numberVerify === codeGenerated) {
-            setStep(3); // 👉 etapa para digitar nova senha
+            setStep(3);
         } else {
             setError("Código incorreto.");
         }
@@ -182,7 +182,6 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
 
                 <div className="modal-body flex flex-col gap-3 text-center text-black">
 
-                    {/* ETAPA 1 → email */}
                     {step === 1 && (
                         <>
                             <input
@@ -205,7 +204,6 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
                         </>
                     )}
 
-                    {/* ETAPA 2 → código */}
                     {step === 2 && (
                         <>
                             <input
@@ -225,7 +223,6 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
                         </>
                     )}
 
-                    {/* ETAPA 3 → nova senha */}
                     {step === 3 && (
                         <>
                             <div className="relative w-full">

@@ -8,17 +8,15 @@ import ModalForgotPassword from '../components/ModalForgotPassword';
 interface FormData {
     email: string;
     password: string;
-    rememberMe: boolean;
 }
 
 const Login = () => {
     const [formData, setFormData] = useState<FormData>({
         email: '',
-        password: '',
-        rememberMe: false
+        password: ''
     });
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const API_URL = import.meta.env.VITE_API_URL_USER;
+    const API_URL = import.meta.env.VITE_API_URL_LOGIN;
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [button, setButton] = useState(true);
@@ -43,22 +41,19 @@ const Login = () => {
         setButton(false);
 
 
-        const bodyData = {
+        const bodyData = JSON.stringify({
             email: formData.email,
             password: formData.password
-        };
+        });
 
         try {
-            const response = await fetch(`${API_URL}/login`, {
+            const response = await fetch(`${API_URL}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "X-API-Key": API_KEY
                 },
-                body: JSON.stringify({
-                    email: bodyData.email,
-                    password: bodyData.password
-                })
+                body: bodyData
             });
 
             const raw = await response.text();

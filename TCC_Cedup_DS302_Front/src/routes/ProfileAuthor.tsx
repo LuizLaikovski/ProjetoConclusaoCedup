@@ -78,7 +78,7 @@ const ProfileAutor = () => {
     if (loading) {
         return (
             <>
-                <div className="loading-container flex flex-col justify-center items-center h-[100vh]">
+                <div className="loading-container flex flex-col justify-center items-center h-screen">
                     <div className="loader h-[75px] w-[75px]"></div>
                 </div>
                 <Footer />

@@ -131,17 +131,6 @@ const Register = () => {
                 margin: "0"
             }}
         >
-            {/* <div
-                className="box bg-[var(--primary)] flex justify-center items-center z-50 rounded-[50%]"
-                style={{
-                    height: "14vh",
-                    width: "14vh",
-                    marginBottom: "82dvh"
-                }}
-                data-aos="zoom-in-down"
-            >
-                <FontAwesomeIcon icon={faCircleUser} size="4x" color="white" />
-            </div> */}
 
             <div
                 className="container-register absolute z-10 rounded-3xl shadow-xl flex flex-col justify-center items-center"
