@@ -3,22 +3,7 @@ import { useEffect, useState } from 'react';
 import './css/listbooks.css';
 import RouteButton from './RouteButton';
 import BookImage from './BookImage';
-
-
-interface Book {
-    id: number;
-    titulo: string;
-    autor: string;
-    genero?: string;
-    descricao?: string;
-    pags?: number;
-    path: string;
-    arquivo: {
-        src: string;
-        alt: string;
-    };
-    avaliacao: number;
-}
+import { Book } from '../interfaces/BookInterfaces';
 
 interface ListBooksProps {
     minRating: number | null;
@@ -56,7 +41,7 @@ const ListBooks = ({ minRating }: ListBooksProps) => {
     }, []);
 
     const filteredBooks = minRating 
-        ? books.filter(book => book.avaliacao >= minRating)
+        ? books.filter(book => book.rating >= minRating)
         : books;
 
     if (loading) {
@@ -75,7 +60,7 @@ const ListBooks = ({ minRating }: ListBooksProps) => {
                         <RouteButton
                             key={book.id}
                             path={`livro/${book.path}`}
-                            img={<BookImage src={book.arquivo.src} alt={book.titulo} />}
+                            img={<BookImage src={book.archive?.src} alt={book.title} />}
                             style={{
                                 backgroundColor: 'transparent',
                                 border: 'none',

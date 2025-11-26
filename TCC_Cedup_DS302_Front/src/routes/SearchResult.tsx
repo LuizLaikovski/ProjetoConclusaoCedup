@@ -4,30 +4,14 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import RouteButton from "../components/RouteButton";
 import BookImage from "../components/BookImage";
-
-interface Book {
-    id: string;
-    path: string;
-    title: string;
-    image: {
-        id: string;
-        src: string;
-        alt: string;
-    };
-}
+import { BookSearch } from "../interfaces/BookInterfaces";
 
 const SearchResult = () => {
     const { bookName } = useParams<{ bookName: string }>();
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_QUERY;
-    const [books, setBooks] = useState<Book[]>([]);
+    const [books, setBooks] = useState<BookSearch[]>([]);
     const [loading, setLoading] = useState(true);
-
-    const formatPath = (path: string) => {
-        if (!path) return "";
-        return path.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
-    }
-
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -53,29 +37,22 @@ const SearchResult = () => {
                 }
 
                 const data = await response.json();
-                let normalizedArray: any[] = [];
 
-                // ✅ 1) SE FOR ARRAY
-                if (Array.isArray(data)) {
-                    normalizedArray = data;
-                }
+                let resultArray: any[] = [];
+                if (Array.isArray(data)) resultArray = data;
+                else if (typeof data === "object" && data !== null) resultArray = [data];
 
-                // ✅ 2) SE FOR OBJETO ÚNICO
-                else if (typeof data === "object" && data !== null) {
-                    normalizedArray = [data]; // transforma em array
-                }
-
-                // MAPEAMENTO PADRÃO
-                const mappedBooks: Book[] = normalizedArray.map((item) => ({
+                const mappedBooks: BookSearch[] = resultArray.map(item => ({
                     id: item.id,
                     path: item.path,
-                    title: item.title,
+                    title: item.title ?? "Sem título",
                     image: {
                         id: item.image?.id,
-                        src: `/images/${formatPath(item.path)}.jpeg`,
-                        alt: item.image?.alt || item.title,
-                    },
+                        src: item.image?.src,
+                        alt: item.image?.alt ?? item.title ?? "Capa",
+                    }
                 }));
+
 
                 setBooks(mappedBooks);
             } catch (err) {
@@ -87,8 +64,7 @@ const SearchResult = () => {
         };
 
         fetchBooks();
-    }, []);
-
+    }, [bookName]);
 
     if (loading) {
         return (
@@ -121,7 +97,7 @@ const SearchResult = () => {
                         style={{ scrollSnapAlign: "start", padding: "10px" }}
                     >
                         <RouteButton
-                            img={<BookImage src={book.image.src} alt={book.title} />}
+                            img={<BookImage src={book.image?.src} alt={book.title} />}
                             path={`/catalogo/livro/${book.path}`}
                         />
                     </div>

@@ -7,17 +7,7 @@ import BookImage from "../components/BookImage";
 import Header from "../components/Header";
 import ModalEditUser from "../components/ModalEditUser";
 import ModalLogOut from "../components/ModalLogOut";
-
-interface Book {
-    id: number;
-    path: string;
-    title: string;
-    image?: {
-        id: string;
-        src: string;
-        alt: string;
-    };
-}
+import { Book } from "../interfaces/BookInterfaces";
 
 
 const safeParse = (value: string | null) => {
@@ -27,8 +17,6 @@ const safeParse = (value: string | null) => {
         return value; // Se não for JSON, retorna o valor puro mesmo
     }
 };
-
-
 
 const ProfileUser = () => {
     const [books, setBooks] = useState<Book[]>([]);
@@ -41,15 +29,10 @@ const ProfileUser = () => {
 
     const handleModal = () => setModal(!modal);
 
-    const formatPath = (path: string) => {
-        if (!path) return "";
-        return path.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
-    }
-
     const logOutAccountModal = () => {
         setModalLogOut(!modalLogOut)
     }
-    
+
     useEffect(() => {
         const idUser = localStorage.getItem("idUser");
         const nameUser = localStorage.getItem("nameUser");
@@ -80,25 +63,28 @@ const ProfileUser = () => {
 
                 const data = await response.json();
 
+                console.log(data.booksFavorited);
+
+
                 const books = data.booksFavorited.map((book: Book) => {
                     return {
                         id: book.id,
                         path: book.path,
                         title: book.title,
                         image: {
-                            id: book.image?.id || "",
-                            src: `/images/${formatPath(book.path)}.jpeg`,
-                            alt: book.image?.alt || "",
+                            src: book.image?.src,
+                            alt: book.archive?.alt || "",
                         }
                     };
                 });
+
                 setBooks(books);
             } catch (error) {
                 console.error("Erro ao carregar os livros do back:", error);
             }
         };
         fetchDataUser();
-        
+
         window.addEventListener("storage", updateProfile);
         updateProfile();
 
@@ -115,11 +101,11 @@ const ProfileUser = () => {
                     <div className="mr-10 w-[70dvw] text-black">
                         <h1 className="text-2xl" style={{ marginLeft: "20px" }}>{name}</h1>
                         <h2 className="text-[13px]" style={{ marginLeft: "20px" }}>Email: {email}</h2>
-                        <div className="overflow-hidden flex flex-col h-[20dvh] w-[70dvw]" style={{padding: "0 0 0 0"}}>
+                        <div className="overflow-hidden flex flex-col h-[20dvh] w-[70dvw]" style={{ padding: "0 0 0 0" }}>
                             <button style={{ margin: "20px 15px 0 20px" }} className="primary-button" onClick={handleModal}>
-                            Editar Perfil
+                                Editar Perfil
                             </button>
-                            <button style={{ margin: "10px 15px 0 20px"}} className="secondary-button" onClick={logOutAccountModal}>
+                            <button style={{ margin: "10px 15px 0 20px" }} className="secondary-button" onClick={logOutAccountModal}>
                                 Sair da Conta
                             </button>
                         </div>
@@ -130,7 +116,7 @@ const ProfileUser = () => {
                     <h1 className="text-5xl" style={{ marginLeft: "20px" }}>Favoritos</h1>
                     <div className="border-y-green-900 border-2 w-[90dvw]"></div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 p-4 mt-6 " style={{marginTop: "24px"}}>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 p-4 mt-6 " style={{ marginTop: "24px" }}>
                         {books && books.length > 0 ? (
                             books.map((book) => (
                                 <div key={book.id} data-aos="zoom-in-up" className="flex flex-col items-center">
@@ -140,7 +126,7 @@ const ProfileUser = () => {
                                             path={`/catalogo/livro/${book.path}`}
                                             img={
                                                 <BookImage
-                                                    src={book.image?.src || ""}
+                                                    src={book.image?.src}
                                                     alt={book.title}
                                                     style={{
                                                         width: "150px",
@@ -150,6 +136,7 @@ const ProfileUser = () => {
                                                         boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
                                                     }}
                                                 />
+
                                             }
                                         />
                                     ) : (

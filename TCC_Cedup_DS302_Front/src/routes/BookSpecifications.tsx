@@ -2,54 +2,25 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "./css/BooksSpecification.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
 import ModalAssessment from "../components/ModalAssessment";
 import RouteButton from "../components/RouteButton";
 import ModalError from "../components/ModalError";
-
-interface Book {
-  id: string;
-  titulo: string;
-  autor: string;
-  autorPath: string;
-  pags?: number;
-  descricao?: string;
-  arquivo: {
-    src: string;
-    alt: string;
-  };
-  avaliacao: number;
-  path: string;
-}
-interface FavoriteBook {
-  path: string;
-  title: string;
-  images: {
-    id: string;
-    src: string;
-    alt: string;
-  }[];
-}
-interface UserData {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  booksFavorited: FavoriteBook[];
-}
-
+import RenderStars from "../components/RenderStars";
+import { Book } from "../interfaces/BookInterfaces";
+import { UserData } from "../interfaces/UserInterfaces";
 
 const BookSpecifications = () => {
   const { bookName } = useParams<{ bookName: string }>();
   const navigate = useNavigate();
   const [book, setBook] = useState<Book | null>(null);
+  const [pathAuthor, setPathAuthor] = useState<string>("");
+  const [nameAuthor, setNameAuthor] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [modalAssessment, setModalAssessment] = useState(false);
   const [modalError, setModalError] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isFavorited, setIsFavorite] = useState(false);
+
   const API_KEY = import.meta.env.VITE_API_KEY;
   const API_URL = import.meta.env.VITE_API_URL_FAVORITE;
   const API_URL_UNIQUE = import.meta.env.VITE_API_URL_USER_UNIQUE;
@@ -64,50 +35,41 @@ const BookSpecifications = () => {
     } else {
       setModalAssessment(!modalAssessment);
     }
-  }
+  };
 
-  // Normaliza strings para URL amigável
-  const normalize = (str: string) =>
-    str
+  const normalize = (str: any) => {
+    if (typeof str !== "string") return "";
+    return str
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/\s+/g, "-")
       .toLowerCase();
+  };
 
-  const formatPath = (path: string) => {
-    if (!path) return "";
-    return path.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
-  }
 
   useEffect(() => {
     const loadData = async () => {
-
       try {
-        const checkedBook = async (bookData: Book) => {
-          const idUser = localStorage.getItem("idUser");
-          if (!bookData || !idUser) return;
+        const checkFavorite = async (bookData: Book) => {
+          if (!idUser) return;
 
-          try {
-            const response = await fetch(`${API_URL_UNIQUE}=${idUser}`, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                "X-API-Key": API_KEY,
-              },
-            });
+          const response = await fetch(`${API_URL_UNIQUE}=${idUser}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "X-API-Key": API_KEY,
+            },
+          });
 
-            if (!response.ok) throw new Error("Erro ao buscar usuario");
+          if (!response.ok) throw new Error("Erro ao buscar usuário");
 
-            const data: UserData = await response.json();
+          const data: UserData = await response.json();
 
-            const isBookFavorited = data.booksFavorited?.some(
-              (favBook) => favBook.path === bookData.path
-            );
+          const isFav = data.booksFavorited?.some(
+            (fav) => fav.path === bookData.path
+          );
 
-            setIsFavorite(isBookFavorited);
-          } catch (error) {
-            console.error(error);
-          }
+          setIsFavorite(isFav);
         };
 
         const res = await fetch(`${API_URL_BOOKS}${bookName}`, {
@@ -115,32 +77,19 @@ const BookSpecifications = () => {
           headers: { "X-API-Key": API_KEY },
         });
 
-        if (!res.ok) throw new Error("Erro ao carregar os livros");
+        if (!res.ok) throw new Error("Erro ao carregar livro");
 
-        const rawData = await res.json();
+        const raw = await res.json();
+        setBook(raw.book);
 
-        const item = rawData;
+        const authorName = raw.authors?.[0].path || "";
+        console.log(authorName);
 
-        const mappedBook: Book = {
-          id: item.book.id,
-          titulo: item.book.title,
-          autor: item.authorsImage?.[0]?.author?.name || "Autor desconhecido",
-          autorPath: item.authorsImage?.[0]?.author?.name
-            ?.toLowerCase()
-            .replace(/\s+/g, "-"),
-          pags: item.book.numPages || 0,
-          descricao: item.book.description || "Sem descrição disponível",
-          arquivo: {
-            src: `/images/${formatPath(item.book.path)}.jpeg`,
-            alt: item.imageBook.alt || item.book.title,
-          },
-          avaliacao: item.book.rating ?? 0,
-          path: normalize(item.book.title),
-        };
+        // gera url amigável usando seu normalize
+        setPathAuthor(normalize(authorName));
+        setNameAuthor(raw.authors?.[0].name);
 
-
-        setBook(mappedBook);
-        await checkedBook(mappedBook);
+        await checkFavorite(raw.book);
       } catch (err) {
         console.error(err);
       } finally {
@@ -152,53 +101,35 @@ const BookSpecifications = () => {
     else setLoading(false);
   }, [bookName]);
 
-
   const favoriteBook = async () => {
-    const idUser = localStorage.getItem("idUser");
-
-
     if (!book || !idUser) {
       setError("Usuário não encontrado");
       setModalError(true);
       return;
-    }
-
-    const dataJson = {
-      idBook: book.id,
-      idUser: idUser
     }
 
     try {
-      await fetch(`${API_URL}`, {
+      await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": API_KEY
+          "X-API-Key": API_KEY,
         },
-        body: JSON.stringify(dataJson)
+        body: JSON.stringify({
+          idBook: book.id,
+          idUser: idUser,
+        }),
       });
-    } catch (error) {
-      console.error("Erro ao favoritar:", error);
-      setError("Error ao favoritar");
-      setModalError(true);
     } finally {
       location.reload();
-    }''
+    }
   };
 
   const unFavoriteBook = async () => {
-    const idUser = localStorage.getItem("idUser");
-
-
     if (!book || !idUser) {
       setError("Usuário não encontrado");
       setModalError(true);
       return;
-    }
-
-    const dataJsonUn = {
-      idBook: book.id,
-      idUser: idUser
     }
 
     try {
@@ -206,19 +137,17 @@ const BookSpecifications = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": API_KEY
+          "X-API-Key": API_KEY,
         },
-        body: JSON.stringify(dataJsonUn)
-      })
-    } catch (error) {
-      console.error(error);
-      setError("Error ao favoritar");
-      setModalError(true);
+        body: JSON.stringify({
+          idBook: book.id,
+          idUser: idUser,
+        }),
+      });
     } finally {
       location.reload();
     }
-  }
-
+  };
 
   if (loading)
     return (
@@ -240,131 +169,132 @@ const BookSpecifications = () => {
       </div>
     );
 
-  const renderStars = (rating: number) => {
-    return [...Array(5)].map((_, index) => {
-      const ratingValue = index + 1;
-      return (
-        <FontAwesomeIcon
-          key={index}
-          icon={faStar}
-          className="star-icon"
-          style={{
-            color: ratingValue <= rating ? "#ffc107" : "#e4e5e9",
-            height: "25px"
-          }}
-        />
-      );
-    });
-  };
-
   return (
     <>
       <Header />
+
       <main className="min-h-screen flex flex-col justify-center items-center py-10 px-6">
-        <section className="bg-white w-[90dvw] h-auto rounded-2xl shadow-2xl flex flex-col justify-center items-center lg:flex-row relative overflow-hidden" style={{ padding: "50px 50px 50px 50px", marginTop: "50px" }} data-aos="flip-up">
+        <section
+          className="bg-white w-[90dvw] h-auto rounded-2xl shadow-2xl flex flex-col justify-center items-center lg:flex-row relative overflow-hidden"
+          style={{ padding: "50px" }}
+          data-aos="flip-up"
+        >
           <div className="lg:w-[35%] flex justify-center items-center p-8">
-            {book?.arquivo?.src ? (
+            {book.image?.src ? (
               <img
-                src={book.arquivo.src}
-                alt={book.arquivo.src}
+                src={book.image.src}
+                alt={book.image.alt}
                 className="rounded-lg shadow-xl w-[250px] lg:w-[300px]"
               />
             ) : (
               <div className="w-[250px] h-[350px] bg-gray-200 rounded-lg flex items-center justify-center">
-                <p>Sem imagem</p>
+                <p>{book.image.src}</p>
               </div>
             )}
-
           </div>
 
           <div className="flex flex-col inset-y-0 left-0 items-center w-[40dvw]">
             <div className="max-sm:w-[70dvw]">
               <div className="flex flex-col items-center lg:items-start">
                 <h1 className="text-4xl text-center font-bold text-black lg:text-left mb-3">
-                  {book.titulo}
+                  {book.title}
                 </h1>
-
-                <RouteButton
-                  path={`/perfilAutor/${book.autorPath}`}
-                  classe="text-[20px] cursor-pointer"
-                  label={<h1>{book.autor}</h1>}
-                />
+                {pathAuthor && (
+                  <RouteButton
+                    path={`/perfilAutor/${pathAuthor}`}
+                    classe="text-[20px] cursor-pointer hover:shadow-2xl transition px-3 py-1 rounded-full bg-gray-200"
+                    style={{padding: "5px 15px 5px 15px"}}
+                    label={<h1>{nameAuthor}</h1>}
+                  />
+                )}
               </div>
 
-              <div className="flex justify-center lg:justify-start items-center" style={{ marginBottom: "20px", marginTop: "20px" }}>
-                {renderStars(book.avaliacao)}
+              <div
+                className="flex justify-center lg:justify-start items-center"
+                style={{ marginBottom: "20px", marginTop: "20px" }}
+              >
+                {RenderStars(book.rating || 0)}
                 <span className="ml-2 text-black font-semibold text-lg">
-                  {Number(book.avaliacao).toFixed(1)}
+                  {Number(book.rating).toFixed(1)}
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center border-t border-b border-gray-300" style={{ paddingBlock: "16px", marginBottom: "24px" }}>
+
+              <div
+                className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center border-t border-b border-gray-300"
+                style={{ paddingBlock: "16px", marginBottom: "24px" }}
+              >
                 <div>
-                  <p className="font-semibold text-2xl text-gray-700">Nº de páginas: {book.pags}</p>
+                  <p className="font-semibold text-2xl text-gray-700">
+                    Nº de páginas: {book.numPages}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-2xl text-gray-700">
+                    Ano de Publicação: {book.yearPublished ? new Date(book.yearPublished).getFullYear() : ""}
+                  </p>
                 </div>
               </div>
             </div>
 
-            <p className="text-justify text-[17px] leading-relaxed text-gray-800 max-sm:w-60" data-aos="fade-up">
-              {book.descricao}
+            <p
+              className="text-justify text-[17px] leading-relaxed text-gray-800 max-sm:w-60"
+              data-aos="fade-up"
+            >
+              {book.description}
             </p>
           </div>
 
-          {/* Botões laterais */}
           <div className="flex justify-center items-center">
-            <div className="hidden lg:flex h-[40dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl" style={{ marginLeft: "7dvw", padding: "20px" }} data-aos="fade-up">
-              <a className="primary-button text-center">
-                Leia Agora
-              </a>
+            <div
+              className="hidden lg:flex h-[40dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl"
+              style={{ marginLeft: "7dvw", padding: "20px" }}
+              data-aos="fade-up"
+            >
+              <a className="primary-button text-center" href={book.archive.src} target="blank">Leia Agora</a>
+
               <button className="primary-button" onClick={toggleModal}>
                 Avaliar
               </button>
+
               <button
                 className={isFavorited ? "secondary-button" : "primary-button"}
                 onClick={isFavorited ? unFavoriteBook : favoriteBook}
               >
-                {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
+                {isFavorited
+                  ? "Remover dos Favoritos"
+                  : "Adicionar aos Favoritos"}
               </button>
-
             </div>
           </div>
         </section>
 
-        {/* Botões embaixo (para telas menores, até notebook) */}
-        <div className="sm:hidden flex h-[35dvh] w-[80dvw]  lg:w-[20dvw] flex-col gap-4 right-6 top-1/3 lg:shadow-2xl">
-          <a className="primary-button text-center" data-aos="fade-up">
-            Leia Agora
-          </a>
-          <button className="primary-button" onClick={toggleModal} data-aos="fade-up">
+        <div className="sm:hidden flex h-[41dvh] w-[80dvw] flex-col gap-4">
+          <a className="primary-button text-center">Leia Agora</a>
+
+          <button className="primary-button" onClick={toggleModal}>
             Avaliar
           </button>
+
           <button
             className={isFavorited ? "secondary-button" : "primary-button"}
             onClick={isFavorited ? unFavoriteBook : favoriteBook}
-            data-aos="fade-up"
           >
-            {isFavorited ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
+            {isFavorited
+              ? "Remover dos Favoritos"
+              : "Adicionar aos Favoritos"}
           </button>
-
+          <div className="h-[6dvh]"></div>
         </div>
-        <div className="sm:hidden h-[5dvh]"></div>
 
         {modalAssessment && (
-          <ModalAssessment
-            setModalAssessment={setModalAssessment}
-            idBook={book.id}
-          />
+          <ModalAssessment setModalAssessment={setModalAssessment} idBook={book.id} />
         )}
 
         {modalError && (
-          <ModalError 
-            setModal={setModalError}
-            error={error}
-          />
+          <ModalError setModal={setModalError} error={error} />
         )}
 
-
         <Footer />
-        <div className="h-[6dvh]"></div>
       </main>
     </>
   );

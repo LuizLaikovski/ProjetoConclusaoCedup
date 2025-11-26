@@ -2,17 +2,8 @@ import { faTimes, faTrash, faBook } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import RouteButton from "./RouteButton";
+import { Book } from "../interfaces/BookInterfaces";
 
-interface Book {
-    id: string;
-    title: string;
-    arquivo?: {
-        src: string;
-        alt: string;
-    };
-    path: string;
-    avaliacao: number;
-}
 
 interface ModalProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;

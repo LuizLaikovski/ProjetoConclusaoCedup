@@ -1,15 +1,11 @@
-import './css/header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faHeart, faHouse, faSearch, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHouse, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import ModalFavorites from './ModalFavorites';
 
 const Header = () => {
-  const [searchBook, setSearchBook] = useState({
-    book: ''
-  });
-
+  const [searchBook, setSearchBook] = useState({ book: '' });
   const [showAside, setShowAside] = useState(false);
   const asideRef = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
@@ -23,22 +19,13 @@ const Header = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showAside]);
 
-  const toggleAside = () => {
-    setShowAside(!showAside);
-  };
-
-  const toggleModal = () => {
-    setShowModal(!showModal);
-};
+  const toggleModal = () => setShowModal(!showModal);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     const searchTerm = searchBook.book.trim();
 
     if (searchTerm) {
@@ -49,41 +36,36 @@ const Header = () => {
 
   const checkedLogin = () => {
     const user = localStorage.getItem("idUser");
+    navigate(user ? "/perfil" : "/login");
+  };
 
-    if (!user) {
-      navigate("/login")
-    } else {
-      navigate("/perfil")
-    }
-  }
-
-  // Atualiza o valor do input sem pesquisar automaticamente
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchBook({ book: e.target.value });
   };
 
   return (
-    <header className='header w-[100dvw]' data-aos="fade-down">
-      <div className='align-header'>
+    <header className='bg-[var(--primary)] w-[100dvw] relative top-0 z-50 text-white max-md:flex max-md:justify-center max-md:items-center' data-aos="fade-down" style={{padding: "1rem"}}>
+      <div className='flex justify-between items-center' style={{margin: "0 auto"}}>
         <Link to="/" className='logo-link'></Link>
 
-        <form onSubmit={handleSubmit} className='form-search-book-header text-black'>
+        <form onSubmit={handleSubmit} className='flex items-center grow max-w-[500px] border-white border-2 rounded-xl text-black' style={{margin: "20px 0"}}>
           <input
             type="text"
             name="book"
             placeholder='Buscar livro...'
             value={searchBook.book}
             onChange={handleChange}
-            className='input-search-book-header bg-white'
+            className='w-[100%] bg-white max-md:w-[60dvw]'
+            style={{padding: "0.5rem", borderRadius: "9px 0 0 9px"}}
           />
 
-          <button type="submit" className='button-submit-search-book-header'>
+          <button type="submit" className='bg-[var(--primary-clear)] cursor-pointer' style={{padding: "0.5rem 1rem", borderRadius: "0 16px 16px 0"}}>
             <FontAwesomeIcon icon={faSearch} color='white' />
           </button>
         </form>
 
-        <nav className='main-navigation'>
-          <ul>
+        <nav style={{margin: "0 50px 0 -27dvw"}} className='max-lg:hidden max-sm:hidden'>
+          <ul className='flex list-none gap-4'>
             <li className='flex justify-center items-center'>
               <Link to="/">
                 <FontAwesomeIcon icon={faHouse} size='lg' className='sm:hidden' />
@@ -105,34 +87,7 @@ const Header = () => {
           </ul>
         </nav>
 
-        <button className='mobile-menu-button' onClick={toggleAside}>
-          <FontAwesomeIcon icon={showAside ? faTimes : faBars} />
-        </button>
-
-        {showAside && (
-          <aside className='mobile-aside' ref={asideRef}>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/" onClick={toggleAside}>
-                    <FontAwesomeIcon icon={faHouse} />
-                    <span>Início</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="" onClick={checkedLogin}>
-                    <FontAwesomeIcon icon={faUser} />
-                    <span>Perfil</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </aside>
-        )}
-
-        {showModal && (
-          <ModalFavorites setOpen={setShowModal} />
-        )}
+        {showModal && <ModalFavorites setOpen={setShowModal} />}
       </div>
     </header>
   );

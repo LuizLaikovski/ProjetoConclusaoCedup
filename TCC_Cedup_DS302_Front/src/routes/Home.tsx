@@ -8,9 +8,9 @@ const Home = () => {
     return(
         <>
             <section className="Home">
-                <Footer />
                 <Header />
                 <MainHome />
+                <Footer />
             </section>
         </>
     );

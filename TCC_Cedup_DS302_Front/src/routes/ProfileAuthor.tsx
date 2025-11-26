@@ -6,47 +6,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-interface ApiImage {
-    id?: string;
-    src?: string;
-    alt?: string;
-}
-interface ApiAuthor {
-    id: string;
-    name: string;
-    yearBorn?: string | null;
-    yearDeath?: string | null;
-    description?: string | null;
-    path?: string | null;
-    books: string[];
-    image?: string;
-}
-interface ApiBook {
-    id: string;
-    title: string;
-    path: string;
-    numPages?: number;
-    rating?: string | number;
-    description?: string;
-    authors: string[];
-    archive?: ApiImage;
-}
-
-interface ApiResponse {
-    author: ApiAuthor;
-    books: ApiBook[];
-    imageBook?: ApiImage;
-    imageAuthor?: ApiImage;
-}
-
-interface BookForUI {
-    id: string;
-    titulo: string;
-    path: string;
-    arquivo: { src?: string; alt?: string };
-    avaliacao: number;
-}
+import { ApiAuthor, BookForUI, ApiResponse } from "../interfaces/AuthorInterfaces";
 
 const ProfileAutor = () => {
     const API_KEY = import.meta.env.VITE_API_KEY;

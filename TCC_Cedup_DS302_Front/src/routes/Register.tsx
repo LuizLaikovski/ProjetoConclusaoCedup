@@ -1,29 +1,23 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react';
 import Footer from '../components/Footer';
 import { Link, useNavigate } from 'react-router-dom';
-import "./css/Register.css";
-
-function hasNumber(string: string): boolean {
-    return /\d/.test(string);
-}
-function hasSpecialCharacter(str: string): boolean {
-    return /[^a-zA-Z0-9]/.test(str);
-}
-function hasCapitalLetter(str: string): boolean {
-    return /[A-Z]/.test(str);
-}
+import { hasCapitalLetter, hasNumber, hasSpecialCharacter } from "../dto/passwordDTO";
 
 const Register = () => {
     const [formData, setFormData] = useState({
         nomeCompleto: '',
         email: '',
         password: '',
+        confirmePassword: '',
+        numCndb: '',
     });
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setConfirmShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [inputTeacher, setInputTeacher] = useState(false);
     const [button, setButton] = useState(true);
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_USER;
@@ -33,33 +27,51 @@ const Register = () => {
         try {
             setLoading(true)
             setButton(false);
+
+            if (data.confirmePassword != data.password) {
+                setLoading(false);
+                setErrorMessage("Digite a mesma senha!!");
+                setButton(true);
+                return;
+            }
+
+
+
             const bodyData = {
                 name: data.nomeCompleto.trim(),
                 email: data.email.trim(),
                 password: data.password,
+                numCndb: data.numCndb,
                 booksFavorited: []
             };
 
             if (bodyData.password.length < 8) {
                 setErrorMessage('Sua senha deve conter pelo menos 8 digitos.');
                 setLoading(false);
+                setButton(true);
                 return;
             }
             if (!hasNumber(bodyData.password)) {
                 setErrorMessage('Sua senha deve conter um numero.');
                 setLoading(false);
+                setButton(true);
                 return;
             }
             if (!hasCapitalLetter(bodyData.password)) {
                 setErrorMessage('Sua senha deve conter pelo menos uma letra maiuscula.');
                 setLoading(false);
+                setButton(true);
                 return;
             }
             if (!hasSpecialCharacter(bodyData.password)) {
                 setErrorMessage('Sua senhe deve conter um caractere especial.');
                 setLoading(false);
+                setButton(true);
                 return;
             }
+
+            console.log(JSON.stringify(bodyData));
+            
 
             const response = await fetch(API_URL, {
                 method: "POST",
@@ -104,6 +116,11 @@ const Register = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const getInputTeacher = () => {
+        setInputTeacher(!inputTeacher);
+
+    }
+
     return (
         <section
             id="register"
@@ -114,17 +131,17 @@ const Register = () => {
                 margin: "0"
             }}
         >
-            <div
+            {/* <div
                 className="box bg-[var(--primary)] flex justify-center items-center z-50 rounded-[50%]"
                 style={{
                     height: "14vh",
                     width: "14vh",
-                    marginBottom: "73dvh"
+                    marginBottom: "82dvh"
                 }}
                 data-aos="zoom-in-down"
             >
                 <FontAwesomeIcon icon={faCircleUser} size="4x" color="white" />
-            </div>
+            </div> */}
 
             <div
                 className="container-register absolute z-10 rounded-3xl shadow-xl flex flex-col justify-center items-center"
@@ -237,6 +254,82 @@ const Register = () => {
                             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                         </button>
                     </div>
+
+                    <div
+                        className="relative w-full flex justify-center"
+                        style={{ marginBottom: "24px" }}
+                    >
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            id="confirmePassword"
+                            name="confirmePassword"
+                            value={formData.confirmePassword}
+                            className="transition placeholder-gray-400 bg-white rounded-xl text-black w-full"
+                            style={{
+                                height: "7vh",
+                                minHeight: "45px",
+                                padding: "10px",
+                                fontSize: "clamp(0.9rem, 2.5vw, 1rem)"
+                            }}
+                            placeholder="Confirmar sua senha"
+                            onChange={handleChange}
+                            required
+                        />
+
+                        <button
+                            type="button"
+                            onClick={() => setConfirmShowPassword(!showConfirmPassword)}
+                            className="absolute text-gray-500 hover:text-gray-700 eyesPassword"
+                            aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
+                            style={{
+                                right: "1rem",
+                                top: "50%",
+                                transform: "translateY(-50%)"
+                            }}
+                        >
+                            <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                        </button>
+                    </div>
+
+                    {inputTeacher && (
+                        <>
+                            <div className="w-full flex justify-center">
+                                <input
+                                    type="number"
+                                    id="numCndb"
+                                    name="numCndb"
+                                    value={formData.numCndb}
+                                    className="transition placeholder-gray-400 bg-white rounded-xl text-black w-full"
+                                    style={{
+                                        height: "7vh",
+                                        minHeight: "45px",
+                                        padding: "10px",
+                                        marginBottom: "24px",
+                                        fontSize: "clamp(0.9rem, 2.5vw, 1rem)"
+                                    }}
+                                    placeholder="Digite seu CNDB(Cadastro Nacional de Docentes do Brasil)"
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+                        </>
+                    )}
+
+
+                    <div>
+                        <button
+                            className="secondary-button"
+                            style={{ margin: "0 0 25px" }}
+                            onClick={getInputTeacher}
+                        >
+                            Sou Professor
+                        </button>
+                    </div>
+
+
+
+
+
 
                     {errorMessage && (
                         <p

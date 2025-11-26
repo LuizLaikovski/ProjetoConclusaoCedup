@@ -1,6 +1,5 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './css/Login.css';
 import { faCircleUser, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -63,7 +62,7 @@ const Login = () => {
             });
 
             const raw = await response.text();
-            let data: any = null;
+            let data = null;
 
             try {
                 data = JSON.parse(raw);

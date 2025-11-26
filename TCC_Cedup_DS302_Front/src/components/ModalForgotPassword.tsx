@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import emailjs from 'emailjs-com';
 import { useNavigate } from "react-router-dom";
+import { hasCapitalLetter, hasNumber, hasSpecialCharacter } from "../dto/passwordDTO";
 
 interface ModalProp {
     setModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,7 +17,8 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
     const [codeGenerated, setCodeGenerated] = useState('');
     const [step, setStep] = useState(1); 
     const [loading, setLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false); 
+    const [showPassword, setShowPassword] = useState(false);
+    const [button, setButton] = useState(true);
     const navigate = useNavigate();
 
     const API_URL = import.meta.env.VITE_API_URL_EMAIL_EXISTS;
@@ -32,6 +34,7 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
     const forgotPassword = async () => {
         setError('');
         setLoading(true);
+        setButton(false);
 
         try {
             const response = await fetch(API_URL, {
@@ -61,7 +64,7 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
                 }
 
                 setLoading(false);
-                setStep(2); // 👉 vai para etapa do código
+                setStep(2);
             } else {
                 setError("Email não cadastrado.");
                 setLoading(false);
@@ -71,6 +74,8 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
             console.error(error);
             setError("Erro ao conectar ao servidor.");
             setLoading(false);
+        } finally {
+            setButton(true);
         }
     };
 
@@ -100,6 +105,38 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
 
     const newPassword = async () => {
         try {
+
+            setLoading(true);
+
+            if (newPasswordInput.length < 8) {
+                setError('Sua senha deve conter pelo menos 8 digitos.');
+                setLoading(false);
+                setButton(true);
+                return;
+            }
+            if (!hasNumber(newPasswordInput)) {
+                setError('Sua senha deve conter um numero.');
+                setLoading(false);
+                setButton(true);
+                return;
+            }
+            if (!hasCapitalLetter(newPasswordInput)) {
+                setError('Sua senha deve conter pelo menos uma letra maiuscula.');
+                setLoading(false);
+                setButton(true);
+                return;
+            }
+            if (!hasSpecialCharacter(newPasswordInput)) {
+                setError('Sua senhe deve conter um caractere especial.');
+                setLoading(false);
+                setButton(true);
+                return;
+            }
+
+            console.log(newPassword);
+            
+
+
             const response = await fetch(API_URL_EDIT, {
                 method: "PUT",
                 headers: {
@@ -121,12 +158,11 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
             localStorage.setItem("idUser", data.id);
             localStorage.setItem("nameUser", data.name);
             localStorage.setItem("emailUser", data.email);
+            setModal(false);
+            navigate("/home");
         } catch (error) {
             console.error(error);
             setError(`Houve um erro: ${error}`);
-        } finally {
-            setModal(false);
-            navigate("/home");
         }
     }
 
@@ -163,9 +199,9 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
                                 {loading && <div className="loader h-[45px] w-[45px]"></div>}
                             </div>
 
-                            <button className="primary-button mt-2" onClick={forgotPassword}>
+                            {button && <button className="primary-button mt-2" onClick={forgotPassword}>
                                 Enviar código
-                            </button>
+                            </button>}
                         </>
                     )}
 
@@ -183,9 +219,9 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
 
                             {error && <p className="text-red-500">{error}</p>}
 
-                            <button className="primary-button mt-2" onClick={confirmCode}>
+                            {button && <button className="primary-button mt-2" onClick={confirmCode}>
                                 Verificar código
-                            </button>
+                            </button>}
                         </>
                     )}
 
@@ -211,9 +247,11 @@ const ModalForgotPassword = ({ setModal }: ModalProp) => {
                                 </button>
                             </div>
 
-                            <button className="primary-button mt-2" onClick={newPassword}>
+                            {error && <p className="text-red-500">{error}</p>}
+
+                            {button && <button className="primary-button mt-2" onClick={newPassword}>
                                 Salvar nova senha
-                            </button>
+                            </button>}
                         </>
                     )}
 

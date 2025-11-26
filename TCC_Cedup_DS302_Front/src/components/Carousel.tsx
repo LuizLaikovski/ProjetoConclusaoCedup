@@ -2,17 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import RouteButton from './RouteButton';
 import BookImage from './BookImage';
 import type { CSSProperties } from '@mui/material';
+import { Book } from '../interfaces/BookInterfaces';
 
-interface Book {
-  id: string;
-  title: string;
-  path: string;
-  image: {
-    id: string;
-    src: string;
-    alt: string;
-  };
-}
 
 interface CarouselProps {
   minBooks: number;
@@ -28,11 +19,6 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
   const [loading, setLoading] = useState(true);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [showControls, setShowControls] = useState(false);
-
-  const formatPath = (path: string) => {
-    if (!path) return "";
-    return path.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join("");
-  }
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -54,28 +40,16 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
 
         const data = await response.json();
 
+        console.log(data);
+        
+
         if (Array.isArray(data)) {
-          const mappedBooks: Book[] = data
-            .filter(item => item && item.path) // garante que path exista
-            .map(item => {
-              const { id, path, title, image, archive } = item;
-              return {
-                id: id ?? crypto.randomUUID(),
-                path,
-                title: title ?? "Sem título",
-                image: {
-                  id: image?.id ?? "",
-                  src: `/images/${formatPath(path)}.jpeg`,
-                  alt: archive?.alt ?? title ?? "Capa",
-                },
-              };
-            });
-          setBooks(mappedBooks);
+          setBooks(data);
         } else {
           console.warn("Formato inesperado da resposta:", data);
           setBooks([]);
         }
-        
+
 
       } catch (error) {
         console.error("Erro ao buscar capas:", error);
@@ -102,8 +76,8 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
   if (loading) {
     return (
       <>
-        <div className="flex justify-center h-[21.5dvh]" style={{margin: "30px"}}>
-            <div className="loader h-[50px] w-[50px]"></div>
+        <div className="flex justify-center h-[21.5dvh]" style={{ margin: "30px" }}>
+          <div className="loader h-[50px] w-[50px]"></div>
         </div>
       </>
     );
@@ -145,7 +119,7 @@ const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
               style={{ scrollSnapAlign: 'start', padding: "10px" }}
             >
               <RouteButton
-                img={<BookImage src={book.image.src} alt={book.image.src} classe='w-[136px]' />}
+                img={<BookImage src={book.image.src} alt={book.archive?.alt} classe='w-[136px]' />}
                 path={`/catalogo/livro/${book.path}`}
               />
             </div>
