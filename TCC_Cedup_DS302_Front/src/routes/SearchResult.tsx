@@ -103,6 +103,7 @@ const SearchResult = () => {
                     </div>
                 ))}
             </div>
+            <div className="max-ms:h-[7dvh]"></div>
             <Footer />
         </>
     );
