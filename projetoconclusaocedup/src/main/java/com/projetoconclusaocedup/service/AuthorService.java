@@ -73,14 +73,6 @@ public class AuthorService {
         }
     }
 
-//    public List<Author> getAll(){
-//        try {
-//            return authorRepository.findAll();
-//        } catch (RuntimeException e) {
-//            throw new RuntimeException(e.getMessage());
-//        }
-//    }
-
     public Author get(String id){
         try {
             return authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Autor de id: "+id+" não encontrado"));

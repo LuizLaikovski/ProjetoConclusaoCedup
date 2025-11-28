@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
-    private final ImageService imageService;
     private final AuthorService authorService;
 
     public Book create(Book book){
@@ -56,10 +55,10 @@ public class BookService {
 
     public BookAuthorsDTO createWithAuthors(BookAuthorsDTO bookAuthorsDTO){
         Book newBook = create(bookAuthorsDTO.getBook());
-        Image newBookImage = imageService.create(bookAuthorsDTO.getBook().getImage());
         List<Author> newAuthors = new ArrayList<>();
 
-        newBook.setImage(newBookImage);
+        newBook.setImage(new Image(bookAuthorsDTO.getBook().getImage().getSrc().trim(),
+                bookAuthorsDTO.getBook().getImage().getAlt().trim()));
 
         for(Author author : bookAuthorsDTO.getAuthors()){
             Author newAuthor = authorService.create(author);

@@ -39,6 +39,9 @@ public class UserService {
                 String encryptedPassword = passwordEncoder.encrypt(user.getPassword().trim());
                 user.setPassword(encryptedPassword);
             }
+            if(user.getType() == null || user.getType().trim().isBlank()){
+                user.setType("user");
+            }
             if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
                 user.setBooksFavorited(user.getBooksFavorited());
             }
@@ -80,10 +83,29 @@ public class UserService {
             User user = exists(newPassword.getEmail());
 
             if(newPassword.getPassword() != null && !newPassword.getPassword().trim().isBlank()){
-                user.setPassword(newPassword.getPassword());
+                String encryptedPassword = passwordEncoder.encrypt(newPassword.getPassword().trim());
+                user.setPassword(encryptedPassword);
             }
 
-            return update(user.getId(), user);
+            return userRepository.save(user);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public User userToAdmin(LoginDTO email){
+        try {
+            User existingUser = exists(email.getEmail());
+
+            if(existingUser.getType().equals("admin")){
+                String msg = "Este usuário já é um ADMIN";
+                throw new RuntimeException(msg);
+            }
+            if(existingUser.getType().equals("user")) {
+                existingUser.setType("admin");
+            }
+
+            return userRepository.save(existingUser);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -123,10 +145,6 @@ public class UserService {
             }
             if(user.getEmail() != null && !user.getEmail().trim().isBlank()){
                 userExisting.setEmail(user.getEmail().trim());
-            }
-            if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
-                String encryptedPassword = passwordEncoder.encrypt(user.getPassword().trim());
-                userExisting.setPassword(encryptedPassword);
             }
             if(user.getBooksFavorited() != null){
                 userExisting.setBooksFavorited(user.getBooksFavorited());

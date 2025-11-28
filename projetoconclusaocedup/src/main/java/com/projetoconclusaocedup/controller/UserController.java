@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping()
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user){
         try {
             return ResponseEntity.ok(userService.register(user));
@@ -59,8 +59,17 @@ public class UserController {
         }
     }
 
+    @PutMapping("/edit/admin")
+    public ResponseEntity<?> userToAdmin(@RequestBody LoginDTO email) {
+        try {
+            return ResponseEntity.ok(userService.userToAdmin(email));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/all")
-    public ResponseEntity<?> finAll() {
+    public ResponseEntity<?> findAll() {
         try {
             return ResponseEntity.ok(userService.findAll());
         } catch (RuntimeException e) {
