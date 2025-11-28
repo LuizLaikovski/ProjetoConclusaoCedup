@@ -2,6 +2,7 @@ package com.projetoconclusaocedup.controller;
 
 import com.projetoconclusaocedup.dto.FavoriteDTO;
 import com.projetoconclusaocedup.dto.LoginDTO;
+import com.projetoconclusaocedup.dto.UpdatePasswordDTO;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.service.UserService;
 import lombok.AllArgsConstructor;
@@ -54,6 +55,15 @@ public class UserController {
     public ResponseEntity<?> editPassword(@RequestBody LoginDTO newPassword) {
         try {
             return ResponseEntity.ok(userService.editPassword(newPassword));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/edit/oldpassword")
+    public ResponseEntity<?> editOldPassword(@RequestBody UpdatePasswordDTO newPassword) {
+        try {
+            return ResponseEntity.ok(userService.editOldPassword(newPassword));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

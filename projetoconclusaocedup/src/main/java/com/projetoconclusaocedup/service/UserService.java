@@ -3,6 +3,7 @@ package com.projetoconclusaocedup.service;
 import com.projetoconclusaocedup.config.PasswordEncoder;
 import com.projetoconclusaocedup.dto.BookSearchDTO;
 import com.projetoconclusaocedup.dto.LoginDTO;
+import com.projetoconclusaocedup.dto.UpdatePasswordDTO;
 import com.projetoconclusaocedup.model.Book;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.repository.UserRepository;
@@ -88,6 +89,24 @@ public class UserService {
             }
 
             return userRepository.save(user);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public User editOldPassword(UpdatePasswordDTO user){
+        try {
+            User existingUser = login(user.getEmail(), user.getOldPassword());
+            LoginDTO newPasword = null;
+            if(existingUser != null){
+                if(user.getNewPassword() != null && !user.getNewPassword().trim().isBlank()){
+                    existingUser.setPassword(user.getNewPassword());
+                }
+
+                newPasword = new LoginDTO(existingUser.getEmail(), existingUser.getPassword());
+            }
+
+            return editPassword(newPasword);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
