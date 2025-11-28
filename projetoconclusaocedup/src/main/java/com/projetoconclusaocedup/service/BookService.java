@@ -169,12 +169,6 @@ public class BookService {
             if(book.getPath() != null && !book.getPath().trim().isBlank()){
                 bookUpdated.setPath(book.getPath().trim());
             }
-            if(book.getGrades() != null){
-                bookUpdated.setGrades(book.getGrades());
-            }
-            if(book.getRating() != null){
-                bookUpdated.setRating(book.getRating());
-            }
             if(book.getNumPages() != null && book.getNumPages() > 0){
                 bookUpdated.setNumPages(book.getNumPages());
             }

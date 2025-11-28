@@ -32,4 +32,13 @@ public class BookSearchController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/{query}")
+    public ResponseEntity<?> getOne(@PathVariable String query){
+        try {
+            return ResponseEntity.ok(bookService.getByPath(query));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
