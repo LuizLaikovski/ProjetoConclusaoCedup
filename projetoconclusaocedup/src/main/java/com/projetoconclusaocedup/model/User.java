@@ -21,5 +21,5 @@ public class User {
     private String email;
     private String password;
     private String type;
-    private List<BookSearchDTO> booksFavorited = new ArrayList<>();
+    private List<String> idBooksFavorited = new ArrayList<>();
 }

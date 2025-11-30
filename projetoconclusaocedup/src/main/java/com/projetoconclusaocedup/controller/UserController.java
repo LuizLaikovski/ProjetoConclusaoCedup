@@ -1,19 +1,23 @@
 package com.projetoconclusaocedup.controller;
 
-import com.projetoconclusaocedup.dto.FavoriteDTO;
-import com.projetoconclusaocedup.dto.LoginDTO;
-import com.projetoconclusaocedup.dto.UpdatePasswordDTO;
+import com.projetoconclusaocedup.dto.*;
+import com.projetoconclusaocedup.model.Book;
 import com.projetoconclusaocedup.model.User;
+import com.projetoconclusaocedup.service.BookService;
 import com.projetoconclusaocedup.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final BookService bookService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user){
@@ -27,7 +31,15 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
         try {
-            return ResponseEntity.ok(userService.login(loginDTO.getEmail(), loginDTO.getPassword()));
+            User user = userService.login(loginDTO.getEmail(), loginDTO.getPassword());
+            List<BookSearchDTO> booksFavorited = new ArrayList<>();
+
+            for(String idBook : user.getIdBooksFavorited()){
+                Book book = bookService.get(idBook);
+                booksFavorited.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), book.getImage()));
+            }
+
+            return ResponseEntity.ok(new UserFavoritesDTO(user, booksFavorited));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -36,7 +48,15 @@ public class UserController {
     @GetMapping("/one/u={id}")
     public ResponseEntity<?> findOne(@PathVariable String id) {
         try {
-            return ResponseEntity.ok(userService.get(id));
+            User user = userService.get(id);
+            List<BookSearchDTO> booksFavorited = new ArrayList<>();
+
+            for(String idBook : user.getIdBooksFavorited()){
+                Book book = bookService.get(idBook);
+                booksFavorited.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), book.getImage()));
+            }
+
+            return ResponseEntity.ok(new UserFavoritesDTO(user, booksFavorited));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -81,7 +101,20 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<?> findAll() {
         try {
-            return ResponseEntity.ok(userService.findAll());
+            List<User> users = userService.findAll();
+            List<UserFavoritesDTO> userFavorites = new ArrayList<>();
+
+            for(User user : users){
+                List<BookSearchDTO> booksFavorited = new ArrayList<>();
+                for(String idBook : user.getIdBooksFavorited()){
+                    Book book = bookService.get(idBook);
+                    booksFavorited.add(new BookSearchDTO(book.getId(), book.getPath(), book.getTitle(), book.getImage()));
+                }
+
+                userFavorites.add(new UserFavoritesDTO(user, booksFavorited));
+            }
+            
+            return ResponseEntity.ok(userFavorites);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

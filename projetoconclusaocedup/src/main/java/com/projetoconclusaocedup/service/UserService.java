@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,8 +44,8 @@ public class UserService {
             if(user.getType() == null || user.getType().trim().isBlank()){
                 user.setType("user");
             }
-            if(user.getBooksFavorited() != null && !user.getBooksFavorited().isEmpty()){
-                user.setBooksFavorited(user.getBooksFavorited());
+            if(user.getIdBooksFavorited() != null && !user.getIdBooksFavorited().isEmpty()){
+                user.setIdBooksFavorited(user.getIdBooksFavorited());
             }
 
             return userRepository.save(user);
@@ -56,7 +57,6 @@ public class UserService {
     public User login(String email, String password){
         try {
             User user = userRepository.findByEmail(email);
-
             if (user == null) {
                 String msg = "Usuário com este email não existe";
                 throw new RuntimeException(msg);
@@ -65,6 +65,7 @@ public class UserService {
                 String msg = "Senha incorreta.";
                 throw new RuntimeException(msg);
             }
+
             return user;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
@@ -132,6 +133,7 @@ public class UserService {
 
     public User get(String id){
         try {
+            List<BookSearchDTO> booksFavorited = new ArrayList<>();
             return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id: "+id+" não encontrado"));
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
@@ -165,8 +167,8 @@ public class UserService {
             if(user.getEmail() != null && !user.getEmail().trim().isBlank()){
                 userExisting.setEmail(user.getEmail().trim());
             }
-            if(user.getBooksFavorited() != null){
-                userExisting.setBooksFavorited(user.getBooksFavorited());
+            if(user.getIdBooksFavorited() != null){
+                userExisting.setIdBooksFavorited(user.getIdBooksFavorited());
             }
 
             return userRepository.save(userExisting);
@@ -181,7 +183,8 @@ public class UserService {
             User user = get(idUser);
             boolean bookInList = false;
 
-            for(BookSearchDTO bookFavorited : user.getBooksFavorited()){
+            for(String idBookFavorited : user.getIdBooksFavorited()){
+                Book bookFavorited = bookService.get(idBookFavorited);
                 if(book.getPath().equals(bookFavorited.getPath())){
                     bookInList = true;
                     break;
@@ -189,12 +192,7 @@ public class UserService {
             }
 
             if(!bookInList){
-                BookSearchDTO bookWillFavorite = new BookSearchDTO(
-                        book.getId(), book.getPath(),
-                        book.getTitle(), book.getImage()
-                );
-
-                user.getBooksFavorited().add(bookWillFavorite);
+                user.getIdBooksFavorited().add(book.getId());
             }
 
             return update(user.getId(), user);
@@ -208,9 +206,13 @@ public class UserService {
             Book book = bookService.get(idBook);
             User user = get(idUser);
 
-            user.getBooksFavorited().removeIf(bookFavorited ->
-                    book.getPath().equals(bookFavorited.getPath())
-            );
+            for(String idBookFavorited : user.getIdBooksFavorited()){
+                Book bookFavorited = bookService.get(idBookFavorited);
+                if(book.getPath().equals(bookFavorited.getPath())){
+                    user.getIdBooksFavorited().remove(bookFavorited.getId());
+                    break;
+                }
+            }
 
             return update(user.getId(), user);
         } catch (RuntimeException e) {
