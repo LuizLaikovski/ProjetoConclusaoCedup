@@ -169,6 +169,12 @@ public class BookService {
             if(book.getPath() != null && !book.getPath().trim().isBlank()){
                 bookUpdated.setPath(book.getPath().trim());
             }
+            if(book.getRating() != null && !book.getRating().trim().isBlank()){
+                bookUpdated.setRating(book.getRating().trim());
+            }
+            if(book.getRating() != null && !book.getRating().trim().isBlank()){
+                bookUpdated.setRating(book.getRating().trim());
+            }
             if(book.getNumPages() != null && book.getNumPages() > 0){
                 bookUpdated.setNumPages(book.getNumPages());
             }
@@ -182,10 +188,20 @@ public class BookService {
                 bookUpdated.setAuthors(book.getAuthors());
             }
             if(book.getImage() != null){
-                bookUpdated.setImage(book.getImage());
+                if(book.getImage().getSrc() != null && !book.getImage().getSrc().trim().isBlank()){
+                    bookUpdated.getImage().setSrc(book.getImage().getSrc());
+                }
+                if(book.getImage().getAlt() != null && !book.getImage().getAlt().trim().isBlank()){
+                    bookUpdated.getImage().setAlt(book.getImage().getAlt());
+                }
             }
             if(book.getArchive() != null){
-                bookUpdated.setArchive(book.getArchive());
+                if(book.getArchive().getSrc() != null && !book.getArchive().getSrc().trim().isBlank()){
+                    bookUpdated.getArchive().setSrc(book.getArchive().getSrc());
+                }
+                if(book.getArchive().getAlt() != null && !book.getArchive().getAlt().trim().isBlank()){
+                    bookUpdated.getArchive().setAlt(book.getArchive().getAlt());
+                }
             }
 
             return bookRepository.save(bookUpdated);
@@ -196,22 +212,27 @@ public class BookService {
 
     public Book rating(String idBook, Double grade){
         try {
-            Book book = get(idBook);
+            Book existingBook = get(idBook);
 
-            if(grade != null && (grade <= 5 || grade >= 0)){
-                book.getGrades().add(grade);
-                Double sumGrades = 0.0;
+            if(grade != null){
+                if(grade <= 5 && grade >= 0){
+                    existingBook.getGrades().add(grade);
+                    Double sumGrades = 0.0;
 
-                for(Double grades : book.getGrades()){
-                    sumGrades += grades;
+                    for(Double grades : existingBook.getGrades()){
+                        sumGrades += grades;
+                    }
+
+                    double bookRating = sumGrades / existingBook.getGrades().size();
+
+                    existingBook.setRating(String.format("%.2f", bookRating).replace(",", "."));
+                } else{
+                    String msg = "A nota tem que estar entre 0 e 5!";
+                    throw new RuntimeException(msg);
                 }
-
-                double bookRating = sumGrades / book.getGrades().size();
-
-                book.setRating(String.format("%.2f", bookRating).replace(",", "."));
             }
 
-            return update(book.getId(), book);
+            return bookRepository.save(existingBook);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

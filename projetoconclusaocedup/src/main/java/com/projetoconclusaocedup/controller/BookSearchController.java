@@ -25,7 +25,7 @@ public class BookSearchController {
     }
 
     @GetMapping("/catalog")
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getCatalog(){
         try {
             return ResponseEntity.ok(bookService.getAll());
         } catch (RuntimeException e) {
