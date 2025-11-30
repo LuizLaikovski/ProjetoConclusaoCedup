@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './css/footer.css';  
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faHouse, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHouse, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
 import ModalFavorites from './ModalFavorites';
 
@@ -10,6 +10,7 @@ const Footer = () => {
     const [showModal, setShowModal] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
+    const typeUser = localStorage.getItem("typeUser");
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -46,6 +47,13 @@ const Footer = () => {
                     <Link to="/" className='link-to-home-header'>
                         <FontAwesomeIcon icon={faHouse} color='white' size='2x' />
                     </Link>
+                    {typeUser === "admin" && (
+                        <>
+                            <Link to="/newBook">
+                                <FontAwesomeIcon icon={faPlus} color='white' size='2x' />
+                            </Link>
+                        </>
+                    )}
                     <button className='button-for-favorites-header' onClick={toggleModal}>
                         <FontAwesomeIcon icon={faHeart} color='white' size='2x'/>
                     </button>

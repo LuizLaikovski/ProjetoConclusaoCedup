@@ -16,6 +16,7 @@ const ProfileUser = () => {
     const [email, setEmail] = useState('');
     const [modal, setModal] = useState(false);
     const [modalLogOut, setModalLogOut] = useState(false);
+    const [admin, setAdmin] = useState(false);
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_USER_UNIQUE;
 
@@ -55,6 +56,9 @@ const ProfileUser = () => {
 
                 const data = await response.json();
 
+                if (data.typeUser === "admin") {
+                    setAdmin(true);
+                }
 
                 const books = data.booksFavorited.map((book: Book) => {
                     return {
@@ -102,7 +106,18 @@ const ProfileUser = () => {
                     </div>
                 </div>
 
-                <div className=" text-black top-35">
+                {admin && (
+                    <div>
+                        <RouteButton
+                            classe="cursor-pointer bg-[var(--primary-clear)] hover:bg-[var(--primary)] text-white font-bold rounded-2xl shadow-lg flex items-center justify-center"
+                            style={{padding: "10px"}}
+                            path="/newBook"
+                            img={<span>Adicionar Livro</span>}
+                        />
+                    </div>
+                )}
+
+                <main className=" text-black top-35">
                     <h1 className="text-5xl" style={{ marginLeft: "20px" }}>Favoritos</h1>
                     <div className="border-y-green-900 border-2 w-[90dvw]"></div>
 
@@ -119,8 +134,6 @@ const ProfileUser = () => {
                                                     src={book.image?.src}
                                                     alt={book.title}
                                                     style={{
-                                                        width: "150px",
-                                                        height: "220px",
                                                         objectFit: "cover",
                                                         borderRadius: "10px",
                                                         boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
@@ -145,7 +158,7 @@ const ProfileUser = () => {
 
 
                     <div className="h-[13dvh]"></div>
-                </div>
+                </main>
             </div>
 
             {modal && <ModalEditUser setModal={setModal} />}

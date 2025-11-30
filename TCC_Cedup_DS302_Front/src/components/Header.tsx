@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faHouse, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHouse, faPlus, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import ModalFavorites from './ModalFavorites';
@@ -9,6 +9,7 @@ const Header = () => {
   const [showAside, setShowAside] = useState(false);
   const asideRef = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
+  const typeUser = localStorage.getItem("typeUser");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,44 +45,52 @@ const Header = () => {
   };
 
   return (
-    <header className='bg-[var(--primary)] w-screen relative top-0 z-50 text-white max-md:flex max-md:justify-center max-md:items-center' data-aos="fade-down" style={{padding: "1rem"}}>
-      <div className='flex justify-between items-center' style={{margin: "0 auto"}}>
+    <header className='bg-[var(--primary)] w-screen relative top-0 z-50 text-white max-md:flex max-md:justify-center max-md:items-center' data-aos="fade-down" style={{ paddingRight: "1rem" }}>
+      <div className='flex justify-between items-center' style={{ margin: "0 auto" }}>
         <Link to="/" className='logo-link'></Link>
 
-        <form onSubmit={handleSubmit} className='flex items-center grow max-w-[500px] border-white border-2 rounded-xl text-black' style={{margin: "20px 0"}}>
+        <form onSubmit={handleSubmit} className='flex items-center grow max-w-[500px] border-white border-2 rounded-xl text-black' style={{ margin: "20px 0" }}>
           <input
             type="text"
             name="book"
             placeholder='Buscar livro...'
             value={searchBook.book}
             onChange={handleChange}
-            className='w-[100%] bg-white max-md:w-[60dvw]'
-            style={{padding: "0.5rem", borderRadius: "9px 0 0 9px"}}
+            className='w-screen bg-white max-md:w-[60dvw]'
+            style={{ padding: "0.5rem", borderRadius: "9px 0 0 9px" }}
           />
 
-          <button type="submit" className='bg-[var(--primary-clear)] cursor-pointer' style={{padding: "0.5rem 1rem", borderRadius: "0 16px 16px 0"}}>
+          <button type="submit" className='bg-[var(--primary-clear)] cursor-pointer' style={{ padding: "0.5rem 1rem", borderRadius: "0 16px 16px 0" }}>
             <FontAwesomeIcon icon={faSearch} color='white' />
           </button>
         </form>
 
-        <nav style={{margin: "0 50px 0 -27dvw"}} className='max-lg:hidden max-sm:hidden'>
+        <nav style={{ margin: "0 50px 0 -27dvw" }} className='max-lg:hidden max-sm:hidden'>
           <ul className='flex list-none gap-4'>
             <li className='flex justify-center items-center'>
               <Link to="/">
                 <FontAwesomeIcon icon={faHouse} size='lg' className='sm:hidden' />
-                <span className='text-[20px]'>Início</span>
+                <span className='text-[20px]' style={{ marginLeft: "5px" }}>Início</span>
               </Link>
             </li>
+            {typeUser === "admin" && (
+              <li className='flex justify-center items-center'>
+                <Link to="/newbook">
+                  <FontAwesomeIcon icon={faPlus} />
+                  <span className='text-[20px]' style={{ marginLeft: "5px" }}>Novo Livro</span>
+                </Link>
+              </li>
+            )}
             <li className='flex justify-center items-center'>
               <button className='button-for-favorites-header' onClick={toggleModal}>
                 <FontAwesomeIcon icon={faHeart} size='lg' className='sm:hidden' />
-                <span className='text-[20px]'>Favoritos</span>
+                <span className='text-[20px]' style={{ marginLeft: "5px" }}>Favoritos</span>
               </button>
             </li>
             <li className='flex justify-center items-center'>
               <button onClick={checkedLogin}>
                 <FontAwesomeIcon icon={faUser} />
-                <span className='text-[20px]'>Perfil</span>
+                <span className='text-[20px]' style={{ marginLeft: "5px" }}>Perfil</span>
               </button>
             </li>
           </ul>

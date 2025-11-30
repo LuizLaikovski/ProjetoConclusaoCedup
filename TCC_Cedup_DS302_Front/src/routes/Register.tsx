@@ -17,10 +17,9 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setConfirmShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [inputTeacher, setInputTeacher] = useState(false);
     const [button, setButton] = useState(true);
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const API_URL = import.meta.env.VITE_API_URL_USER;
+    const API_URL = import.meta.env.VITE_API_URL_USER_REGISTER;
     const navigate = useNavigate();
 
     const saveToDB = async (data: typeof formData) => {
@@ -34,7 +33,6 @@ const Register = () => {
                 setButton(true);
                 return;
             }
-
 
 
             const bodyData = {
@@ -69,8 +67,6 @@ const Register = () => {
                 setButton(true);
                 return;
             }
-
-            console.log(JSON.stringify(bodyData));
             
 
             const response = await fetch(API_URL, {
@@ -101,6 +97,7 @@ const Register = () => {
 
         } catch (error) {
             console.error("🚨 Erro ao salvar usuário:", error);
+
         }
     };
 
@@ -115,11 +112,6 @@ const Register = () => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-
-    const getInputTeacher = () => {
-        setInputTeacher(!inputTeacher);
-
-    }
 
     return (
         <section
@@ -279,46 +271,6 @@ const Register = () => {
                             <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
                         </button>
                     </div>
-
-                    {inputTeacher && (
-                        <>
-                            <div className="w-full flex justify-center">
-                                <input
-                                    type="number"
-                                    id="numCndb"
-                                    name="numCndb"
-                                    value={formData.numCndb}
-                                    className="transition placeholder-gray-400 bg-white rounded-xl text-black w-full"
-                                    style={{
-                                        height: "7vh",
-                                        minHeight: "45px",
-                                        padding: "10px",
-                                        marginBottom: "24px",
-                                        fontSize: "clamp(0.9rem, 2.5vw, 1rem)"
-                                    }}
-                                    placeholder="Digite seu CNDB(Cadastro Nacional de Docentes do Brasil)"
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                        </>
-                    )}
-
-
-                    <div>
-                        <button
-                            className="secondary-button"
-                            style={{ margin: "0 0 25px" }}
-                            onClick={getInputTeacher}
-                        >
-                            Sou Professor
-                        </button>
-                    </div>
-
-
-
-
-
 
                     {errorMessage && (
                         <p

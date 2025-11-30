@@ -55,8 +55,9 @@ const Login = () => {
                 },
                 body: bodyData
             });
+            
 
-            const raw = await response.text();
+            const raw = await response.json();
             let data = null;
 
             try {
@@ -83,16 +84,16 @@ const Login = () => {
             }
 
             const dataUser = {
-                id: data.id,
-                name: data.name,
-                email: data.email,
-                booksFavorited: data.booksFavorited || []
+                id: data.user.id,
+                name: data.user.name,
+                email: data.user.email,
+                typeUser: data.user.type
             };
 
             localStorage.setItem("idUser", dataUser.id);
             localStorage.setItem("nameUser", dataUser.name);
             localStorage.setItem("emailUser", dataUser.email);
-            localStorage.setItem("booksFavorited", JSON.stringify(dataUser.booksFavorited));
+            localStorage.setItem("typeUser", dataUser.typeUser);
 
             navigate("/home");
 

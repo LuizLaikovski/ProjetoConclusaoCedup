@@ -112,12 +112,12 @@ const ModalEditUser = ({ setModal }: ModalEditUserProp) => {
                 </div>
                 <div className="modal-body flex flex-col gap-3 text-black">
                     <input
-                        style={{ padding: "6px" }}
                         type="text"
                         placeholder="Nome"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-600"
+                        style={{ padding: "6px" }}
                     />
                     <input
                         style={{ padding: "6px" }}

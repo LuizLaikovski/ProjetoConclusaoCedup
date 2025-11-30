@@ -19,6 +19,42 @@ export interface Book {
     };
 }
 
+export interface newBook {
+    title: string;
+    path: string;
+    numPages?: number;
+    rating: number;
+    yearPublished: Date | null;
+    description?: string;
+    archive: {
+        src: string;
+        alt: string;
+    };
+    image?: {
+        src: string;
+        alt: string;
+    };
+}
+
+
+export interface EditBook {
+    id: string;
+    title: string;
+    path: string;
+    numPages?: number;
+    yearPublished?: Date | null;
+    description?: string;
+    archive?: {
+        src: string;
+        alt: string;
+    };
+    image?: {
+        src: string;
+        alt: string;
+    };
+}
+
+
 export interface ImageBook {
     id: string;
     src: string;

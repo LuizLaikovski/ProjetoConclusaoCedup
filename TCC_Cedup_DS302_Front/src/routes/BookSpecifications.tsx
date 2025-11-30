@@ -8,6 +8,8 @@ import ModalError from "../components/ModalError";
 import RenderStars from "../components/RenderStars";
 import { Book } from "../interfaces/BookInterfaces";
 import { UserData } from "../interfaces/UserInterfaces";
+import ModalDeleteBook from "../components/ModalDeleteBook";
+import ModalEditBook from "../components/ModalEditBook";
 
 const BookSpecifications = () => {
   const { bookName } = useParams<{ bookName: string }>();
@@ -18,8 +20,11 @@ const BookSpecifications = () => {
   const [loading, setLoading] = useState(true);
   const [modalAssessment, setModalAssessment] = useState(false);
   const [modalError, setModalError] = useState(false);
+  const [modalDeleteBook, setModalDeleteBook] = useState(false);
+  const [modalEditBook, setModalEditBook] = useState(false);
   const [error, setError] = useState("");
   const [isFavorited, setIsFavorite] = useState(false);
+  const typeUser = localStorage.getItem("typeUser");
 
   const API_KEY = import.meta.env.VITE_API_KEY;
   const API_URL = import.meta.env.VITE_API_URL_FAVORITE;
@@ -83,9 +88,7 @@ const BookSpecifications = () => {
         setBook(raw.book);
 
         const authorName = raw.authors?.[0].path || "";
-        console.log(authorName);
 
-        // gera url amigável usando seu normalize
         setPathAuthor(normalize(authorName));
         setNameAuthor(raw.authors?.[0].name);
 
@@ -173,10 +176,10 @@ const BookSpecifications = () => {
     <>
       <Header />
 
-      <main className="min-h-screen flex flex-col justify-center items-center py-10 px-6">
+      <main className="flex flex-col justify-center items-center">
         <section
           className="bg-white w-[90dvw] h-auto rounded-2xl shadow-2xl flex flex-col justify-center items-center lg:flex-row relative overflow-hidden"
-          style={{ padding: "50px" }}
+          style={{ padding: "50px", marginTop: "40px", marginBottom: "30px" }}
           data-aos="flip-up"
         >
           <div className="lg:w-[35%] flex justify-center items-center p-8">
@@ -185,6 +188,7 @@ const BookSpecifications = () => {
                 src={book.image.src}
                 alt={book.image.alt}
                 className="rounded-lg shadow-xl w-[250px] lg:w-[300px]"
+                style={{margin: '0 0 30px'}}
               />
             ) : (
               <div className="w-[250px] h-[350px] bg-gray-200 rounded-lg flex items-center justify-center">
@@ -203,7 +207,7 @@ const BookSpecifications = () => {
                   <RouteButton
                     path={`/perfilAutor/${pathAuthor}`}
                     classe="text-[20px] cursor-pointer hover:shadow-2xl transition px-3 py-1 rounded-full bg-gray-200"
-                    style={{padding: "5px 15px 5px 15px"}}
+                    style={{ padding: "5px 15px 5px 15px" }}
                     label={<h1>{nameAuthor}</h1>}
                   />
                 )}
@@ -244,9 +248,10 @@ const BookSpecifications = () => {
             </p>
           </div>
 
+          {/* Menu de desktop */}
           <div className="flex justify-center items-center">
             <div
-              className="hidden lg:flex h-[40dvh] w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl"
+              className="hidden lg:flex h-auto w-[20dvw] flex-col gap-4 right-6 top-1/3 shadow-2xl"
               style={{ marginLeft: "7dvw", padding: "20px" }}
               data-aos="fade-up"
             >
@@ -264,16 +269,53 @@ const BookSpecifications = () => {
                   ? "Remover dos Favoritos"
                   : "Adicionar aos Favoritos"}
               </button>
+
+              {typeUser === "admin" && (
+                <button
+                  onClick={() => setModalEditBook(true)}
+                  className="primary-button">
+                  Editar Livro
+                </button>
+              )}
+
+              {typeUser === "admin" && (
+                <>
+                  <button
+                    onClick={() => setModalDeleteBook(true)}
+                    className="primary-button">
+                    Excluir Livro
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </section>
-
-        <div className="sm:hidden flex h-[41dvh] w-[80dvw] flex-col gap-4">
-          <a className="primary-button text-center">Leia Agora</a>
+        
+        {/* Menu mobile */}
+        <div className="sm:hidden flex w-[80dvw] flex-col gap-4">
+          <a className="primary-button text-center" href={book.archive.src} target="blank">Leia Agora</a>
 
           <button className="primary-button" onClick={toggleModal}>
             Avaliar
           </button>
+
+          {typeUser === "admin" && (
+            <button
+              onClick={() => setModalEditBook(true)}
+              className="primary-button">
+              Editar Livro
+            </button>
+          )}
+
+          {typeUser === "admin" && (
+            <>
+              <button
+                onClick={() => setModalDeleteBook(true)}
+                className="primary-button">
+                Excluir Livro
+              </button>
+            </>
+          )}
 
           <button
             className={isFavorited ? "secondary-button" : "primary-button"}
@@ -283,7 +325,8 @@ const BookSpecifications = () => {
               ? "Remover dos Favoritos"
               : "Adicionar aos Favoritos"}
           </button>
-          <div className="h-[6dvh]"></div>
+
+          <div className="h-[10dvh]"></div>
         </div>
 
         {modalAssessment && (
@@ -294,8 +337,24 @@ const BookSpecifications = () => {
           <ModalError setModal={setModalError} error={error} />
         )}
 
-        <Footer />
+        {modalDeleteBook && (
+          <ModalDeleteBook
+            setModal={setModalDeleteBook}
+            bookTitle={book.title}
+            bookId={book.id}
+          />
+        )}
+
+        {modalEditBook && (
+          <ModalEditBook
+            setModal={setModalEditBook}
+            bookId={book.id}
+            bookTitle={book.title}
+          />
+        )}
+
       </main>
+      <Footer />
     </>
   );
 };

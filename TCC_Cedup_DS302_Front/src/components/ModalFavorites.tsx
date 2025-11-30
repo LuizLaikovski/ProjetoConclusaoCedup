@@ -87,7 +87,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
     return (
         <>
             <div className="modal-overlay" onClick={closeModal}>
-                <div className="modal-content" data-aos="zoom-in-up" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-content w-[80vw] max-w-[500px]" data-aos="zoom-in-up" onClick={(e) => e.stopPropagation()}>
                     <div className="modal-header">
                         <h2>Seus Livros Favoritos</h2>
                         <button className="close-button" onClick={closeModal}>
@@ -135,7 +135,7 @@ const ModalFavorites = ({ setOpen }: ModalProps) => {
                     <div className="flex justify-center items-center" style={{ marginBottom: "20px" }}>
                         <div className="favorites-count">
                             {!loading && !error && (
-                                <span>{books.length} {books.length === 1 ? 'livro' : 'livros'} favorito(s)</span>
+                                <span className="text-black">{books.length} {books.length === 1 ? 'livro' : 'livros'} favorito(s)</span>
                             )}
                         </div>
                         <button className="close-modal-button" onClick={closeModal} style={{ marginLeft: "20px" }}>

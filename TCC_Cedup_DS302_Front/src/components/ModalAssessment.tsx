@@ -16,7 +16,6 @@ const ModalAssessment = ({ setModalAssessment, idBook }: ModalAssessmentProp) =>
 
     const handleRatingClick = async (value: number) => {
         setRating(value);
-        
         try {
             const response = await fetch(`${API_URL}`, {
                 method: "POST",
@@ -30,17 +29,16 @@ const ModalAssessment = ({ setModalAssessment, idBook }: ModalAssessmentProp) =>
             if (!response.ok) {
                 throw new Error(`Erro HTTP: ${response.status}`);
             }
+
+            location.reload();
         } catch (err) {
             console.error("Erro ao enviar nota:", err);
-        } finally {
-            setModalAssessment(false);
-            location.reload();
         }
     };
 
     return (
         <div className="modal-overlay" onClick={() => setModalAssessment(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()} data-aos="zoom-in-up">
+            <div className="modal-content w-[75vw]" onClick={(e) => e.stopPropagation()} data-aos="zoom-in-up">
 
                 <div
                     className="stars-container flex gap-2.5 justify-center mt-5"

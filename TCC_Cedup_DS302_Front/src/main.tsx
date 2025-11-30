@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import './App.css';
 import App from './App.tsx';
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Login from './routes/Login.tsx';
@@ -12,6 +13,7 @@ import ProfileUser from './routes/ProfileUser.tsx';
 import ProfileAutor from './routes/ProfileAuthor.tsx';
 import Register from './routes/Register.tsx';
 import SearchResult from './routes/SearchResult.tsx';
+import NewBook from './routes/NewBook.tsx';
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/home" replace /> },
@@ -25,6 +27,7 @@ const router = createBrowserRouter([
     ]
   },
   { path: "/login", element: <Login /> },
+  { path: "/newBook", element: <NewBook /> },
   { path: "/cadastro", element: <Register /> },
   { path: "/search/:bookName", element: <SearchResult /> },
   { path: "/perfil", element: <ProfileUser /> },

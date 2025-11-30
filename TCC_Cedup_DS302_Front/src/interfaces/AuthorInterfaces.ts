@@ -62,3 +62,11 @@ export interface Author {
 export interface Authors {
     author: Author[];
 }
+
+export interface newAuthor {
+    name: string;
+    yearBorn?: Date | null;
+    yearDeath?: Date | null;
+    description?: string;
+    path?: string;
+}
