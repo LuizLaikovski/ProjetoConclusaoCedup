@@ -1,19 +1,19 @@
-import { StrictMode } from 'react';
+import { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import './App.css';
 import App from './App.tsx';
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import Login from './routes/Login.tsx';
-import ErrorPage from './routes/ErrorPage.tsx';
-import Home from './routes/Home.tsx';
-import Catalog from './routes/Catalog.tsx';
-import BookSpecifications from './routes/BookSpecifications.tsx';
-import ProfileUser from './routes/ProfileUser.tsx';
-import ProfileAutor from './routes/ProfileAuthor.tsx';
-import Register from './routes/Register.tsx';
-import SearchResult from './routes/SearchResult.tsx';
-import NewBook from './routes/NewBook.tsx';
+import Loader from './components/Loader.tsx';
+const Login = lazy(() => import('./routes/Login.tsx'));
+const ErrorPage = lazy(() => import('./routes/ErrorPage.tsx'));
+const Home = lazy(() => import("./routes/Home"));
+const Catalog = lazy(() => import('./routes/Catalog.tsx'));
+const BookSpecifications = lazy(() => import('./routes/BookSpecifications.tsx'));
+const ProfileUser = lazy(() => import('./routes/ProfileUser.tsx'));
+const ProfileAutor = lazy(() => import('./routes/ProfileAuthor.tsx'));
+const Register = lazy(() => import('./routes/Register.tsx'));
+const SearchResult = lazy(() => import('./routes/SearchResult.tsx'));
+const NewBook = lazy(() => import('./routes/NewBook.tsx'));
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/home" replace /> },
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  <Suspense fallback={<Loader />}>
     <RouterProvider router={router} />
-  </StrictMode>
+  </Suspense>
 );

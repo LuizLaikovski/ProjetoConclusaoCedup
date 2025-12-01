@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleUser, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import ModalForgotPassword from '../components/ModalForgotPassword';
@@ -55,7 +55,7 @@ const Login = () => {
                 },
                 body: bodyData
             });
-            
+
 
             const raw = await response.json();
             let data = null;
@@ -90,7 +90,7 @@ const Login = () => {
                 typeUser: data.user.type
             };
 
-            localStorage.setItem("idUser", dataUser.id);
+            localStorage.setItem("idUser", dataUser.id.toString());
             localStorage.setItem("nameUser", dataUser.name);
             localStorage.setItem("emailUser", dataUser.email);
             localStorage.setItem("typeUser", dataUser.typeUser);
@@ -112,7 +112,7 @@ const Login = () => {
     return (
         <>
             <section className="flex justify-center items-center">
-                <div className='flex justify-center items-center w-[40dvw] h-[85dvh]' style={{marginTop: "10dvh"}}>
+                <div className='flex justify-center items-center w-[40dvw] h-[85dvh]' style={{ marginTop: "10dvh" }}>
                     <div
                         className="box bg-[var(--primary)] flex justify-center items-center z-50 rounded-[50%]"
                         style={{
@@ -122,7 +122,13 @@ const Login = () => {
                         }}
                         data-aos="zoom-in-down"
                     >
-                        <FontAwesomeIcon icon={faCircleUser} size="5x" color="white" />
+                        <Link to="/">
+                            <img
+                            src="./logoClickReady.png"
+                            alt=""
+                            className='h-[15vh]'
+                        />
+                        </Link>
                     </div>
 
                     <div
@@ -138,7 +144,7 @@ const Login = () => {
                                     id="email"
                                     name="email"
                                     className="bg-white rounded-xl h-[7vh] text-black placeholder-gray-400 transition w-full"
-                                    style={{padding: "10px"}}
+                                    style={{ padding: "10px" }}
                                     placeholder="Digite seu Email"
                                     required
                                     value={formData.email}
@@ -152,7 +158,7 @@ const Login = () => {
                                     id="password"
                                     name="password"
                                     className="bg-white rounded-xl h-[7vh] w-full text-black placeholder-gray-400"
-                                    style={{padding: "10px"}}
+                                    style={{ padding: "10px" }}
                                     placeholder="Digite sua Senha"
                                     required
                                     value={formData.password}
@@ -163,7 +169,7 @@ const Login = () => {
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
                                     className="absolute right-4 top-[50%] text-gray-500 hover:text-gray-700 eyesPassword"
-                                    style={{transform: "translateY(-50%)"}}
+                                    style={{ transform: "translateY(-50%)" }}
                                 >
                                     <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                                 </button>

@@ -57,6 +57,7 @@ input::placeholder {
     border: 2px var(--primary-clear) solid;
     color: var(--primary-clear);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
 }
 
 .secondary-button {
@@ -76,4 +77,5 @@ input::placeholder {
 .secondary-button:hover {
     background-color: var(--primary-clear);
     color: white;
+    border-radius: 25px;
 }

@@ -18,6 +18,8 @@ const BookImage = ({ src, alt, classe}: BookImageProps) => {
                 className={`images-main images-catalog ${classe} rounded-lg`}
                 onError={() => setImgSrc('/Cover/default-book.jpg')}
                 style={{height: "25dvh"}}
+                rel="preload"
+                loading="lazy"
             />
         );
     };

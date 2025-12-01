@@ -10,6 +10,8 @@ import { Book } from "../interfaces/BookInterfaces";
 import { UserData } from "../interfaces/UserInterfaces";
 import ModalDeleteBook from "../components/ModalDeleteBook";
 import ModalEditBook from "../components/ModalEditBook";
+import { normalize } from "../dto/normalizePath";
+import Loader from "../components/Loader";
 
 const BookSpecifications = () => {
   const { bookName } = useParams<{ bookName: string }>();
@@ -41,16 +43,6 @@ const BookSpecifications = () => {
       setModalAssessment(!modalAssessment);
     }
   };
-
-  const normalize = (str: any) => {
-    if (typeof str !== "string") return "";
-    return str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\s+/g, "-")
-      .toLowerCase();
-  };
-
 
   useEffect(() => {
     const loadData = async () => {
@@ -154,9 +146,7 @@ const BookSpecifications = () => {
 
   if (loading)
     return (
-      <div className="preloader">
-        <div className="loader h-[75px] w-[75px]"></div>
-      </div>
+      <Loader />
     );
 
   if (!book)
@@ -188,7 +178,8 @@ const BookSpecifications = () => {
                 src={book.image.src}
                 alt={book.image.alt}
                 className="rounded-lg shadow-xl w-[250px] lg:w-[300px]"
-                style={{margin: '0 0 30px'}}
+                style={{ margin: '0 0 30px' }}
+                rel="preload"
               />
             ) : (
               <div className="w-[250px] h-[350px] bg-gray-200 rounded-lg flex items-center justify-center">
@@ -290,7 +281,7 @@ const BookSpecifications = () => {
             </div>
           </div>
         </section>
-        
+
         {/* Menu mobile */}
         <div className="sm:hidden flex w-[80dvw] flex-col gap-4">
           <a className="primary-button text-center" href={book.archive.src} target="blank">Leia Agora</a>
