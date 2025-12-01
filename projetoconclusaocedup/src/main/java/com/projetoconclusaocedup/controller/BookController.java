@@ -26,7 +26,7 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody BookAuthorsDTO bookAuthorsDTO){
+    public ResponseEntity<?> createWithAuthors(@RequestBody BookAuthorsDTO bookAuthorsDTO){
         try {
             return ResponseEntity.ok(bookService.createWithAuthors(bookAuthorsDTO));
         } catch (RuntimeException e) {

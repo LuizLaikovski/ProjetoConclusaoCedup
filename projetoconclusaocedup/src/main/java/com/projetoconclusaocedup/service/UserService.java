@@ -4,6 +4,7 @@ import com.projetoconclusaocedup.config.PasswordEncoder;
 import com.projetoconclusaocedup.dto.BookSearchDTO;
 import com.projetoconclusaocedup.dto.LoginDTO;
 import com.projetoconclusaocedup.dto.UpdatePasswordDTO;
+import com.projetoconclusaocedup.dto.UserFavoritesDTO;
 import com.projetoconclusaocedup.model.Book;
 import com.projetoconclusaocedup.model.User;
 import com.projetoconclusaocedup.repository.UserRepository;
@@ -98,16 +99,22 @@ public class UserService {
     public User editOldPassword(UpdatePasswordDTO user){
         try {
             User existingUser = login(user.getEmail(), user.getOldPassword());
-            LoginDTO newPasword = null;
+
             if(existingUser != null){
                 if(user.getNewPassword() != null && !user.getNewPassword().trim().isBlank()){
-                    existingUser.setPassword(user.getNewPassword());
+                    String encryptedPassword = passwordEncoder.encrypt(user.getNewPassword().trim());
+                    if(user.getOldPassword().equals(user.getNewPassword())){
+                        String msg = "A senha nova não pode ser igual a antiga!";
+                        throw new RuntimeException(msg);
+                    }
+                    if(!existingUser.getPassword().equals(encryptedPassword)){
+                        existingUser.setPassword(encryptedPassword);
+                    }
                 }
-
-                newPasword = new LoginDTO(existingUser.getEmail(), existingUser.getPassword());
+                userRepository.save(existingUser);
             }
 
-            return editPassword(newPasword);
+            return existingUser;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -133,8 +140,17 @@ public class UserService {
 
     public User get(String id){
         try {
-            List<BookSearchDTO> booksFavorited = new ArrayList<>();
             return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id: "+id+" não encontrado"));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public UserFavoritesDTO getUserFavorites(String id){
+        try {
+            List<BookSearchDTO> booksFavorited = new ArrayList<>();
+            User user  = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário de id: "+id+" não encontrado"));
+            return new UserFavoritesDTO(user, booksFavorited);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

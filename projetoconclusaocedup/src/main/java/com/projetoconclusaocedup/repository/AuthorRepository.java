@@ -9,5 +9,8 @@ import java.util.List;
 
 public interface AuthorRepository extends MongoRepository<Author, String> {
     @Query("{ 'path': ?0 }")
+    List<Author> findByPath(String query);
+
+    @Query("{ 'path': ?0 }")
     Author getByPath(String query);
 }

@@ -113,7 +113,7 @@ public class UserController {
 
                 userFavorites.add(new UserFavoritesDTO(user, booksFavorited));
             }
-            
+
             return ResponseEntity.ok(userFavorites);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

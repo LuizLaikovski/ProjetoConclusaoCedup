@@ -2,7 +2,6 @@ package com.projetoconclusaocedup.service;
 
 import com.projetoconclusaocedup.dto.AuthorBooksDTO;
 import com.projetoconclusaocedup.model.Book;
-import com.projetoconclusaocedup.model.Image;
 import com.projetoconclusaocedup.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,13 @@ public class AuthorService {
 
     public Author create(Author author){
         try {
+            Author existingAuthor = exists(author.getPath());
+
+            if (existingAuthor != null){
+                String msg = "Já existe um autor com esse nome.";
+                throw new RuntimeException(msg);
+            }
+
             if(author.getName() != null && !author.getName().trim().isBlank()){
                 author.setName(author.getName().trim());
             }
@@ -73,6 +79,14 @@ public class AuthorService {
         }
     }
 
+    public Author exists(String authorPath){
+        try {
+            return authorRepository.getByPath(authorPath);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public Author get(String id){
         try {
             return authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Autor de id: "+id+" não encontrado"));
@@ -85,18 +99,14 @@ public class AuthorService {
         try {
             Author author = authorRepository.getByPath(path);
             List<Book> books = new ArrayList<>();
-            Image imageBook = null;
 
             if(author.getBooks() != null && !author.getBooks().isEmpty()){
                 for(String idBook : author.getBooks()){
                     books.add(bookRepository.findById(idBook).orElseThrow(() -> new RuntimeException("Livro de id: "+idBook+" não encontrado")));
                 }
-                for(Book book : books){
-                    imageBook = book.getImage();
-                }
             }
 
-            return new AuthorBooksDTO(author, books, imageBook);
+            return new AuthorBooksDTO(author, books);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
