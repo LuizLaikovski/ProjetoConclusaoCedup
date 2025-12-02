@@ -79,6 +79,14 @@ public class AuthorService {
         }
     }
 
+    public List<Author> getAll(){
+        try {
+            return authorRepository.findAll();
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public Author exists(String authorPath){
         try {
             return authorRepository.getByPath(authorPath);
@@ -90,6 +98,14 @@ public class AuthorService {
     public Author get(String id){
         try {
             return authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Autor de id: "+id+" não encontrado"));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public Author findByPath(String path){
+        try {
+            return authorRepository.getByPath(path);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

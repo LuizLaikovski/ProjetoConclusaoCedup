@@ -61,7 +61,11 @@ public class BookService {
                 bookAuthorsDTO.getBook().getImage().getAlt().trim()));
 
         for(Author author : bookAuthorsDTO.getAuthors()){
-            Author newAuthor = authorService.create(author);
+            Author newAuthor = authorService.findByPath(author.getPath());
+            if (newAuthor == null) {
+                newAuthor = authorService.create(author);
+            }
+
             newBook.getAuthors().add(newAuthor.getId());
             newAuthor.getBooks().add(newBook.getId());
             authorService.update(newAuthor.getId(), newAuthor);
