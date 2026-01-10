@@ -102,7 +102,7 @@ const ModalEditBook = ({ setModal, bookId, bookTitle }: ModalEditBookProps) => {
 
     return (
         <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={closeModal}>
-            <div className="modal-content bg-white rounded-2xl shadow-xl w-[90dvw] p-6 relative" data-aos="zoom-in-up" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content rounded-2xl shadow-xl w-[90dvw] p-6 relative" data-aos="zoom-in-up" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header flex justify-between items-center mb-4">
                     <h2>Editar <strong>{bookTitle}</strong></h2>
                     <button onClick={closeModal}>

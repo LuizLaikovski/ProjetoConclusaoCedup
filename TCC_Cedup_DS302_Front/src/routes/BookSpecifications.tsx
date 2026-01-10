@@ -180,6 +180,8 @@ const BookSpecifications = () => {
                 className="rounded-lg shadow-xl w-[250px] lg:w-[300px]"
                 style={{ margin: '0 0 30px' }}
                 rel="preload"
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <div className="w-[250px] h-[350px] bg-gray-200 rounded-lg flex items-center justify-center">

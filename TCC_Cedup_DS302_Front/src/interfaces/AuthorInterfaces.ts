@@ -23,7 +23,7 @@ export interface ApiBook {
     rating?: string | number;
     description?: string;
     authors: string[];
-    archive?: ApiImage;
+    image?: ApiImage;
 }
 
 export interface ApiResponse {
@@ -35,10 +35,9 @@ export interface ApiResponse {
 
 export interface BookForUI {
     id: string;
-    titulo: string;
+    title: string;
     path: string;
-    arquivo: { src?: string; alt?: string };
-    avaliacao: number;
+    image: { src: string; alt: string };
 }
 
 export interface ImageAuthor {

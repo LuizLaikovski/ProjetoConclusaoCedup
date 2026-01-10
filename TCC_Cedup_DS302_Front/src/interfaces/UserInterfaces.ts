@@ -7,3 +7,10 @@ export interface UserData {
     password: string;
     booksFavorited: FavoriteBook[];
 }
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    typeUser: "admin" | "user";
+}

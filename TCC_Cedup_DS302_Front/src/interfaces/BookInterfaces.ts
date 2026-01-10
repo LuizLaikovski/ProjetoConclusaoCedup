@@ -1,3 +1,5 @@
+import { newAuthor } from "./AuthorInterfaces";
+
 export interface Book {
     id: string;
     title: string;
@@ -80,4 +82,9 @@ export interface BookSearch {
         src: string;
         alt: string;
     };
+}
+
+export interface NewBookAPI {
+    book: newBook;
+    authors: newAuthor[];
 }

@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import ModalFavorites from './ModalFavorites';
 import { normalize } from '../dto/normalizePath';
+import { useSelector } from 'react-redux';
+import rootReducer from '../redux/root-reducer';
 
 const Header = () => {
   const [searchBook, setSearchBook] = useState({ book: '' });
@@ -12,6 +14,10 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const typeUser = localStorage.getItem("typeUser");
   const navigate = useNavigate();
+  const { currentUser } = useSelector(rootReducer => rootReducer.userReducer);
+
+  console.log(currentUser);
+  
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,7 +53,7 @@ const Header = () => {
 
   return (
     <header
-      className="bg-[var(--primary)] w-screen h-[5.5rem] relative top-0 z-50 text-white flex items-center justify-between px-4 
+      className="bg-[var(--primary)] w-full h-[5.5rem] relative top-0 z-50 text-white flex items-center justify-between px-4 
             max-lg:flex-col max-lg:gap-4 max-lg:py-4"
       data-aos="fade-down"
     >

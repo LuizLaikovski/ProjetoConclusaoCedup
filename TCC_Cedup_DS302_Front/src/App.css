@@ -2,16 +2,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Itim&family=Pragati+Narrow:wght@400;700&display=swap');
 
 :root {
-    --primary: #003631;
-    --primary-dark: #001d1a;
-    --primary-clear: #014740;
-    --secondary: #ffeea8b2;
-    --secondary-dark: #837852;
-    --secondary-clear: #fff4c9;
-    --tertiary: #4d5c60;
-    --yellow: #FFEA00;
-    --white: rgba(255, 255, 255, 0.87);
+    /* PALETA CLARA – suave e equilibrada */
+    --primary: #005048;
+    --primary-dark: #003d37;
+    --primary-clear: #0a6c61;
+
+    --secondary: #ffe9a8;
+    /* amarelo suave */
+    --secondary-dark: #c3b177;
+    /* contraste natural */
+    --secondary-clear: #fff6d1;
+    /* tom pastel claro */
+
+    --tertiary: #556b70;
+    /* cinza azulado neutro */
+    --yellow: #ffd900;
+    /* mais suave que #FFEA00 */
+    --white: #ffffff;
+    /* branco consistente */
 }
+
+
 
 .testB {
     border: red solid 1px;
@@ -23,11 +34,11 @@
 }
 
 
-body {
-    background-color: var(--secondary);
+html, body {
+    background-color: var(--secondary-clear);
     overflow-x: hidden;
     margin: 0 0 0 0;
-    padding:  0 0 0 0;
+    padding: 0 0 0 0;
     font-family: "Pragati Narrow", sans-serif;
 }
 

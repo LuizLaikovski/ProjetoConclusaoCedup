@@ -1,14 +1,9 @@
 import { useState } from "react";
-import { newBook } from "../interfaces/BookInterfaces";
+import { NewBookAPI } from "../interfaces/BookInterfaces";
 import { newAuthor } from "../interfaces/AuthorInterfaces";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-
-interface NewBookAPI {
-    book: newBook;
-    authors: newAuthor[];
-}
 
 const normalize = (str: any) => {
     if (typeof str !== "string") return "";
@@ -28,13 +23,10 @@ export default function NewBookForm() {
     const [numPages, setNumPages] = useState<number | undefined>(undefined);
     const [yearPublished, setYearPublished] = useState<Date | null>(null);
     const [description, setDescription] = useState("");
-
     const [imageSrc, setImageSrc] = useState("");
     const [imageAlt, setImageAlt] = useState("");
-
     const [archiveSrc, setArchiveSrc] = useState("");
     const [archiveAlt, setArchiveAlt] = useState("");
-
     const [authorsData, setAuthorsData] = useState<newAuthor>({
         name: "",
         yearBorn: null,
@@ -42,9 +34,7 @@ export default function NewBookForm() {
         description: "",
         path: ""
     });
-
     const [authors, setAuthors] = useState<newAuthor[]>([]);
-
     const API_URL = import.meta.env.VITE_API_URL_CREATE_BOOK;
     const API_KEY = import.meta.env.VITE_API_KEY;
 

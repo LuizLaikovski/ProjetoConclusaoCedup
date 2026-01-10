@@ -2,8 +2,12 @@ import { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import './App.css';
+import './index.css';
 import App from './App.tsx';
 import Loader from './components/Loader.tsx';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
+import { Provider } from 'react-redux';
+import store from './redux/store.ts';
 const Login = lazy(() => import('./routes/Login.tsx'));
 const ErrorPage = lazy(() => import('./routes/ErrorPage.tsx'));
 const Home = lazy(() => import("./routes/Home"));
@@ -30,8 +34,8 @@ const router = createBrowserRouter([
   { path: "/newBook", element: <NewBook /> },
   { path: "/cadastro", element: <Register /> },
   { path: "/search/:bookName", element: <SearchResult /> },
-  { path: "/perfil", element: <ProfileUser /> },
-  { path: "/perfilAutor/:authorName", element: <ProfileAutor /> },
+  { path: "/perfil", element: (<ProtectedRoute><ProfileUser /></ProtectedRoute>) },
+  { path: "/perfilAutor/:pathAuthor", element: <ProfileAutor /> },
   {
     path: "/catalogo",
     element: <App />,
@@ -46,6 +50,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <Suspense fallback={<Loader />}>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </Suspense>
 );

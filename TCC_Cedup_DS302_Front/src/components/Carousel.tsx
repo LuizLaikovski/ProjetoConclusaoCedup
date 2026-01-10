@@ -1,138 +1,152 @@
-import { useState, useEffect, useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import RouteButton from './RouteButton';
 import BookImage from './BookImage';
 import type { CSSProperties } from '@mui/material';
 import { Book } from '../interfaces/BookInterfaces';
 
-
 interface CarouselProps {
+  books: Book[];
   minBooks: number;
   maxBooks: number;
   classe?: string;
   styles?: CSSProperties;
 }
 
-const Carousel = ({ minBooks, maxBooks, classe, styles }: CarouselProps) => {
-  const API_KEY = import.meta.env.VITE_API_KEY;
-  const API_URL = import.meta.env.VITE_API_URL_CATALOG;
-  const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
+const Carousel = ({ books, minBooks, maxBooks, classe, styles }: CarouselProps) => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [showControls, setShowControls] = useState(false);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await fetch(
-          API_URL,
-          {
-            method: "GET",
-            headers: {
-              "X-API-Key": API_KEY,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+  let isDown = false;
+  let startX = 0;
+  let scrollLeftPos = 0;
 
-        if (!response.ok) {
-          throw new Error("Erro ao carregar livros: " + response.statusText);
-        }
+  const visibleBooks = books.slice(minBooks, maxBooks);
 
-        const data = await response.json();
+  const loopBooks = [...visibleBooks, ...visibleBooks, ...visibleBooks];
 
+  const startDrag = (e: any) => {
+    isDown = true;
+    const carousel = carouselRef.current;
+    if (!carousel) return;
 
-        if (Array.isArray(data)) {
-          setBooks(data);
-        } else {
-          console.warn("Formato inesperado da resposta:", data);
-          setBooks([]);
-        }
+    startX = e.pageX || e.touches?.[0].pageX;
+    scrollLeftPos = carousel.scrollLeft;
+  };
 
+  const moveDrag = (e: any) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const carousel = carouselRef.current;
+    if (!carousel) return;
 
-      } catch (error) {
-        console.error("Erro ao buscar capas:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const x = e.pageX || e.touches?.[0].pageX;
+    const walk = (x - startX) * 1.1;
+    carousel.scrollLeft = scrollLeftPos - walk;
 
-    fetchBooks();
-  }, [API_KEY, API_URL]);
+    handleLooping();
+  };
+
+  const stopDrag = () => {
+    isDown = false;
+  };
 
   const scrollLeft = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-    }
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    carousel.scrollBy({ left: -300, behavior: 'smooth' });
+    setTimeout(handleLooping, 350);
   };
 
   const scrollRight = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    carousel.scrollBy({ left: 300, behavior: 'smooth' });
+    setTimeout(handleLooping, 350);
+  };
+
+  const handleLooping = () => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const totalWidth = carousel.scrollWidth;
+    const singleWidth = totalWidth / 3;
+
+    if (carousel.scrollLeft >= singleWidth * 2) {
+      carousel.scrollLeft = singleWidth;
+    }
+
+    if (carousel.scrollLeft <= 0) {
+      carousel.scrollLeft = singleWidth;
     }
   };
 
-  if (loading) {
-    return (
-      <>
-        <div className="flex justify-center items-center" style={{ margin: "30px" }}>
-          <div className="loader h-[50px] w-[50px]"></div>
-        </div>
-      </>
-    );
-  }
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (carousel) {
+      const singleWidth = carousel.scrollWidth / 3;
+      carousel.scrollLeft = singleWidth;
+    }
+  }, [visibleBooks.length]);
 
-  if (books.length === 0) {
+  if (!visibleBooks.length) {
     return <div className="text-center py-8">Nenhum livro disponível</div>;
   }
 
   return (
     <div
-      className={`relative w-full max-w-full mx-auto my-8 px-8 ${classe}`}
+      className={`relative w-full overflow-hidden my-8 px-4 ${classe}`}
       style={styles}
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}
     >
-      <div className="carrousel relative h-[32.5dvh] overflow-hidden">
+      <div className="relative h-[32.5dvh] overflow-hidden">
 
         <button
           onClick={scrollLeft}
-          className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-black bg-opacity-70 text-white rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute text-white left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-opacity-70 rounded-full 
+            flex items-center justify-center transition-opacity duration-300 opacity-100 max-lg:opacity-100`}
           style={{ backgroundColor: 'var(--primary-clear)' }}
-          aria-label="Scroll left"
         >
           <span className="text-2xl font-bold">&#8249;</span>
         </button>
 
-
         <div
           ref={carouselRef}
-          className="flex overflow-x-hidden scrollbar-hide space-x-4 py-4 px-2"
-          style={{ scrollSnapType: 'x mandatory' }}
+          className="flex space-x-4 py-4 px-2 overflow-x-scroll overflow-y-hidden scrollbar-none select-none touch-pan-y"
+          onScroll={handleLooping}
+          onMouseDown={startDrag}
+          onMouseMove={moveDrag}
+          onMouseUp={stopDrag}
+          onMouseLeave={stopDrag}
+          onTouchStart={startDrag}
+          onTouchMove={moveDrag}
+          onTouchEnd={stopDrag}
         >
-          {books.slice(minBooks, maxBooks).map((book) => (
+
+          {loopBooks.map((book, i) => (
             <div
-              key={book.id}
-              data-aos="zoom-in-right"
-              className="shrink-0 w-auto rounded-2xl overflow-hidden transition-transform hover:scale-105 hover:z-10"
-              style={{ scrollSnapAlign: 'start', padding: "10px" }}
+              key={`${book.id}-${i}`}
+              className="shrink-0 w-auto rounded-2xl transition-transform hover:scale-105 hover:z-10"
+              style={{ scrollSnapAlign: 'start', padding: '10px' }}
             >
               <RouteButton
-                img={<BookImage src={book.image.src} alt={book.archive?.alt} classe='w-[136px]' />}
+                img={<BookImage src={book.image.src} alt={book.archive?.alt} classe="h-[25dvh]" />}
                 path={`/catalogo/livro/${book.path}`}
               />
             </div>
           ))}
         </div>
 
-        {/* Botão direito */}
         <button
           onClick={scrollRight}
           className={`absolute text-white right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-opacity-70 rounded-full flex items-center justify-center transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
           style={{ backgroundColor: 'var(--primary-clear)' }}
-          aria-label="Scroll right"
         >
           <span className="text-2xl font-bold">&#8250;</span>
         </button>
+
       </div>
     </div>
   );
