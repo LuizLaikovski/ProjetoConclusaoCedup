@@ -10,12 +10,14 @@ interface ModalAssessmentProp {
 const ModalAssessment = ({ setModalAssessment, idBook }: ModalAssessmentProp) => {
     const [rating, setRating] = useState<number>(0);
     const [hover, setHover] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const API_KEY = import.meta.env.VITE_API_KEY;
     const API_URL = import.meta.env.VITE_API_URL_RATE;
 
     const handleRatingClick = async (value: number) => {
         setRating(value);
+        setLoading(true);
         try {
             const response = await fetch(`${API_URL}`, {
                 method: "POST",
@@ -40,9 +42,18 @@ const ModalAssessment = ({ setModalAssessment, idBook }: ModalAssessmentProp) =>
         <div className="modal-overlay" onClick={() => setModalAssessment(false)}>
             <div className="modal-content w-[75vw]" onClick={(e) => e.stopPropagation()} data-aos="zoom-in-up">
 
+                {loading && (
+                    <div
+                        className="preloader"
+                    >
+                        <div className="loader h-10 w-10"></div>
+                    </div>
+
+                )}
+
                 <div
-                    className="stars-container flex gap-2.5 justify-center mt-5"
-                    style={{padding: "20px"}}
+                    className={`stars-container flex gap-2.5 justify-center mt-5 ${loading ? "hidden" : ""}`}
+                    style={{ padding: "20px" }}
                 >
                     {[1, 2, 3, 4, 5].map((value) => (
                         <span

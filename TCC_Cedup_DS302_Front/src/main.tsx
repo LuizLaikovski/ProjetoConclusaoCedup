@@ -6,7 +6,6 @@ import './index.css';
 import App from './App.tsx';
 import Loader from './components/Loader.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
-import { Provider } from 'react-redux';
 import store from './redux/store.ts';
 const Login = lazy(() => import('./routes/Login.tsx'));
 const ErrorPage = lazy(() => import('./routes/ErrorPage.tsx'));
@@ -50,8 +49,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <Suspense fallback={<Loader />}>
-    <Provider store={store}>
       <RouterProvider router={router} />
-    </Provider>
   </Suspense>
 );

@@ -4,8 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import ModalFavorites from './ModalFavorites';
 import { normalize } from '../dto/normalizePath';
-import { useSelector } from 'react-redux';
-import rootReducer from '../redux/root-reducer';
 
 const Header = () => {
   const [searchBook, setSearchBook] = useState({ book: '' });
@@ -13,11 +11,7 @@ const Header = () => {
   const asideRef = useRef<HTMLDivElement>(null);
   const [showModal, setShowModal] = useState(false);
   const typeUser = localStorage.getItem("typeUser");
-  const navigate = useNavigate();
-  const { currentUser } = useSelector(rootReducer => rootReducer.userReducer);
-
-  console.log(currentUser);
-  
+  const navigate = useNavigate();  
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -74,7 +68,7 @@ const Header = () => {
         <form
           onSubmit={handleSubmit}
           className="flex items-center w-full max-w-[500px] mx-auto rounded-xl text-black 
-              max-lg:order-1"
+              max-lg:order-1 shadow-2xl"
         >
           <input
             type="text"
