@@ -46,10 +46,7 @@ public class BookController {
     @DeleteMapping("/b={id}")
     public ResponseEntity<?> deleteById(@PathVariable String id){
         try {
-            bookService.deleteById(id);
-
-            String msg = "Livro de id: "+id+" deletado com sucesso";
-            return ResponseEntity.ok(msg);
+            return ResponseEntity.ok(bookService.deleteById(id));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

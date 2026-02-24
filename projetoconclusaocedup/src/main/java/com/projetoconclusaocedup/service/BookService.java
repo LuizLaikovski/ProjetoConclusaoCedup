@@ -152,11 +152,12 @@ public class BookService {
         }
     }
 
-    public void deleteById(String id){
+    public String deleteById(String id){
         try {
             Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro de id: "+id+" não encontrado"));
-
             bookRepository.delete(book);
+
+            return "Livro de id: "+id+" deletado com sucesso";
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

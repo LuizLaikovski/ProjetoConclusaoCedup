@@ -123,9 +123,7 @@ public class UserController {
     @DeleteMapping("/u={id}")
     public ResponseEntity<?> deleteById(@PathVariable String id){
         try {
-            userService.deleteById(id);
-            String msg = "Objeto de id: "+id+" deletado com sucesso";
-            return ResponseEntity.ok(msg);
+            return ResponseEntity.ok(userService.deleteById(id));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

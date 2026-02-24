@@ -22,6 +22,27 @@ public class UserService {
     private final BookService bookService;
     private final PasswordEncoder passwordEncoder;
 
+//    public boolean checkPassword(String password){
+//        try {
+//            List<Character> charPassword = new ArrayList<>();
+//            boolean hasNum = false;
+//            boolean hasChar = false;
+//            boolean hasSpChar = false;
+//
+//            for (int i = 0; i < password.length(); i++) {
+//                if(password.charAt(i)){
+//
+//                }
+//                charPassword.add(password.charAt(i));
+//            }
+//
+//            if(password.length() > 8){
+//
+//            }
+//        } catch (RuntimeException e) {
+//            throw new RuntimeException(e.getMessage());
+//        }
+//    }
 
     public User register(User user){
         try {
@@ -39,8 +60,10 @@ public class UserService {
                 user.setEmail(user.getEmail().trim());
             }
             if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
-                String encryptedPassword = passwordEncoder.encrypt(user.getPassword().trim());
-                user.setPassword(encryptedPassword);
+                if(user.getPassword().length() > 8){
+                    String encryptedPassword = passwordEncoder.encrypt(user.getPassword().trim());
+                    user.setPassword(encryptedPassword);
+                }
             }
             if(user.getType() == null || user.getType().trim().isBlank()){
                 user.setType("user");
@@ -164,9 +187,11 @@ public class UserService {
         }
     }
 
-    public void deleteById(String id){
+    public String deleteById(String id){
         try {
             userRepository.deleteById(id);
+
+            return "Livro de id: "+id+" deletado com sucesso";
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }
