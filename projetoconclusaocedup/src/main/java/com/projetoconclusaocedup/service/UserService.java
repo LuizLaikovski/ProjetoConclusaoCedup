@@ -22,27 +22,50 @@ public class UserService {
     private final BookService bookService;
     private final PasswordEncoder passwordEncoder;
 
-//    public boolean checkPassword(String password){
-//        try {
-//            List<Character> charPassword = new ArrayList<>();
-//            boolean hasNum = false;
-//            boolean hasChar = false;
-//            boolean hasSpChar = false;
-//
-//            for (int i = 0; i < password.length(); i++) {
-//                if(password.charAt(i)){
-//
-//                }
-//                charPassword.add(password.charAt(i));
-//            }
-//
-//            if(password.length() > 8){
-//
-//            }
-//        } catch (RuntimeException e) {
-//            throw new RuntimeException(e.getMessage());
-//        }
-//    }
+    public boolean checkPassword(String password){
+        try {
+            List<Character> charPassword = new ArrayList<>();
+
+            if(password.length() < 8){
+                throw new RuntimeException("Senha não tem o mínimo de 8 caracteres");
+            }
+
+            for (char c : password.toCharArray()) {
+                charPassword.add(c);
+            }
+
+            for(char c : charPassword){
+                if(c != 'A' && c != 'B' && c != 'C' && c != 'D' && c != 'E' && c != 'F' && c != 'G'
+                && c != 'H' && c != 'I' && c != 'J' && c != 'K' && c != 'L' && c != 'M' && c != 'N'
+                && c != 'O' && c != 'P' && c != 'Q' && c != 'R' && c != 'S' && c != 'T' && c != 'U'
+                && c != 'V' && c != 'W' && c != 'X' && c != 'Y' && c != 'Z') {
+                    throw new RuntimeException("Senha não posssui letra maiúscula");
+                }
+            }
+
+            for(char c : charPassword){
+                if(c != '0' && c != '1' && c != '2' && c != '3'
+                && c != '4' && c != '5' && c != '6' && c != '7'
+                && c != '8' && c != '9') {
+                    throw new RuntimeException("Senha não possui número");
+                }
+            }
+
+            for(char c : charPassword){
+                if(c != '!' && c != ')' && c != '*' && c != ';' && c != '<' && c != ']' && c != '^'
+                && c != '"' && c != '(' && c != '+' && c != ':' && c != '>' && c != '[' && c != '_'
+                && c != '#' && c != '&' && c != ',' && c != '/' && c != '=' && c != '@' && c != '´'
+                && c != '$' && c != '%' && c != '-' && c != '.' && c != '?' && c != '`' && c != '{'
+                && c != '}' && c != '~' && c != '|') {
+                    throw new RuntimeException("Senha não possui caractere especial");
+                }
+            }
+
+            return true;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     public User register(User user){
         try {
@@ -60,7 +83,7 @@ public class UserService {
                 user.setEmail(user.getEmail().trim());
             }
             if(user.getPassword() != null && !user.getPassword().trim().isBlank()){
-                if(user.getPassword().length() > 8){
+                if(checkPassword(user.getPassword())){
                     String encryptedPassword = passwordEncoder.encrypt(user.getPassword().trim());
                     user.setPassword(encryptedPassword);
                 }
